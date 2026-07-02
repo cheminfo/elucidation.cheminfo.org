@@ -1,0 +1,92 @@
+services:
+  # Service #1: Redis Message Broker for Celery
+  redis:
+    image: redis:7-alpine
+
+  api:
+    image: adrianmirza/elucidation:latest
+    depends_on:
+      - vectordb
+      - forward_synthesis
+      - redis
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 8G
+    labels:
+      - 'traefik.enable=true'
+      
+      # Static file are in fact redirected to cheminfo
+      - 'traefik.http.routers.elucidation-home.rule=Host(`elucidation.cheminfo.org`) && Path(`/`)'
+      - 'traefik.http.routers.elucidation-home.priority=105'
+      - 'traefik.http.routers.elucidation-home.entrypoints=websecure'
+      - 'traefik.http.routers.elucidation-home.tls.certresolver=letsencrypt'
+      - 'traefik.http.routers.elucidation-home.middlewares=elucidation-cheminfo'
+      - 'traefik.http.middlewares.elucidation-cheminfo.redirectregex.regex=^.*$'
+      - 'traefik.http.middlewares.elucidation-cheminfo.redirectregex.replacement=https://www.cheminfo.org/?viewURL=https%3A%2F%2Fcouch.cheminfo.org%2Fcheminfo-public%2Fe4147636ca80e49e91fcca15f905ff1e%2Fview.json&loadversion=true'
+      - 'traefik.http.middlewares.elucidation-cheminfo.redirectregex.permanent=false'
+
+      # Router API
+      - 'traefik.http.routers.elucidation.rule=Host(`elucidation.cheminfo.org`)'
+      - 'traefik.http.routers.elucidation.priority=100'
+      - 'traefik.http.routers.elucidation.entrypoints=websecure'
+      - 'traefik.http.routers.elucidation.tls.certresolver=letsencrypt'
+      - 'traefik.http.routers.elucidation.middlewares=elucidation'
+      - 'traefik.http.middlewares.elucidation.headers.accesscontrolalloworiginlist=*'
+      - 'traefik.http.middlewares.elucidation.headers.accesscontrolallowheaders=Content-Type'
+      - 'traefik.http.middlewares.elucidation.headers.accesscontrolmaxage=86400'
+
+
+    environment:
+      # Tell the app where to find the Celery broker
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+    volumes:
+      # Mount the shared volume to the cache directory inside the container
+      - ./cache:/app/cache
+    networks:
+      - default
+      - traefik
+
+  # Service #3: The Celery Worker
+  worker:
+    image: adrianmirza/celery
+    deploy:
+      resources:
+        limits:
+          cpus: '16'
+          memory: 32G
+    command: celery -A celery_config.celery_app worker -l info -Q spectrum_queue --concurrency=16
+    depends_on:
+      - redis
+      - api
+    environment:
+      # The worker also needs to know where the broker is
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+    volumes:
+      # The path here MUST match the path in the 'api' service exactly.
+      - ./cache:/app/cache
+
+  # Service #4: Your vector database
+  vectordb:
+    image: adrianmirza/retrieval
+    deploy:
+      resources:
+        limits:
+          cpus: '4'
+          memory: 128G
+    volumes:
+      - ./pubchem_vector_db_hnsw_pqm_16_ef_256_m_32:/pubchem_vector_db_hnsw_pq.index
+    restart: unless-stopped
+
+  # Service #5: Forward synthesis service
+  forward_synthesis:
+    image: adrianmirza/forward_synthesis
+    restart: unless-stopped
+
+networks:
+  traefik:
+    external: true
+
