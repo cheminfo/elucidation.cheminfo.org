@@ -2,18 +2,18 @@ services:
   # Service #1: Redis Message Broker for Celery
   redis:
     image: redis:7-alpine
+    restart: unless-stopped
 
   api:
     image: adrianmirza/elucidation:latest
+    restart: unless-stopped
     depends_on:
       - vectordb
       - forward_synthesis
       - redis
-    deploy:
-      resources:
-        limits:
-          cpus: '2'
-          memory: 8G
+    mem_limit: 8g
+    cpus: '2'
+    pids_limit: 512
     labels:
       - 'traefik.enable=true'
       
@@ -52,11 +52,10 @@ services:
   # Service #3: The Celery Worker
   worker:
     image: adrianmirza/celery
-    deploy:
-      resources:
-        limits:
-          cpus: '16'
-          memory: 32G
+    restart: unless-stopped
+    mem_limit: 32g
+    cpus: '16'
+    pids_limit: 1024
     command: celery -A celery_config.celery_app worker -l info -Q spectrum_queue --concurrency=16
     depends_on:
       - redis
@@ -72,14 +71,12 @@ services:
   # Service #4: Your vector database
   vectordb:
     image: adrianmirza/retrieval
-    deploy:
-      resources:
-        limits:
-          cpus: '4'
-          memory: 128G
+    restart: unless-stopped
+    mem_limit: 128g
+    cpus: '4'
+    pids_limit: 1024
     volumes:
       - ./pubchem_vector_db_hnsw_pqm_16_ef_256_m_32:/pubchem_vector_db_hnsw_pq.index
-    restart: unless-stopped
 
   # Service #5: Forward synthesis service
   forward_synthesis:
