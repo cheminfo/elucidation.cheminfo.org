@@ -20,11 +20,17 @@ services:
     labels:
       - 'traefik.enable=true'
       
+      # Backend service: the FastAPI app listens on port 8000 inside the container.
+      # Required because the container is on two networks, so Traefik cannot
+      # auto-detect the port.
+      - 'traefik.http.services.elucidation.loadbalancer.server.port=8000'
+
       # Static file are in fact redirected to cheminfo
       - 'traefik.http.routers.elucidation-home.rule=Host(`elucidation.cheminfo.org`) && Path(`/`)'
       - 'traefik.http.routers.elucidation-home.priority=105'
       - 'traefik.http.routers.elucidation-home.entrypoints=websecure'
       - 'traefik.http.routers.elucidation-home.tls.certresolver=letsencrypt'
+      - 'traefik.http.routers.elucidation-home.service=elucidation'
       - 'traefik.http.routers.elucidation-home.middlewares=elucidation-cheminfo'
       - 'traefik.http.middlewares.elucidation-cheminfo.redirectregex.regex=^.*$'
       - 'traefik.http.middlewares.elucidation-cheminfo.redirectregex.replacement=https://www.cheminfo.org/?viewURL=https%3A%2F%2Fcouch.cheminfo.org%2Fcheminfo-public%2Fe4147636ca80e49e91fcca15f905ff1e%2Fview.json&loadversion=true'
@@ -35,6 +41,7 @@ services:
       - 'traefik.http.routers.elucidation.priority=100'
       - 'traefik.http.routers.elucidation.entrypoints=websecure'
       - 'traefik.http.routers.elucidation.tls.certresolver=letsencrypt'
+      - 'traefik.http.routers.elucidation.service=elucidation'
       - 'traefik.http.routers.elucidation.middlewares=elucidation'
       - 'traefik.http.middlewares.elucidation.headers.accesscontrolalloworiginlist=*'
       - 'traefik.http.middlewares.elucidation.headers.accesscontrolallowheaders=Content-Type'
