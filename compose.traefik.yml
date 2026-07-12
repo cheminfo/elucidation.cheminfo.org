@@ -14,8 +14,8 @@ services:
       - vectordb
       - forward_synthesis
       - redis
-    mem_limit: 8g
-    cpus: '2'
+    mem_limit: 64g
+    cpus: '16'
     pids_limit: 512
     labels:
       - 'traefik.enable=true'
