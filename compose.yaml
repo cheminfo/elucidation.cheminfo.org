@@ -29,6 +29,15 @@ services:
       - no-new-privileges:true
     cap_drop:
       - ALL
+    # Documented exception, same shape as the nginx one: the redis entrypoint starts as
+    # root and drops to the redis user, so it needs SETUID/SETGID for setpriv and CHOWN
+    # for the chown of /data it performs first. With a bare `cap_drop: ALL` it exits
+    # immediately with "setpriv: setresuid failed: Operation not permitted", never
+    # registers in Docker's DNS, and every api call then fails to resolve `redis`.
+    cap_add:
+      - CHOWN
+      - SETGID
+      - SETUID
     ulimits:
       core: 0
     restart: unless-stopped
