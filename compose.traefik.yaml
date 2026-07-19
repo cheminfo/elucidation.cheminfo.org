@@ -114,11 +114,13 @@ services:
 
   worker:
     image: adrianmirza/celery
-    # One task slot per core allocated below. A single elucidation does not
-    # parallelise (the GA is sequential and cpus_per_task is unused upstream), so
-    # slots are what turn cores into throughput. 16 slots on 12 cores only made
-    # every concurrent job slower.
-    command: celery -A celery_config.celery_app worker -l info -Q spectrum_queue --concurrency=12
+    # Sized for the latency of one run, not for concurrency nobody uses: the queue has
+    # taken 8 jobs in its lifetime, so 12 slots bought nothing while starving the two
+    # services a run actually waits on. Six slots is still six concurrent runs.
+    #
+    # The GA itself is sequential, but it blocks on vectordb and forward_synthesis every
+    # generation, so their cores set the wall clock of a single job.
+    command: celery -A celery_config.celery_app worker -l info -Q spectrum_queue --concurrency=6
     depends_on:
       - redis
       - api
@@ -128,11 +130,19 @@ services:
     restart: unless-stopped
     stop_grace_period: 30s
     mem_limit: 24g
-    cpus: 12
+    cpus: 6
     pids_limit: 1024
     environment:
       - CELERY_BROKER_URL=redis://redis:6379/0
       - CELERY_RESULT_BACKEND=redis://redis:6379/0
+      # One thread per slot. Six concurrent tasks each spawning a 20-thread torch pool
+      # would put 120 threads on six cores, where they mostly fight each other.
+      # This assumes the worker orchestrates and the sidecars compute. If profiling ever
+      # shows the GA itself is CPU-bound in-process, raise these and drop concurrency to
+      # match — a lone job would otherwise be held to one core with five idle.
+      - OMP_NUM_THREADS=1
+      - MKL_NUM_THREADS=1
+      - OPENBLAS_NUM_THREADS=1
     volumes:
       # Must match the api service exactly: both read and write the same result files.
       - ./cache:/app/cache
@@ -147,8 +157,15 @@ services:
       - no-new-privileges:true
     restart: unless-stopped
     mem_limit: 64g
-    cpus: 2
+    cpus: 4
     pids_limit: 1024
+    environment:
+      # cpus is a CFS quota, not an affinity mask: the container still sees all 20 host
+      # cores, so torch/OpenMP/BLAS size their pools to 20 and then spin at barriers
+      # inside a much smaller quota. Pin the pools to the quota instead.
+      - OMP_NUM_THREADS=4
+      - MKL_NUM_THREADS=4
+      - OPENBLAS_NUM_THREADS=4
     volumes:
       - ./pubchem_vector_db_hnsw_pqm_16_ef_256_m_32:/pubchem_vector_db_hnsw_pq.index
 
@@ -159,9 +176,16 @@ services:
     security_opt:
       - no-new-privileges:true
     restart: unless-stopped
-    mem_limit: 2g
-    cpus: 0.5
+    mem_limit: 8g
+    cpus: 4
     pids_limit: 512
+    environment:
+      # cpus is a CFS quota, not an affinity mask: the container still sees all 20 host
+      # cores, so torch/OpenMP/BLAS size their pools to 20 and then spin at barriers
+      # inside a much smaller quota. Pin the pools to the quota instead.
+      - OMP_NUM_THREADS=4
+      - MKL_NUM_THREADS=4
+      - OPENBLAS_NUM_THREADS=4
 
 networks:
   traefik:
