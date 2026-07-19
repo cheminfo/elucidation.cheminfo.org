@@ -12,3 +12,6 @@ cache
 data
 logs
 pubchem_vector_db_hnsw_pqm_16_ef_256_m_32
+
+# Kept aside on the deployment host, not part of the project.
+old
