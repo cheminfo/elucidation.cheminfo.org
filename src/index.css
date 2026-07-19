@@ -1,0 +1,38 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Blueprint's default focus ring fights our layout; focus is conveyed by the
+   active state instead. Applied globally per the project's UI conventions. */
+*:focus,
+*:focus-visible {
+  outline: none !important;
+}
+
+/* The app commits to Blueprint's light theme. Declaring `light` stops the browser
+   from painting a dark canvas behind light Blueprint components when the operating
+   system is in dark mode, which left a black page around white cards. */
+:root {
+  --muted: #5f6b7c;
+  --border: #d3d8de;
+  --app-bg: #f6f7f9;
+  --structure-bg: #ffffff;
+  --bar-track: #e5e8eb;
+  --code-bg: #f6f7f9;
+  --panel-bg: #fafbfc;
+  --row-selected: #e8f1fb;
+
+  color-scheme: light;
+}
+
+body {
+  margin: 0;
+  background: var(--app-bg);
+  color: #1c2127;
+}
+
+#root {
+  min-height: 100vh;
+}

@@ -1,0 +1,12 @@
+name: Docker image
+
+on:
+  push:
+    tags:
+      - v*
+  workflow_dispatch:
+
+jobs:
+  docker:
+    # Documentation: https://github.com/zakodium/workflows#docker-image
+    uses: zakodium/workflows/.github/workflows/docker-image.yml@docker-image-v1

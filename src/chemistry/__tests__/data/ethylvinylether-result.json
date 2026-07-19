@@ -1,0 +1,3082 @@
+{
+  "results": [
+    {
+      "smiles": "C=COCC",
+      "score": 0.7876783609390259,
+      "molecular_formula": "C4H8O",
+      "retrieved": true
+    },
+    {
+      "smiles": "C=COOCC",
+      "score": 0.7228746368334844,
+      "molecular_formula": "C4H8O2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOCC(F)Br",
+      "score": 0.6064042953344492,
+      "molecular_formula": "C4H8BrFO",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOCC(F)Cl",
+      "score": 0.5859942940565256,
+      "molecular_formula": "C4H8ClFO",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC=C(F)CCl",
+      "score": 0.5838645559090834,
+      "molecular_formula": "C5H8ClFO",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOCC(Br)Br",
+      "score": 0.5820258168073801,
+      "molecular_formula": "C4H8Br2O",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOOCC(F)F",
+      "score": 0.57426701600735,
+      "molecular_formula": "C4H8F2O2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC=C(F)CBr",
+      "score": 0.5729534488457899,
+      "molecular_formula": "C5H8BrFO",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOOCC(F)Cl",
+      "score": 0.5718823533791761,
+      "molecular_formula": "C4H8ClFO2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC(S)C=S",
+      "score": 0.525255432495704,
+      "molecular_formula": "C4H8OS2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCO/C=C\\S",
+      "score": 0.5162414862559392,
+      "molecular_formula": "C4H8OS",
+      "retrieved": true
+    },
+    {
+      "smiles": "CCO/C=C/S",
+      "score": 0.515975113098438,
+      "molecular_formula": "C4H8OS",
+      "retrieved": true
+    },
+    {
+      "smiles": "CCOOCC(F)Br",
+      "score": 0.5109529953736525,
+      "molecular_formula": "C4H8BrFO2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCO[C-]1[O+]=CCS1",
+      "score": 0.5099255305070143,
+      "molecular_formula": "C5H8O2S",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC=CS",
+      "score": 0.5026016785548284,
+      "molecular_formula": "C4H8OS",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC(C=S)CBr",
+      "score": 0.49744264437602115,
+      "molecular_formula": "C5H9BrOS",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC(Cl)C=S",
+      "score": 0.4947472673196059,
+      "molecular_formula": "C4H7ClOS",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCO/C=C\\F",
+      "score": 0.4849532154890207,
+      "molecular_formula": "C4H7FO",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC=CCCl",
+      "score": 0.48328434045498186,
+      "molecular_formula": "C5H9ClO",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=CSOCC",
+      "score": 0.4831960155413701,
+      "molecular_formula": "C4H8OS",
+      "retrieved": true
+    },
+    {
+      "smiles": "C=COC(C)CCl",
+      "score": 0.48176531608288103,
+      "molecular_formula": "C5H9ClO",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOOC=C(F)CCl",
+      "score": 0.47806135966227603,
+      "molecular_formula": "C5H8ClFO2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC(F)CCl",
+      "score": 0.4693589714857248,
+      "molecular_formula": "C4H8ClFO",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC(Cl)=CN",
+      "score": 0.465326359638801,
+      "molecular_formula": "C4H8ClNO",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOO/C=C\\F",
+      "score": 0.46431265886013323,
+      "molecular_formula": "C4H7FO2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOO[C-]1[O+]=CCS1",
+      "score": 0.46212361409113956,
+      "molecular_formula": "C5H8O3S",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC=CF",
+      "score": 0.4616740850301889,
+      "molecular_formula": "C4H7FO",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCO/C=C\\Br",
+      "score": 0.46025901115857637,
+      "molecular_formula": "C4H7BrO",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=COC(C)C",
+      "score": 0.46017067249004656,
+      "molecular_formula": "C5H10O",
+      "retrieved": true
+    },
+    {
+      "smiles": "CCOC=CCBr",
+      "score": 0.46003626401607806,
+      "molecular_formula": "C5H9BrO",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOOC(S)C=S",
+      "score": 0.45765398557369524,
+      "molecular_formula": "C4H8O2S2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCO/C=C\\O",
+      "score": 0.4575995160983159,
+      "molecular_formula": "C4H8O2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCO/C=C/Cl",
+      "score": 0.45747934854947603,
+      "molecular_formula": "C4H7ClO",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC=CNCl",
+      "score": 0.45588999069654024,
+      "molecular_formula": "C4H8ClNO",
+      "retrieved": false
+    },
+    {
+      "smiles": "C[C@@H]1COCS1",
+      "score": 0.4546915842936589,
+      "molecular_formula": "C4H8OS",
+      "retrieved": true
+    },
+    {
+      "smiles": "CC1C=CCO1",
+      "score": 0.4535675002978398,
+      "molecular_formula": "C5H8O",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOSC(S)C=S",
+      "score": 0.45322136695568377,
+      "molecular_formula": "C4H8OS3",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=C(Cl)OCC",
+      "score": 0.45055424250089204,
+      "molecular_formula": "C4H7ClO",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOCC=N",
+      "score": 0.44886486805402315,
+      "molecular_formula": "C4H9NO",
+      "retrieved": true
+    },
+    {
+      "smiles": "C[C@@H]1COC(Cl)S1",
+      "score": 0.4481193285721999,
+      "molecular_formula": "C4H7ClOS",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC=CBr",
+      "score": 0.4480870870443491,
+      "molecular_formula": "C4H7BrO",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=C(Br)OCC",
+      "score": 0.4464710859151987,
+      "molecular_formula": "C4H7BrO",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOSC=CS",
+      "score": 0.44560282505475557,
+      "molecular_formula": "C4H8OS2",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=[SH]OCC",
+      "score": 0.4454578665586618,
+      "molecular_formula": "C3H8OS",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOCC=S",
+      "score": 0.44479119319182175,
+      "molecular_formula": "C4H8OS",
+      "retrieved": true
+    },
+    {
+      "smiles": "CCOC(O)C=S",
+      "score": 0.44447570122205293,
+      "molecular_formula": "C4H8O2S",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=COC(C)N",
+      "score": 0.4439179209562448,
+      "molecular_formula": "C4H9NO",
+      "retrieved": true
+    },
+    {
+      "smiles": "CCOC=CSS",
+      "score": 0.4416233805509714,
+      "molecular_formula": "C4H8OS2",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=C(F)OCC",
+      "score": 0.44152533091031587,
+      "molecular_formula": "C4H7FO",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=COSOCC",
+      "score": 0.43882553852521455,
+      "molecular_formula": "C4H8O2S",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOO/C=C/S",
+      "score": 0.43861435926877534,
+      "molecular_formula": "C4H8O2S",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC=CCl",
+      "score": 0.4379975107999948,
+      "molecular_formula": "C4H7ClO",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC(Br)C=S",
+      "score": 0.43614564950649554,
+      "molecular_formula": "C4H7BrOS",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOOC(C=S)OS",
+      "score": 0.435948174733382,
+      "molecular_formula": "C4H8O3S2",
+      "retrieved": false
+    },
+    {
+      "smiles": "C[C@@H]1COC(F)S1",
+      "score": 0.4347206812638503,
+      "molecular_formula": "C4H7FOS",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCON=CCO",
+      "score": 0.43461661155407244,
+      "molecular_formula": "C4H9NO2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC=C(S)S",
+      "score": 0.4344952610822824,
+      "molecular_formula": "C4H8OS2",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=C(O)OCC",
+      "score": 0.43325507182341355,
+      "molecular_formula": "C4H8O2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCO/C=C(/S)Br",
+      "score": 0.43307475860302264,
+      "molecular_formula": "C4H7BrOS",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=CON(S)OCC",
+      "score": 0.4329353387539203,
+      "molecular_formula": "C4H9NO2S",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC(C=S)OS",
+      "score": 0.43155710513775164,
+      "molecular_formula": "C4H8O2S2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOO/C=C\\S",
+      "score": 0.43120991266690767,
+      "molecular_formula": "C4H8O2S",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOCC(Br)OF",
+      "score": 0.431120739533351,
+      "molecular_formula": "C4H8BrFO2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOCC=CCl",
+      "score": 0.42966787631695086,
+      "molecular_formula": "C5H9ClO",
+      "retrieved": false
+    },
+    {
+      "smiles": "CC1COCS1",
+      "score": 0.4271488143847539,
+      "molecular_formula": "C4H8OS",
+      "retrieved": true
+    },
+    {
+      "smiles": "CCO[C-]1[O+]=C(S)CS1",
+      "score": 0.42680005385325503,
+      "molecular_formula": "C5H8O2S2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCO/C=C(/N)Br",
+      "score": 0.42658214844190157,
+      "molecular_formula": "C4H8BrNO",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCO[C-]1SCC=[O+]S1",
+      "score": 0.4263755495731647,
+      "molecular_formula": "C5H8O2S2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOOC=CS",
+      "score": 0.42428975380384004,
+      "molecular_formula": "C4H8O2S",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC=C=CNCl",
+      "score": 0.42425416524593645,
+      "molecular_formula": "C5H8ClNO",
+      "retrieved": false
+    },
+    {
+      "smiles": "CC1C=CCOO1",
+      "score": 0.4229972270818857,
+      "molecular_formula": "C5H8O2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC=C(CCl)SF",
+      "score": 0.4227975423519428,
+      "molecular_formula": "C5H8ClFOS",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=COOC(C)CCl",
+      "score": 0.42168710781977725,
+      "molecular_formula": "C5H9ClO2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CC1OC1=CCCl",
+      "score": 0.4213461738366347,
+      "molecular_formula": "C5H7ClO",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC=CNBr",
+      "score": 0.42065041340314424,
+      "molecular_formula": "C4H8BrNO",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=C(S)OCC",
+      "score": 0.4167641355441167,
+      "molecular_formula": "C4H8OS",
+      "retrieved": true
+    },
+    {
+      "smiles": "CCO/C=C(\\S)Cl",
+      "score": 0.41271077211086565,
+      "molecular_formula": "C4H7ClOS",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOSC=CCCl",
+      "score": 0.4110820706074054,
+      "molecular_formula": "C5H9ClOS",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCO/C=C(\\O)S",
+      "score": 0.4098601249548105,
+      "molecular_formula": "C4H8O2S",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC=C=CS",
+      "score": 0.4095612672659067,
+      "molecular_formula": "C5H8OS",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC=COF",
+      "score": 0.409125791146205,
+      "molecular_formula": "C4H7FO2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCO/C=C(/O)Br",
+      "score": 0.40907530601208025,
+      "molecular_formula": "C4H7BrO2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOOSC=CS",
+      "score": 0.408888028218196,
+      "molecular_formula": "C4H8O2S2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOSC=CF",
+      "score": 0.40713910873119646,
+      "molecular_formula": "C4H7FOS",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOOC=CO",
+      "score": 0.4059435037466196,
+      "molecular_formula": "C4H8O3",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOCC=CBr",
+      "score": 0.40404234941189104,
+      "molecular_formula": "C5H9BrO",
+      "retrieved": false
+    },
+    {
+      "smiles": "COC=C1OC1C",
+      "score": 0.4036093858572153,
+      "molecular_formula": "C5H8O2",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=NCSOCC",
+      "score": 0.4020781975526076,
+      "molecular_formula": "C4H9NOS",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC=C(F)F",
+      "score": 0.40100274636195254,
+      "molecular_formula": "C4H6F2O",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCON(S)C=CBr",
+      "score": 0.40033517892544085,
+      "molecular_formula": "C4H8BrNOS",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC=CO",
+      "score": 0.40022074717741746,
+      "molecular_formula": "C4H8O2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOOOC=C(F)CCl",
+      "score": 0.3996012577643761,
+      "molecular_formula": "C5H8ClFO3",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCO/C=C\\Cl",
+      "score": 0.3990515378805307,
+      "molecular_formula": "C4H7ClO",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOO/C=C/Br",
+      "score": 0.3988867264527541,
+      "molecular_formula": "C4H7BrO2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CC1O[SH]=CC1O",
+      "score": 0.3982949165197519,
+      "molecular_formula": "C4H8O2S",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC=C(F)S",
+      "score": 0.39809934909527117,
+      "molecular_formula": "C4H7FOS",
+      "retrieved": false
+    },
+    {
+      "smiles": "CC1C=NOC1",
+      "score": 0.3970948366018442,
+      "molecular_formula": "C4H7NO",
+      "retrieved": false
+    },
+    {
+      "smiles": "CC1(C=CCl)CON1",
+      "score": 0.39644323404018694,
+      "molecular_formula": "C5H8ClNO",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOOC=CCBr",
+      "score": 0.3945030982677753,
+      "molecular_formula": "C5H9BrO2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOOC=CNCl",
+      "score": 0.39417110498134905,
+      "molecular_formula": "C4H8ClNO2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC=CN",
+      "score": 0.39064215696774995,
+      "molecular_formula": "C4H9NO",
+      "retrieved": true
+    },
+    {
+      "smiles": "CCOC=C(F)CF",
+      "score": 0.39001397903148943,
+      "molecular_formula": "C5H8F2O",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC(F)C=S",
+      "score": 0.3896495562333327,
+      "molecular_formula": "C4H7FOS",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=CO[C@H](C)COF",
+      "score": 0.389009755391341,
+      "molecular_formula": "C5H9FO2",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=C=CSOCC",
+      "score": 0.38886659420453584,
+      "molecular_formula": "C5H8OS",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCON=C=CN",
+      "score": 0.38747750795804536,
+      "molecular_formula": "C4H8N2O",
+      "retrieved": false
+    },
+    {
+      "smiles": "CC1OCC=C1Cl",
+      "score": 0.3857309680718642,
+      "molecular_formula": "C5H7ClO",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCO/C=C(\\S)Br",
+      "score": 0.3855717640656691,
+      "molecular_formula": "C4H7BrOS",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCO/C=C(\\F)S",
+      "score": 0.38515024001781756,
+      "molecular_formula": "C4H7FOS",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOCC=NBr",
+      "score": 0.3845596221777109,
+      "molecular_formula": "C4H8BrNO",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=COOSOCC",
+      "score": 0.38450555617992693,
+      "molecular_formula": "C4H8O3S",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCN=CCO",
+      "score": 0.38310163296186006,
+      "molecular_formula": "C4H9NO",
+      "retrieved": true
+    },
+    {
+      "smiles": "CCOOC=CCCl",
+      "score": 0.3827962691967304,
+      "molecular_formula": "C5H9ClO2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC=CSF",
+      "score": 0.3821918230790358,
+      "molecular_formula": "C4H7FOS",
+      "retrieved": false
+    },
+    {
+      "smiles": "CC1OCC=C1F",
+      "score": 0.3806395989197951,
+      "molecular_formula": "C5H7FO",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOSC=CO",
+      "score": 0.37964861668073213,
+      "molecular_formula": "C4H8O2S",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=COC(C)O",
+      "score": 0.3796474291728093,
+      "molecular_formula": "C4H8O2",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=COC(C)S",
+      "score": 0.3788495613978459,
+      "molecular_formula": "C4H8OS",
+      "retrieved": true
+    },
+    {
+      "smiles": "C[C@H]1COCNO1",
+      "score": 0.3787675958413344,
+      "molecular_formula": "C4H9NO2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOO/C=C\\Cl",
+      "score": 0.3772615652817946,
+      "molecular_formula": "C4H7ClO2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CC1C=[SH]CO1",
+      "score": 0.3765884293959691,
+      "molecular_formula": "C4H8OS",
+      "retrieved": false
+    },
+    {
+      "smiles": "C[C@@H]1COC(O)S1",
+      "score": 0.3765075711103586,
+      "molecular_formula": "C4H8O2S",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC=COS",
+      "score": 0.3745459822508005,
+      "molecular_formula": "C4H8O2S",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCO/C=C/Br",
+      "score": 0.3741729763837961,
+      "molecular_formula": "C4H7BrO",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC=CSO",
+      "score": 0.37411885536634004,
+      "molecular_formula": "C4H8O2S",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=COC(C)SO",
+      "score": 0.3719788698049692,
+      "molecular_formula": "C4H8O2S",
+      "retrieved": false
+    },
+    {
+      "smiles": "CC1OC=CC1O",
+      "score": 0.37071590698682344,
+      "molecular_formula": "C5H8O2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOSC(Br)=CCO",
+      "score": 0.370642221890963,
+      "molecular_formula": "C5H9BrO2S",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOOCC(F)SCl",
+      "score": 0.3698545510952289,
+      "molecular_formula": "C4H8ClFO2S",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCO/C=C\\SCl",
+      "score": 0.3679783802766066,
+      "molecular_formula": "C4H7ClOS",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOCC(=N)F",
+      "score": 0.3678456453176645,
+      "molecular_formula": "C4H8FNO",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOOC=CN",
+      "score": 0.3673627835053664,
+      "molecular_formula": "C4H9NO2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCO/C=C(\\F)Br",
+      "score": 0.36712775780604434,
+      "molecular_formula": "C4H6BrFO",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=COC(C)CBr",
+      "score": 0.36678718145077044,
+      "molecular_formula": "C5H9BrO",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=NC=NOCC",
+      "score": 0.3664387372823862,
+      "molecular_formula": "C4H8N2O",
+      "retrieved": false
+    },
+    {
+      "smiles": "CC(S)OCC(F)Cl",
+      "score": 0.36460809524242693,
+      "molecular_formula": "C4H8ClFOS",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC=NCF",
+      "score": 0.364088406929603,
+      "molecular_formula": "C4H8FNO",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=NOC(C)CO",
+      "score": 0.3640525203484755,
+      "molecular_formula": "C4H9NO2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOOC=CF",
+      "score": 0.3633419733781081,
+      "molecular_formula": "C4H7FO2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCONC=CBr",
+      "score": 0.36328797615491426,
+      "molecular_formula": "C4H8BrNO",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC=CC=S",
+      "score": 0.36241798675977266,
+      "molecular_formula": "C5H8OS",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC=CSCl",
+      "score": 0.3612621289033156,
+      "molecular_formula": "C4H7ClOS",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOO/C=C\\O",
+      "score": 0.3607759384008554,
+      "molecular_formula": "C4H8O3",
+      "retrieved": false
+    },
+    {
+      "smiles": "CC1N=CCO1",
+      "score": 0.3597230819555429,
+      "molecular_formula": "C4H7NO",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOOSC=CCCl",
+      "score": 0.3591579565635094,
+      "molecular_formula": "C5H9ClO2S",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=NOC(C)C",
+      "score": 0.3585162071081308,
+      "molecular_formula": "C4H9NO",
+      "retrieved": true
+    },
+    {
+      "smiles": "CCO/C(S)=C\\Cl",
+      "score": 0.35624747092907244,
+      "molecular_formula": "C4H7ClOS",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCO/C(S)=C\\S",
+      "score": 0.3560380247923044,
+      "molecular_formula": "C4H8OS2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOOC=CBr",
+      "score": 0.35562496001903826,
+      "molecular_formula": "C4H7BrO2",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=CON(O)OCC",
+      "score": 0.3549072559063251,
+      "molecular_formula": "C4H9NO3",
+      "retrieved": false
+    },
+    {
+      "smiles": "CC1(C=CS)CON1",
+      "score": 0.3539532239620502,
+      "molecular_formula": "C5H9NOS",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOOCC(N)F",
+      "score": 0.35376063676980823,
+      "molecular_formula": "C4H10FNO2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC(S)C=N",
+      "score": 0.3535692554253798,
+      "molecular_formula": "C4H9NOS",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC(F)Br",
+      "score": 0.3516710171332726,
+      "molecular_formula": "C3H6BrFO",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=COC(Cl)OCC",
+      "score": 0.35144213988230777,
+      "molecular_formula": "C5H9ClO2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC=C(F)Cl",
+      "score": 0.35101256920741153,
+      "molecular_formula": "C4H6ClFO",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC=CC(F)Cl",
+      "score": 0.3479264240998488,
+      "molecular_formula": "C5H8ClFO",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC=C=NS",
+      "score": 0.34739951904003435,
+      "molecular_formula": "C4H7NOS",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOONCC(F)Cl",
+      "score": 0.3467874893775353,
+      "molecular_formula": "C4H9ClFNO2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC(F)=CCl",
+      "score": 0.3448098118488605,
+      "molecular_formula": "C4H6ClFO",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=COC1(C)COC1",
+      "score": 0.34430406185296863,
+      "molecular_formula": "C6H10O2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCON=C=CNCl",
+      "score": 0.3442997749035175,
+      "molecular_formula": "C4H7ClN2O",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC(C=S)OOS",
+      "score": 0.3423504646007831,
+      "molecular_formula": "C4H8O3S2",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=NCOCC",
+      "score": 0.34160505808316743,
+      "molecular_formula": "C4H9NO",
+      "retrieved": true
+    },
+    {
+      "smiles": "CCOSCC(F)Cl",
+      "score": 0.3403708797234755,
+      "molecular_formula": "C4H8ClFOS",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOOSC=CO",
+      "score": 0.3402992945451003,
+      "molecular_formula": "C4H8O3S",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=CN(S)OCC",
+      "score": 0.33990745361034685,
+      "molecular_formula": "C4H9NOS",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCON[C-]1[O+]=CCS1",
+      "score": 0.33956310840753406,
+      "molecular_formula": "C5H9NO2S",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOOC(Cl)C=S",
+      "score": 0.33912638976023746,
+      "molecular_formula": "C4H7ClO2S",
+      "retrieved": false
+    },
+    {
+      "smiles": "CC1COOCS1",
+      "score": 0.3376744297834543,
+      "molecular_formula": "C4H8O2S",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOCC(Br)C=S",
+      "score": 0.3375993783657367,
+      "molecular_formula": "C5H9BrOS",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCO/C(S)=C\\Br",
+      "score": 0.337239907338069,
+      "molecular_formula": "C4H7BrOS",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOOC=CSS",
+      "score": 0.33718340213482195,
+      "molecular_formula": "C4H8O2S2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC=C=C=N",
+      "score": 0.3366855841416579,
+      "molecular_formula": "C5H7NO",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=C(S)OOCC",
+      "score": 0.33635427630864656,
+      "molecular_formula": "C4H8O2S",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=COC(C)SON",
+      "score": 0.33615336968348575,
+      "molecular_formula": "C4H9NO2S",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=COOC(C)N",
+      "score": 0.3359403472680312,
+      "molecular_formula": "C4H9NO2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOSOSC(S)C=S",
+      "score": 0.3358725676169762,
+      "molecular_formula": "C4H8O2S4",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCO/C(S)=C\\O",
+      "score": 0.3352037576528696,
+      "molecular_formula": "C4H8O2S",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC(S)Cl",
+      "score": 0.3349216993038471,
+      "molecular_formula": "C3H7ClOS",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOOCC=N",
+      "score": 0.33425150926296526,
+      "molecular_formula": "C4H9NO2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC(S)OC=S",
+      "score": 0.33424233014766985,
+      "molecular_formula": "C4H8O2S2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCN=CCCl",
+      "score": 0.3340353232163649,
+      "molecular_formula": "C4H8ClN",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOCC=O",
+      "score": 0.3338219477580144,
+      "molecular_formula": "C4H8O2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOO/C(S)=C\\F",
+      "score": 0.33375601126597476,
+      "molecular_formula": "C4H7FO2S",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC=C=CCl",
+      "score": 0.33121459300701434,
+      "molecular_formula": "C5H7ClO",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCO/C=C\\N",
+      "score": 0.3305185345503,
+      "molecular_formula": "C4H9NO",
+      "retrieved": true
+    },
+    {
+      "smiles": "CC(CCl)OC=N",
+      "score": 0.33051501787625825,
+      "molecular_formula": "C4H8ClNO",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC(F)Cl",
+      "score": 0.33051178547052235,
+      "molecular_formula": "C3H6ClFO",
+      "retrieved": false
+    },
+    {
+      "smiles": "C[C@@H]1COC(F)SO1",
+      "score": 0.3296342904751117,
+      "molecular_formula": "C4H7FO2S",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCO/C=C/N",
+      "score": 0.32954501188718355,
+      "molecular_formula": "C4H9NO",
+      "retrieved": true
+    },
+    {
+      "smiles": "CCO/C(Cl)=C\\S",
+      "score": 0.3284079890984755,
+      "molecular_formula": "C4H7ClOS",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=COC(C)CO",
+      "score": 0.3271813805286701,
+      "molecular_formula": "C5H10O2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC=CSBr",
+      "score": 0.3267729740876418,
+      "molecular_formula": "C4H7BrOS",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOOC(F)S",
+      "score": 0.3265787729850182,
+      "molecular_formula": "C3H7FO2S",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC=CNSCl",
+      "score": 0.3252478104371291,
+      "molecular_formula": "C4H8ClNOS",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC=CCO",
+      "score": 0.32515661074565005,
+      "molecular_formula": "C5H10O2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOOC=CCl",
+      "score": 0.32509945447628313,
+      "molecular_formula": "C4H7ClO2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC(C=S)OO",
+      "score": 0.3250745993394118,
+      "molecular_formula": "C4H8O3S",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC/C(F)=C/S",
+      "score": 0.32495222641871524,
+      "molecular_formula": "C5H9FOS",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCON=C=CS",
+      "score": 0.32421462352459246,
+      "molecular_formula": "C4H7NOS",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=C(Br)SOCC",
+      "score": 0.32415239627544695,
+      "molecular_formula": "C4H7BrOS",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOSCC(F)Br",
+      "score": 0.3240575652856093,
+      "molecular_formula": "C4H8BrFOS",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCO[C-]1[O+]=CCNS1",
+      "score": 0.32314685674814075,
+      "molecular_formula": "C5H9NO2S",
+      "retrieved": false
+    },
+    {
+      "smiles": "CC1OC1C(F)Br",
+      "score": 0.3221282775585468,
+      "molecular_formula": "C4H6BrFO",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=COOOCC",
+      "score": 0.3219946531149057,
+      "molecular_formula": "C4H8O3",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC(Cl)=CCl",
+      "score": 0.32170812441752505,
+      "molecular_formula": "C4H6Cl2O",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC(OS)C(F)Cl",
+      "score": 0.32156185461924625,
+      "molecular_formula": "C4H8ClFO2S",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=C(Cl)OOCC",
+      "score": 0.320980415894435,
+      "molecular_formula": "C4H7ClO2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CC1(S)COC1",
+      "score": 0.32093953627806443,
+      "molecular_formula": "C4H8OS",
+      "retrieved": true
+    },
+    {
+      "smiles": "CCOC=C=C=NS",
+      "score": 0.32035539700434756,
+      "molecular_formula": "C5H7NOS",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=COSOSOCC",
+      "score": 0.3203434164707477,
+      "molecular_formula": "C4H8O3S2",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=COOOSOCC",
+      "score": 0.31991313054011417,
+      "molecular_formula": "C4H8O4S",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCO/C(F)=C/S",
+      "score": 0.31947420652096087,
+      "molecular_formula": "C4H7FOS",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=CSOOCC",
+      "score": 0.31871681488477266,
+      "molecular_formula": "C4H8O2S",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC(C=S)SF",
+      "score": 0.31811622931407046,
+      "molecular_formula": "C4H7FOS2",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=C1OC[C@@H](C)S1",
+      "score": 0.3171209005209116,
+      "molecular_formula": "C5H8OS",
+      "retrieved": false
+    },
+    {
+      "smiles": "CC=COCC",
+      "score": 0.31687270219509417,
+      "molecular_formula": "C5H10O",
+      "retrieved": true
+    },
+    {
+      "smiles": "CCOC=COCl",
+      "score": 0.31639735515301043,
+      "molecular_formula": "C4H7ClO2",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=COO/C(Br)=C/OCC",
+      "score": 0.31634584298500645,
+      "molecular_formula": "C6H9BrO3",
+      "retrieved": false
+    },
+    {
+      "smiles": "CC(C)OCC(F)Br",
+      "score": 0.31566444727090687,
+      "molecular_formula": "C5H10BrFO",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCON=C=CO",
+      "score": 0.31556944663708025,
+      "molecular_formula": "C4H7NO2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOCC=CS",
+      "score": 0.3146453316395099,
+      "molecular_formula": "C5H10OS",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC(O)C(F)Br",
+      "score": 0.31433324630443865,
+      "molecular_formula": "C4H8BrFO2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC=NCO",
+      "score": 0.3136731248635512,
+      "molecular_formula": "C4H9NO2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCO/C(Br)=C\\S",
+      "score": 0.3136004071969252,
+      "molecular_formula": "C4H7BrOS",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=C(N)OCC",
+      "score": 0.3134197501035837,
+      "molecular_formula": "C4H9NO",
+      "retrieved": true
+    },
+    {
+      "smiles": "CCOC(C=S)SBr",
+      "score": 0.31336544110224795,
+      "molecular_formula": "C4H7BrOS2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC=C(F)OCl",
+      "score": 0.3133234748473534,
+      "molecular_formula": "C4H6ClFO2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CC(C=S)CO",
+      "score": 0.3130430831358983,
+      "molecular_formula": "C4H8OS",
+      "retrieved": true
+    },
+    {
+      "smiles": "CCOOOC(S)C=S",
+      "score": 0.31186787440226627,
+      "molecular_formula": "C4H8O3S2",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=C=COCC",
+      "score": 0.3117244495795323,
+      "molecular_formula": "C5H8O",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC=CNS",
+      "score": 0.3116932969826918,
+      "molecular_formula": "C4H9NOS",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOOSC=CBr",
+      "score": 0.3115630562488849,
+      "molecular_formula": "C4H7BrO2S",
+      "retrieved": false
+    },
+    {
+      "smiles": "C#COC(C)CCl",
+      "score": 0.31098596866314226,
+      "molecular_formula": "C5H7ClO",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOSC=CN",
+      "score": 0.309308097912715,
+      "molecular_formula": "C4H9NOS",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=CNSOCC",
+      "score": 0.30919782931988055,
+      "molecular_formula": "C4H9NOS",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=COC[C@@H](C)O",
+      "score": 0.30741916253016544,
+      "molecular_formula": "C5H10O2",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=C=C=COCC",
+      "score": 0.3074133304449228,
+      "molecular_formula": "C6H8O",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC(Cl)=CS",
+      "score": 0.30587796981518084,
+      "molecular_formula": "C4H7ClOS",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOON(S)C=CBr",
+      "score": 0.3058139498417194,
+      "molecular_formula": "C4H8BrNO2S",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC=CN=CCl",
+      "score": 0.3057491641778212,
+      "molecular_formula": "C5H8ClNO",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCONC(S)C=S",
+      "score": 0.3052781636898334,
+      "molecular_formula": "C4H9NOS2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCO/C(S)=C\\F",
+      "score": 0.30516736324016863,
+      "molecular_formula": "C4H7FOS",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=COO/C(Cl)=C\\OCC",
+      "score": 0.3051622234857999,
+      "molecular_formula": "C6H9ClO3",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=COC(F)OCC",
+      "score": 0.30422572447703433,
+      "molecular_formula": "C5H9FO2",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=C(OCC)SO",
+      "score": 0.30387895382367647,
+      "molecular_formula": "C4H8O2S",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC=C(F)C(S)Br",
+      "score": 0.3034745271389301,
+      "molecular_formula": "C5H8BrFOS",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC(Cl)=CO",
+      "score": 0.30339346940700823,
+      "molecular_formula": "C4H7ClO2",
+      "retrieved": false
+    },
+    {
+      "smiles": "C[C@@H](O)CO/C=C\\F",
+      "score": 0.3000964935009296,
+      "molecular_formula": "C5H9FO2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CC1COC1O",
+      "score": 0.29999616283636826,
+      "molecular_formula": "C4H8O2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOSC=C(O)F",
+      "score": 0.2989133413021381,
+      "molecular_formula": "C4H7FO2S",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=CO/C(Cl)=C\\OCC",
+      "score": 0.29837433191446155,
+      "molecular_formula": "C6H9ClO2",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=NC=COCC",
+      "score": 0.2976889472741347,
+      "molecular_formula": "C5H9NO",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOSC(F)Cl",
+      "score": 0.2974742971933805,
+      "molecular_formula": "C3H6ClFOS",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOSC=CCO",
+      "score": 0.2957920798888573,
+      "molecular_formula": "C5H10O2S",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOOO[C-]1[O+]=CCS1",
+      "score": 0.2956467637648949,
+      "molecular_formula": "C5H8O4S",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOO/[SH]=C/S",
+      "score": 0.2956207807247455,
+      "molecular_formula": "C3H8O2S2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC(O)F",
+      "score": 0.2955502684299762,
+      "molecular_formula": "C3H7FO2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC(O)C(=S)S",
+      "score": 0.295206056191371,
+      "molecular_formula": "C4H8O2S2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCO[C-]1[O+]=C(Cl)CS1",
+      "score": 0.29451069923547596,
+      "molecular_formula": "C5H7ClO2S",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=NC(=N)OOCC",
+      "score": 0.2940655213135939,
+      "molecular_formula": "C4H8N2O2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC(Br)C(F)Cl",
+      "score": 0.29395995690272403,
+      "molecular_formula": "C4H7BrClFO",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=C1OC1C",
+      "score": 0.29321791804753816,
+      "molecular_formula": "C4H6O",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC=C(O)NCl",
+      "score": 0.2930813294190627,
+      "molecular_formula": "C4H8ClNO2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC=C=N",
+      "score": 0.2929840592237619,
+      "molecular_formula": "C4H7NO",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=COOC(C)S",
+      "score": 0.29282586849652803,
+      "molecular_formula": "C4H8O2S",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC=C(F)Br",
+      "score": 0.2926686222736652,
+      "molecular_formula": "C4H6BrFO",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOOCC(F)S",
+      "score": 0.2920493300144489,
+      "molecular_formula": "C4H9FO2S",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=COC(C)N=N",
+      "score": 0.29192580855809724,
+      "molecular_formula": "C4H8N2O",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC(S)C=CF",
+      "score": 0.29186992003367496,
+      "molecular_formula": "C5H9FOS",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=NOCC",
+      "score": 0.2911160450715285,
+      "molecular_formula": "C3H7NO",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOOC(Cl)OCC",
+      "score": 0.2905186093770541,
+      "molecular_formula": "C5H11ClO3",
+      "retrieved": false
+    },
+    {
+      "smiles": "C#COCC",
+      "score": 0.290194204220405,
+      "molecular_formula": "C4H6O",
+      "retrieved": false
+    },
+    {
+      "smiles": "C[C@H]1COCO1",
+      "score": 0.28990888137083787,
+      "molecular_formula": "C4H8O2",
+      "retrieved": false
+    },
+    {
+      "smiles": "C[C@@H]1COC(S)S1",
+      "score": 0.2897424606176523,
+      "molecular_formula": "C4H8OS2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOO[C-]1[O+]=C(Cl)CS1",
+      "score": 0.2896719299829923,
+      "molecular_formula": "C5H7ClO3S",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=C(F)OC(Cl)OCC",
+      "score": 0.2896038110439594,
+      "molecular_formula": "C5H8ClFO2",
+      "retrieved": false
+    },
+    {
+      "smiles": "C/C=C/[S@@](C)=O",
+      "score": 0.2889213516161992,
+      "molecular_formula": "C4H8OS",
+      "retrieved": true
+    },
+    {
+      "smiles": "CCOSOC=CNCl",
+      "score": 0.2887935455028827,
+      "molecular_formula": "C4H8ClNO2S",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=COCCC",
+      "score": 0.28871862704937273,
+      "molecular_formula": "C5H10O",
+      "retrieved": true
+    },
+    {
+      "smiles": "CCOC(N)=CBr",
+      "score": 0.2871860472055582,
+      "molecular_formula": "C4H8BrNO",
+      "retrieved": false
+    },
+    {
+      "smiles": "C/C=C/[S@](C)=O",
+      "score": 0.2855844749854161,
+      "molecular_formula": "C4H8OS",
+      "retrieved": true
+    },
+    {
+      "smiles": "C=COOC(Cl)OCC",
+      "score": 0.28543469997552723,
+      "molecular_formula": "C5H9ClO3",
+      "retrieved": false
+    },
+    {
+      "smiles": "CC1OC=CC1Cl",
+      "score": 0.2852176290292006,
+      "molecular_formula": "C5H7ClO",
+      "retrieved": false
+    },
+    {
+      "smiles": "C#CCOCC",
+      "score": 0.2852071477816655,
+      "molecular_formula": "C5H8O",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOO/C=C(\\S)Cl",
+      "score": 0.2849207337086017,
+      "molecular_formula": "C4H7ClO2S",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC(F)=CBr",
+      "score": 0.2847771461193378,
+      "molecular_formula": "C4H6BrFO",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCO/C(O)=C\\S",
+      "score": 0.28287442601644075,
+      "molecular_formula": "C4H8O2S",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOCC(O)Cl",
+      "score": 0.282227860047267,
+      "molecular_formula": "C4H9ClO2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CC(C)(O)CF",
+      "score": 0.28163962639295137,
+      "molecular_formula": "C4H9FO",
+      "retrieved": true
+    },
+    {
+      "smiles": "CCONCBr",
+      "score": 0.28151832635586077,
+      "molecular_formula": "C3H8BrNO",
+      "retrieved": false
+    },
+    {
+      "smiles": "C/C=C/S(C)=O",
+      "score": 0.28058817524176377,
+      "molecular_formula": "C4H8OS",
+      "retrieved": true
+    },
+    {
+      "smiles": "CCO[C-]1OCC=[O+]S1",
+      "score": 0.2805529053394611,
+      "molecular_formula": "C5H8O3S",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC(C=S)SCl",
+      "score": 0.2801420505230243,
+      "molecular_formula": "C4H7ClOS2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCO[c-]1[o+]cs1",
+      "score": 0.2796395833675678,
+      "molecular_formula": "C4H6O2S",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC/C=C/S",
+      "score": 0.279370706814986,
+      "molecular_formula": "C5H10OS",
+      "retrieved": false
+    },
+    {
+      "smiles": "CC(CCl)OOC(S)C=S",
+      "score": 0.27900204291710484,
+      "molecular_formula": "C5H9ClO2S2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCO/C(Cl)=C/S",
+      "score": 0.27900068576519305,
+      "molecular_formula": "C4H7ClOS",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC(S)Br",
+      "score": 0.278560262459975,
+      "molecular_formula": "C3H7BrOS",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOO[C-]1[O+]=CC(O)S1",
+      "score": 0.27518413158563465,
+      "molecular_formula": "C5H8O4S",
+      "retrieved": false
+    },
+    {
+      "smiles": "C/C=C\\S(C)=O",
+      "score": 0.2749472512648656,
+      "molecular_formula": "C4H8OS",
+      "retrieved": true
+    },
+    {
+      "smiles": "CCOC(N)=C=O",
+      "score": 0.2748553019303542,
+      "molecular_formula": "C4H7NO2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOCN=C=N",
+      "score": 0.2745463458391336,
+      "molecular_formula": "C4H8N2O",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC(Cl)C=CS",
+      "score": 0.2741420681659992,
+      "molecular_formula": "C5H9ClOS",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC=CC(O)Cl",
+      "score": 0.2730959470455463,
+      "molecular_formula": "C5H9ClO2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOOOC=CF",
+      "score": 0.2722395475094135,
+      "molecular_formula": "C4H7FO3",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=C(OOCC)SF",
+      "score": 0.2721569354717548,
+      "molecular_formula": "C4H7FO2S",
+      "retrieved": false
+    },
+    {
+      "smiles": "CC1O/C1=C\\S",
+      "score": 0.27190457399074847,
+      "molecular_formula": "C4H6OS",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=COC(C)CF",
+      "score": 0.2718912225503188,
+      "molecular_formula": "C5H9FO",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOO/C=C(\\F)S",
+      "score": 0.2718878205005939,
+      "molecular_formula": "C4H7FO2S",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=C(N)OOCC",
+      "score": 0.27151392514889056,
+      "molecular_formula": "C4H9NO2",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=COCSOCC",
+      "score": 0.2711432942977318,
+      "molecular_formula": "C5H10O2S",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOSOC=CBr",
+      "score": 0.27062193705485416,
+      "molecular_formula": "C4H7BrO2S",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOCC(F)=S",
+      "score": 0.2702763539094191,
+      "molecular_formula": "C4H7FOS",
+      "retrieved": false
+    },
+    {
+      "smiles": "CC=CS(C)=O",
+      "score": 0.26961567539435166,
+      "molecular_formula": "C4H8OS",
+      "retrieved": true
+    },
+    {
+      "smiles": "CCO[C-]1S[O+]=CC(O)S1",
+      "score": 0.26952437254098743,
+      "molecular_formula": "C5H8O3S2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC=CC(F)F",
+      "score": 0.26949368531887347,
+      "molecular_formula": "C5H8F2O",
+      "retrieved": false
+    },
+    {
+      "smiles": "C#CCOC(C)CCl",
+      "score": 0.26893375470088077,
+      "molecular_formula": "C6H9ClO",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC=C(F)NCCl",
+      "score": 0.26818589063791126,
+      "molecular_formula": "C5H9ClFNO",
+      "retrieved": false
+    },
+    {
+      "smiles": "CC1(C=NCl)CON1",
+      "score": 0.26811127020762515,
+      "molecular_formula": "C4H7ClN2O",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOON=C=CS",
+      "score": 0.267091494340163,
+      "molecular_formula": "C4H7NO2S",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC(F)CF",
+      "score": 0.2658690420480875,
+      "molecular_formula": "C4H8F2O",
+      "retrieved": false
+    },
+    {
+      "smiles": "CC1OC=CC1S",
+      "score": 0.2655955461355356,
+      "molecular_formula": "C5H8OS",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOOO/C=C\\F",
+      "score": 0.2640954072658832,
+      "molecular_formula": "C4H7FO3",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCO/[SH]=C/S",
+      "score": 0.263920233799861,
+      "molecular_formula": "C3H8OS2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCO[C-]1[O+]=CC(Cl)S1",
+      "score": 0.2636224994292626,
+      "molecular_formula": "C5H7ClO2S",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=COOC(C)C",
+      "score": 0.26360635115550113,
+      "molecular_formula": "C5H10O2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC(C=S)NS",
+      "score": 0.26319138361857486,
+      "molecular_formula": "C4H9NOS2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC=C=S",
+      "score": 0.2619639795560103,
+      "molecular_formula": "C4H6OS",
+      "retrieved": false
+    },
+    {
+      "smiles": "COC(C)C=N",
+      "score": 0.26128198779546297,
+      "molecular_formula": "C4H9NO",
+      "retrieved": true
+    },
+    {
+      "smiles": "CC(C=N)COF",
+      "score": 0.2612225917669443,
+      "molecular_formula": "C4H8FNO",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCO[C-]1OSCC=[O+]1",
+      "score": 0.26108036591456485,
+      "molecular_formula": "C5H8O3S",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=COC(C)N=C",
+      "score": 0.2607818108338576,
+      "molecular_formula": "C5H9NO",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOOC(C)Cl",
+      "score": 0.2600860160130721,
+      "molecular_formula": "C4H9ClO2",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=COC(C)ON",
+      "score": 0.2595785420674544,
+      "molecular_formula": "C4H9NO2",
+      "retrieved": false
+    },
+    {
+      "smiles": "C/C=C/OCC",
+      "score": 0.25778879339878374,
+      "molecular_formula": "C5H10O",
+      "retrieved": true
+    },
+    {
+      "smiles": "CCON=C=CF",
+      "score": 0.25763861491129947,
+      "molecular_formula": "C4H6FNO",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=CS(=O)CC",
+      "score": 0.25685616869192857,
+      "molecular_formula": "C4H8OS",
+      "retrieved": true
+    },
+    {
+      "smiles": "CCSC=CO",
+      "score": 0.256161446754749,
+      "molecular_formula": "C4H8OS",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=COC=C1OC1C",
+      "score": 0.2557347279328566,
+      "molecular_formula": "C6H8O2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOCC(F)(Cl)Cl",
+      "score": 0.25539533450053287,
+      "molecular_formula": "C4H7Cl2FO",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCO/C(S)=C\\N",
+      "score": 0.2552777391213637,
+      "molecular_formula": "C4H9NOS",
+      "retrieved": false
+    },
+    {
+      "smiles": "C/C=C\\OCC",
+      "score": 0.2543692153233748,
+      "molecular_formula": "C5H10O",
+      "retrieved": true
+    },
+    {
+      "smiles": "CCOSC(Cl)=CS",
+      "score": 0.25417951895640445,
+      "molecular_formula": "C4H7ClOS2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOCC(=S)S",
+      "score": 0.25410701907598054,
+      "molecular_formula": "C4H8OS2",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=COSCC",
+      "score": 0.25400158304434556,
+      "molecular_formula": "C4H8OS",
+      "retrieved": true
+    },
+    {
+      "smiles": "CCOC(O)C(F)Cl",
+      "score": 0.25339256341640765,
+      "molecular_formula": "C4H8ClFO2",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=COOC=C(Cl)OCC",
+      "score": 0.25291893115410435,
+      "molecular_formula": "C6H9ClO3",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOOO/C=C/S",
+      "score": 0.25288485105221087,
+      "molecular_formula": "C4H8O3S",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=COCN",
+      "score": 0.25214420373623186,
+      "molecular_formula": "C3H7NO",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=COC(C)C(=C)Br",
+      "score": 0.25199333979533267,
+      "molecular_formula": "C6H9BrO",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=C(Cl)OC(C)CCl",
+      "score": 0.2519264083642226,
+      "molecular_formula": "C5H8Cl2O",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOSO/C=C\\S",
+      "score": 0.25180827195827776,
+      "molecular_formula": "C4H8O2S2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOCC=NS",
+      "score": 0.2516750257748824,
+      "molecular_formula": "C4H9NOS",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC=C(S)Br",
+      "score": 0.25166981036846453,
+      "molecular_formula": "C4H7BrOS",
+      "retrieved": false
+    },
+    {
+      "smiles": "CC1CC=CO1",
+      "score": 0.2515148176596715,
+      "molecular_formula": "C5H8O",
+      "retrieved": false
+    },
+    {
+      "smiles": "CC(N)OC=CBr",
+      "score": 0.2514974383207468,
+      "molecular_formula": "C4H8BrNO",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCO/C=C(/C)Br",
+      "score": 0.2514417629975539,
+      "molecular_formula": "C5H9BrO",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCON=C=CCl",
+      "score": 0.2513482387249286,
+      "molecular_formula": "C4H6ClNO",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=C[S@@](=O)CC",
+      "score": 0.2512587561057164,
+      "molecular_formula": "C4H8OS",
+      "retrieved": true
+    },
+    {
+      "smiles": "C=C(F)OOCC",
+      "score": 0.251088784291194,
+      "molecular_formula": "C4H7FO2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOCC=CO",
+      "score": 0.2507811005298908,
+      "molecular_formula": "C5H10O2",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=COC(=C)OCC",
+      "score": 0.25052849146036,
+      "molecular_formula": "C6H10O2",
+      "retrieved": false
+    },
+    {
+      "smiles": "OCC/C=C/S",
+      "score": 0.25007181901198167,
+      "molecular_formula": "C4H8OS",
+      "retrieved": true
+    },
+    {
+      "smiles": "CCOC1N=CC(=O)O1",
+      "score": 0.24979714246896595,
+      "molecular_formula": "C5H7NO3",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCONC=CS",
+      "score": 0.2486929755944472,
+      "molecular_formula": "C4H9NOS",
+      "retrieved": false
+    },
+    {
+      "smiles": "CC(O)C=CS",
+      "score": 0.24756189722281235,
+      "molecular_formula": "C4H8OS",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC=CN(Cl)Br",
+      "score": 0.24659709288523746,
+      "molecular_formula": "C4H7BrClNO",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOSO/C=C/S",
+      "score": 0.24525578434650713,
+      "molecular_formula": "C4H8O2S2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CC(CCl)OC=CS",
+      "score": 0.24457518412516666,
+      "molecular_formula": "C5H9ClOS",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOSC=CCF",
+      "score": 0.2442849095051105,
+      "molecular_formula": "C5H9FOS",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=[SH]OOCC",
+      "score": 0.24307800944034869,
+      "molecular_formula": "C3H8O2S",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=NC(O)C(C)O",
+      "score": 0.24296178038303667,
+      "molecular_formula": "C4H9NO2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC=C=CN",
+      "score": 0.24271677549068743,
+      "molecular_formula": "C5H9NO",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCO/C=C\\SBr",
+      "score": 0.24243326599781329,
+      "molecular_formula": "C4H7BrOS",
+      "retrieved": false
+    },
+    {
+      "smiles": "CC=NOCC",
+      "score": 0.2423862127157358,
+      "molecular_formula": "C4H9NO",
+      "retrieved": true
+    },
+    {
+      "smiles": "CCN=COC",
+      "score": 0.24219005382977998,
+      "molecular_formula": "C4H9NO",
+      "retrieved": true
+    },
+    {
+      "smiles": "C=CONOCC",
+      "score": 0.24180029447262102,
+      "molecular_formula": "C4H9NO2",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=C(C=N)OCC",
+      "score": 0.24143763001148516,
+      "molecular_formula": "C5H9NO",
+      "retrieved": false
+    },
+    {
+      "smiles": "C[C@@H](O)COF",
+      "score": 0.2412643845264728,
+      "molecular_formula": "C3H7FO2",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=C(O)OOCC",
+      "score": 0.24124570764028108,
+      "molecular_formula": "C4H8O3",
+      "retrieved": false
+    },
+    {
+      "smiles": "CC1OC=CN1S",
+      "score": 0.241028205706523,
+      "molecular_formula": "C4H7NOS",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC(C)SO",
+      "score": 0.2404266412441547,
+      "molecular_formula": "C4H10O2S",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC(Cl)OC=CBr",
+      "score": 0.24031792237208438,
+      "molecular_formula": "C5H8BrClO2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOOCCBr",
+      "score": 0.24026702459041888,
+      "molecular_formula": "C4H9BrO2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC=C(F)C(=N)Cl",
+      "score": 0.24009976478723377,
+      "molecular_formula": "C5H7ClFNO",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=NCOOOCC",
+      "score": 0.23941038205073428,
+      "molecular_formula": "C4H9NO3",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOOC(C=S)C(F)Br",
+      "score": 0.2393830189338097,
+      "molecular_formula": "C5H8BrFO2S",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOCC(S)C=S",
+      "score": 0.23898861499933094,
+      "molecular_formula": "C5H10OS2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC=NC",
+      "score": 0.23871203340016878,
+      "molecular_formula": "C4H9NO",
+      "retrieved": true
+    },
+    {
+      "smiles": "CCOC(Cl)OCC",
+      "score": 0.238565417436453,
+      "molecular_formula": "C5H11ClO2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC=CNN",
+      "score": 0.23846004559443545,
+      "molecular_formula": "C4H10N2O",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=COC(F)=COCC",
+      "score": 0.23829279037622303,
+      "molecular_formula": "C6H9FO2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOSOOC(S)C=S",
+      "score": 0.23809090944436878,
+      "molecular_formula": "C4H8O3S3",
+      "retrieved": false
+    },
+    {
+      "smiles": "CC1COCSS1",
+      "score": 0.23802106655561006,
+      "molecular_formula": "C4H8OS2",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=COOC(F)OCC",
+      "score": 0.23766008707193226,
+      "molecular_formula": "C5H9FO3",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC(C)C=N",
+      "score": 0.23729047866968006,
+      "molecular_formula": "C5H11NO",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC=C(N)CCl",
+      "score": 0.23724613281396717,
+      "molecular_formula": "C5H10ClNO",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=COOC(C)O",
+      "score": 0.2368005422445444,
+      "molecular_formula": "C4H8O3",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOO[C-]1[O+]=C(S)CS1",
+      "score": 0.2360422978034386,
+      "molecular_formula": "C5H8O3S2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCON=C=CBr",
+      "score": 0.23591349675105167,
+      "molecular_formula": "C4H6BrNO",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC=N",
+      "score": 0.234851048542903,
+      "molecular_formula": "C3H7NO",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=CS(=O)COCC",
+      "score": 0.23462138267663807,
+      "molecular_formula": "C5H10O2S",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=C1OSC1C",
+      "score": 0.23458282764141375,
+      "molecular_formula": "C4H6OS",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOOC=CC=S",
+      "score": 0.23452250774090105,
+      "molecular_formula": "C5H8O2S",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC(S)C=O",
+      "score": 0.2343293038698343,
+      "molecular_formula": "C4H8O2S",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=COC(C)F",
+      "score": 0.23404704607450044,
+      "molecular_formula": "C4H7FO",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC(O)N=C=S",
+      "score": 0.23306457354472232,
+      "molecular_formula": "C4H7NO2S",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC(O)=CF",
+      "score": 0.23298312838260943,
+      "molecular_formula": "C4H7FO2",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=NC(C)CO",
+      "score": 0.23272704161130464,
+      "molecular_formula": "C4H9NO",
+      "retrieved": true
+    },
+    {
+      "smiles": "CCOSOC=CF",
+      "score": 0.2325712258999164,
+      "molecular_formula": "C4H7FO2S",
+      "retrieved": false
+    },
+    {
+      "smiles": "CC1NC=CO1",
+      "score": 0.2325462309213785,
+      "molecular_formula": "C4H7NO",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOOC=C(S)S",
+      "score": 0.23189200575535113,
+      "molecular_formula": "C4H8O2S2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOOC=CSSS",
+      "score": 0.23173038317606998,
+      "molecular_formula": "C4H8O2S3",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=CC(C)O",
+      "score": 0.22993487119674683,
+      "molecular_formula": "C4H8O",
+      "retrieved": true
+    },
+    {
+      "smiles": "CC1(SCl)COC1",
+      "score": 0.22944475825016314,
+      "molecular_formula": "C4H7ClOS",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=COC=COCC",
+      "score": 0.22929785343316883,
+      "molecular_formula": "C6H10O2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCO/C=C(\\C)Cl",
+      "score": 0.2281454365987044,
+      "molecular_formula": "C5H9ClO",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC=C=C=S",
+      "score": 0.22763375594065738,
+      "molecular_formula": "C5H6OS",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOOCS",
+      "score": 0.22638575847332293,
+      "molecular_formula": "C3H8O2S",
+      "retrieved": false
+    },
+    {
+      "smiles": "C/C=C/CO",
+      "score": 0.22629639506340027,
+      "molecular_formula": "C4H8O",
+      "retrieved": true
+    },
+    {
+      "smiles": "CCOOC#CC(F)Cl",
+      "score": 0.22577664485344517,
+      "molecular_formula": "C5H6ClFO2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CC1O/C1=C/S",
+      "score": 0.22570942456905657,
+      "molecular_formula": "C4H6OS",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOOC(C)OS",
+      "score": 0.2256680497756371,
+      "molecular_formula": "C4H10O3S",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC(Cl)Br",
+      "score": 0.22522608133462757,
+      "molecular_formula": "C3H6BrClO",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOOC=C=CF",
+      "score": 0.22421858860896182,
+      "molecular_formula": "C5H7FO2",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=C[C@H](C)O",
+      "score": 0.22379444539546967,
+      "molecular_formula": "C4H8O",
+      "retrieved": true
+    },
+    {
+      "smiles": "C=CNOCC",
+      "score": 0.22339220918141878,
+      "molecular_formula": "C4H9NO",
+      "retrieved": true
+    },
+    {
+      "smiles": "CCOC(C)OS",
+      "score": 0.22335402323649478,
+      "molecular_formula": "C4H10O2S",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC(N)C=N",
+      "score": 0.22313980414317203,
+      "molecular_formula": "C4H10N2O",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=C[C@@H](C)O",
+      "score": 0.22186945378780365,
+      "molecular_formula": "C4H8O",
+      "retrieved": true
+    },
+    {
+      "smiles": "C=CSC(C)O",
+      "score": 0.2217276646540715,
+      "molecular_formula": "C4H8OS",
+      "retrieved": true
+    },
+    {
+      "smiles": "C=NOCCC",
+      "score": 0.22149099982701814,
+      "molecular_formula": "C4H9NO",
+      "retrieved": true
+    },
+    {
+      "smiles": "C=CSSOCC",
+      "score": 0.2212774661871103,
+      "molecular_formula": "C4H8OS2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOSC(Br)OCC",
+      "score": 0.2212199843846835,
+      "molecular_formula": "C5H11BrO2S",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCO/C=C(\\Br)OCC",
+      "score": 0.2211671746694125,
+      "molecular_formula": "C6H11BrO2",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=COC(C)C=N",
+      "score": 0.2211373012799483,
+      "molecular_formula": "C5H9NO",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC=CC=CBr",
+      "score": 0.22069666935847354,
+      "molecular_formula": "C6H9BrO",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=CC=C1OC1C",
+      "score": 0.220574846634498,
+      "molecular_formula": "C6H8O",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC=C=CC(F)Br",
+      "score": 0.2202423627559955,
+      "molecular_formula": "C6H8BrFO",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=C[S@](=O)CC",
+      "score": 0.22015594977598923,
+      "molecular_formula": "C4H8OS",
+      "retrieved": true
+    },
+    {
+      "smiles": "CCO/C=C\\SN",
+      "score": 0.21890528614704424,
+      "molecular_formula": "C4H9NOS",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=COOSC(C)N",
+      "score": 0.2187046225254352,
+      "molecular_formula": "C4H9NO2S",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC(Br)OCC",
+      "score": 0.2180871092356168,
+      "molecular_formula": "C5H11BrO2",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=COC=C=NOCC",
+      "score": 0.21763280721811146,
+      "molecular_formula": "C6H9NO2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC=CN=S",
+      "score": 0.21734015758220965,
+      "molecular_formula": "C4H7NOS",
+      "retrieved": false
+    },
+    {
+      "smiles": "C[C@@H](O)COC=N",
+      "score": 0.21685360486690813,
+      "molecular_formula": "C4H9NO2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC(Cl)Cl",
+      "score": 0.2167774805655846,
+      "molecular_formula": "C3H6Cl2O",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=C(C=CS)OCC",
+      "score": 0.21640626283792347,
+      "molecular_formula": "C6H10OS",
+      "retrieved": false
+    },
+    {
+      "smiles": "CC1OSC(C)O1",
+      "score": 0.2162319330068735,
+      "molecular_formula": "C4H8O2S",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOOC(C=S)OOS",
+      "score": 0.21590308042672962,
+      "molecular_formula": "C4H8O4S2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOCSC=N",
+      "score": 0.2159027915734511,
+      "molecular_formula": "C4H9NOS",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=CONCC",
+      "score": 0.21583872116529024,
+      "molecular_formula": "C4H9NO",
+      "retrieved": true
+    },
+    {
+      "smiles": "CCC=NOC",
+      "score": 0.21533053196393526,
+      "molecular_formula": "C4H9NO",
+      "retrieved": true
+    },
+    {
+      "smiles": "C=COCOCC",
+      "score": 0.21524564577982974,
+      "molecular_formula": "C5H10O2",
+      "retrieved": false
+    },
+    {
+      "smiles": "C/C=C\\CO",
+      "score": 0.21496544778347015,
+      "molecular_formula": "C4H8O",
+      "retrieved": true
+    },
+    {
+      "smiles": "CCONN=C=CNCl",
+      "score": 0.2149071510021503,
+      "molecular_formula": "C4H8ClN3O",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCONC(F)Cl",
+      "score": 0.21472416015771717,
+      "molecular_formula": "C3H7ClFNO",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOSC(N)=C=O",
+      "score": 0.21454058243678165,
+      "molecular_formula": "C4H7NO2S",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC(C=S)SN",
+      "score": 0.21441565110133243,
+      "molecular_formula": "C4H9NOS2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CNCOC(Cl)C=S",
+      "score": 0.21436633284275347,
+      "molecular_formula": "C4H8ClNOS",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOOC",
+      "score": 0.2140116599889902,
+      "molecular_formula": "C3H8O2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CC1OC1CCl",
+      "score": 0.21390571273290193,
+      "molecular_formula": "C4H7ClO",
+      "retrieved": false
+    },
+    {
+      "smiles": "CC1(OC(Cl)=CS)COC1",
+      "score": 0.213488193658682,
+      "molecular_formula": "C6H9ClO2S",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC=CC(N)=C=O",
+      "score": 0.21346155496744007,
+      "molecular_formula": "C6H9NO2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CC1OSC1C",
+      "score": 0.21345832485419053,
+      "molecular_formula": "C4H8OS",
+      "retrieved": true
+    },
+    {
+      "smiles": "CCON1OC=CO1",
+      "score": 0.21335057570384097,
+      "molecular_formula": "C4H7NO3",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=CS(=C)(C)=O",
+      "score": 0.21301748890143174,
+      "molecular_formula": "C4H8OS",
+      "retrieved": true
+    },
+    {
+      "smiles": "CCOC=CN=NS",
+      "score": 0.2129144829053145,
+      "molecular_formula": "C4H8N2OS",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC1C=C(F)CO1",
+      "score": 0.2127227553954491,
+      "molecular_formula": "C6H9FO2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOCS",
+      "score": 0.21254553473912752,
+      "molecular_formula": "C3H8OS",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOCC(F)(F)Br",
+      "score": 0.21227959944651675,
+      "molecular_formula": "C4H7BrF2O",
+      "retrieved": false
+    },
+    {
+      "smiles": "COC(C)O",
+      "score": 0.21202560342275178,
+      "molecular_formula": "C3H8O2",
+      "retrieved": false
+    },
+    {
+      "smiles": "OCCC=CS",
+      "score": 0.21133738297682542,
+      "molecular_formula": "C4H8OS",
+      "retrieved": true
+    },
+    {
+      "smiles": "CC/C=C/OS",
+      "score": 0.21087368864279527,
+      "molecular_formula": "C4H8OS",
+      "retrieved": true
+    },
+    {
+      "smiles": "CCO/C=C(/Cl)OCC",
+      "score": 0.21041050324073207,
+      "molecular_formula": "C6H11ClO2",
+      "retrieved": false
+    },
+    {
+      "smiles": "C/C=C(\\F)OCC",
+      "score": 0.20998005683605486,
+      "molecular_formula": "C5H9FO",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCON=CCN=CCl",
+      "score": 0.20982245298532337,
+      "molecular_formula": "C5H9ClN2O",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=CSCOCC",
+      "score": 0.20907072379038882,
+      "molecular_formula": "C5H10OS",
+      "retrieved": false
+    },
+    {
+      "smiles": "CC(CCl)OBr",
+      "score": 0.20898405405191273,
+      "molecular_formula": "C3H6BrClO",
+      "retrieved": false
+    },
+    {
+      "smiles": "CC(C)OC=C(F)CCl",
+      "score": 0.20891359677681554,
+      "molecular_formula": "C6H10ClFO",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC(C=S)CO",
+      "score": 0.20890787931588978,
+      "molecular_formula": "C5H10O2S",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=COCNC",
+      "score": 0.2081127969118265,
+      "molecular_formula": "C4H9NO",
+      "retrieved": true
+    },
+    {
+      "smiles": "OS1=CCCC1",
+      "score": 0.20806616086226243,
+      "molecular_formula": "C4H8OS",
+      "retrieved": true
+    },
+    {
+      "smiles": "C=COOC(C)C=N",
+      "score": 0.20796094490931583,
+      "molecular_formula": "C5H9NO2",
+      "retrieved": false
+    },
+    {
+      "smiles": "C[C@@H]1COC(F)N1",
+      "score": 0.20784216202222383,
+      "molecular_formula": "C4H8FNO",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOOC=C(C)Cl",
+      "score": 0.20771799637721133,
+      "molecular_formula": "C5H9ClO2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCSO/C=C/S",
+      "score": 0.2069211510511545,
+      "molecular_formula": "C4H8OS2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CC1C=COO1",
+      "score": 0.2068334978360396,
+      "molecular_formula": "C4H6O2",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=COC=NCC",
+      "score": 0.20682250077907854,
+      "molecular_formula": "C5H9NO",
+      "retrieved": false
+    },
+    {
+      "smiles": "CC(CO)O/C=C/Br",
+      "score": 0.20663945033000064,
+      "molecular_formula": "C5H9BrO2",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=CC=NOCC",
+      "score": 0.2061899464863997,
+      "molecular_formula": "C5H9NO",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCO/[SH]=C\\S",
+      "score": 0.20612259323780352,
+      "molecular_formula": "C3H8OS2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCSOCC(F)Cl",
+      "score": 0.2061197620171767,
+      "molecular_formula": "C4H8ClFOS",
+      "retrieved": false
+    },
+    {
+      "smiles": "CC/C=N\\OC",
+      "score": 0.20573415435277498,
+      "molecular_formula": "C4H9NO",
+      "retrieved": true
+    },
+    {
+      "smiles": "C=COCC=NOCC",
+      "score": 0.20530083546271694,
+      "molecular_formula": "C6H11NO2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC=CNO",
+      "score": 0.20498637969677264,
+      "molecular_formula": "C4H9NO2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOCC(F)(F)Cl",
+      "score": 0.20450143172190738,
+      "molecular_formula": "C4H7ClF2O",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=COSC(C)N",
+      "score": 0.20428614432995135,
+      "molecular_formula": "C4H9NOS",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOOO/C=C\\S",
+      "score": 0.20409382994358355,
+      "molecular_formula": "C4H8O3S",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=S1(=O)CCC1",
+      "score": 0.20396846074324387,
+      "molecular_formula": "C4H8OS",
+      "retrieved": true
+    },
+    {
+      "smiles": "CCOC=C[C-]1[O+]=CCS1",
+      "score": 0.20390429863562953,
+      "molecular_formula": "C7H10O2S",
+      "retrieved": false
+    },
+    {
+      "smiles": "CC/C=N/OC",
+      "score": 0.2033668366762308,
+      "molecular_formula": "C4H9NO",
+      "retrieved": true
+    },
+    {
+      "smiles": "CC1COC1",
+      "score": 0.20319655537605286,
+      "molecular_formula": "C4H8O",
+      "retrieved": true
+    },
+    {
+      "smiles": "CCOC1N=CCO1",
+      "score": 0.20200167252467227,
+      "molecular_formula": "C5H9NO2",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=COC(C)SCBr",
+      "score": 0.20184574677393985,
+      "molecular_formula": "C5H9BrOS",
+      "retrieved": false
+    },
+    {
+      "smiles": "C=CO[C@H](C)CONF",
+      "score": 0.2008163653887235,
+      "molecular_formula": "C5H10FNO2",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCON(S)OC(S)C=S",
+      "score": 0.20062998166451085,
+      "molecular_formula": "C4H9NO2S3",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCN=C(F)CCl",
+      "score": 0.20013431402353138,
+      "molecular_formula": "C4H7ClFN",
+      "retrieved": false
+    },
+    {
+      "smiles": "C[C@@H]1CONCS1",
+      "score": 0.19998605663959795,
+      "molecular_formula": "C4H9NOS",
+      "retrieved": false
+    },
+    {
+      "smiles": "CCOC(S)=C=S",
+      "score": 0.19908098532603336,
+      "molecular_formula": "C4H6OS2",
+      "retrieved": false
+    }
+  ],
+  "metadata": {
+    "job_id": "d2cc7dd964d5defb38819a3717c33875",
+    "processing_time": 729.3468904495239,
+    "timestamp": 1784390512.180911,
+    "task_id": "643e46e1-fcff-4413-8375-de5f8df6f662"
+  }
+}
