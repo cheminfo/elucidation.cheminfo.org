@@ -96,7 +96,7 @@ services:
     security_opt:
       - no-new-privileges:true
     restart: unless-stopped
-    mem_limit: 40g
+    mem_limit: 64g
     cpus: 2
     pids_limit: 1024
     volumes:
