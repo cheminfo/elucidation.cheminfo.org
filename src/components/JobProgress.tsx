@@ -48,6 +48,7 @@ export function JobProgress(props: JobProgressProps) {
   if (FINISHED.has(run.state)) return null;
 
   const waiting = run.state === 'pending';
+  const queueText = queue === null ? null : describeQueue(queue, waiting);
 
   return (
     <Card
@@ -84,12 +85,7 @@ export function JobProgress(props: JobProgressProps) {
           minutes. The server does not report intermediate progress, so this bar
           shows activity, not completion.
         </span>
-        {queue !== null && (
-          <span>
-            Queue: {queue.active_tasks ?? 0} running ·{' '}
-            {queue.reserved_tasks ?? 0} waiting · {describeCapacity(queue)}
-          </span>
-        )}
+        {queueText !== null && <span>{queueText}</span>}
         <span>
           You can close this page — the job keeps running and is stored locally.
         </span>
@@ -99,19 +95,25 @@ export function JobProgress(props: JobProgressProps) {
 }
 
 /**
- * Capacity as slots rather than nodes.
+ * Server load, in words that mean something without knowing Celery.
  *
- * A node count alone reads as a bottleneck it is not: the deployment runs one node with
- * twelve task slots, so "1 worker" suggests jobs serialise when twelve can run at once.
+ * "Worker", "slot" and "queue depth" are all implementation vocabulary. What a submitter
+ * actually needs is whether anything stands between their job and a result, so a waiting
+ * job reports the jobs ahead of it and a running one reports how loaded the server is.
  * @param queue - The queue statistics, with the slot count merged in.
- * @returns A phrase such as `12 slots (1 worker)`.
+ * @param waiting - Whether this job has yet to start.
+ * @returns A sentence, or null when there is nothing meaningful to say.
  */
-function describeCapacity(queue: QueueStats): string {
-  const nodes = queue.workers?.length ?? 0;
-  const nodeText = `${nodes} worker${nodes === 1 ? '' : 's'}`;
-  const slots = queue.slots;
-  if (typeof slots !== 'number') return nodeText;
-  return `${slots} slot${slots === 1 ? '' : 's'} (${nodeText})`;
+function describeQueue(queue: QueueStats, waiting: boolean): string | null {
+  if (waiting) {
+    const ahead = queue.reserved_tasks ?? 0;
+    if (ahead === 0) return 'No other job is waiting, so yours starts next.';
+    return `${ahead} other job${ahead === 1 ? '' : 's'} ahead of yours.`;
+  }
+  const capacity = queue.slots;
+  if (typeof capacity !== 'number') return null;
+  const running = queue.active_tasks ?? 0;
+  return `The server is running ${running} of the ${capacity} jobs it can process at the same time.`;
 }
 
 function describeStage(status: string, waiting: boolean): string {

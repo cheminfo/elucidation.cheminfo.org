@@ -7,6 +7,7 @@ import { challengeCandidates } from '../../state/data.ts';
 import { runs } from '../../state/runs.ts';
 import type { StoredRun } from '../../state/runsDb.ts';
 import { navigate } from '../../state/view.ts';
+import { formatRelativeTime } from '../../time/relativeTime.ts';
 
 /** How many past runs the tile lists before pointing at the full history. */
 const RECENT_COUNT = 5;
@@ -128,10 +129,15 @@ function RecentRun(props: { run: StoredRun }) {
           )}
         </span>
         <JobStatusTag state={run.state} />
-        <span style={{ color: 'var(--muted)', whiteSpace: 'nowrap' }}>
-          {run.submittedAt === 0
-            ? '—'
-            : new Date(run.submittedAt).toLocaleDateString()}
+        <span
+          style={{ color: 'var(--muted)', whiteSpace: 'nowrap' }}
+          title={
+            run.submittedAt === 0
+              ? undefined
+              : new Date(run.submittedAt).toLocaleString()
+          }
+        >
+          {run.submittedAt === 0 ? '—' : formatRelativeTime(run.submittedAt)}
         </span>
       </span>
     </Button>

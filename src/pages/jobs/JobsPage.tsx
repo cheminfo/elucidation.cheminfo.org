@@ -25,6 +25,8 @@ import {
 import type { StoredRun } from '../../state/runsDb.ts';
 import { storageEstimate } from '../../state/runsDb.ts';
 import { navigate } from '../../state/view.ts';
+import { formatRelativeTime } from '../../time/relativeTime.ts';
+import { useNow } from '../../time/useNow.ts';
 
 type Filter = 'all' | 'running' | 'done' | 'failed';
 
@@ -42,6 +44,7 @@ export function JobsPage() {
   const [filter, setFilter] = useState<Filter>('all');
   const [confirmClear, setConfirmClear] = useState(false);
   const usage = useStorageUsage();
+  const now = useNow();
 
   const all = runs.value;
   const visible = all.filter((run) => matchesFilter(run, filter));
@@ -161,10 +164,17 @@ export function JobsPage() {
                 <td style={{ fontSize: 12 }}>
                   {run.request.model ?? 'residual'}
                 </td>
-                <td title={new Date(run.submittedAt).toLocaleString()}>
+                <td
+                  style={{ whiteSpace: 'nowrap' }}
+                  title={
+                    run.submittedAt === 0
+                      ? undefined
+                      : new Date(run.submittedAt).toLocaleString()
+                  }
+                >
                   {run.submittedAt === 0
                     ? '—'
-                    : new Date(run.submittedAt).toLocaleDateString()}
+                    : formatRelativeTime(run.submittedAt, now)}
                 </td>
                 <td>
                   <Button

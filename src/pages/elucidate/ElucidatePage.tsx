@@ -22,6 +22,7 @@ import {
 import { preferences } from '../../state/preferences.ts';
 import { findRun, runs, updateRun } from '../../state/runs.ts';
 import type { StoredRun } from '../../state/runsDb.ts';
+import { formatRelativeTime } from '../../time/relativeTime.ts';
 
 import { InputPanel } from './InputPanel.tsx';
 import { WelcomePanel } from './WelcomePanel.tsx';
@@ -206,8 +207,11 @@ function RunSummary(props: { run: StoredRun }) {
       <Tag minimal>{run.request.model ?? 'residual'}</Tag>
       <Tag minimal>{run.request.gens_ga ?? 10} generations</Tag>
       {run.submittedAt > 0 && (
-        <span style={{ fontSize: 12, color: 'var(--muted)' }}>
-          submitted {new Date(run.submittedAt).toLocaleString()}
+        <span
+          style={{ fontSize: 12, color: 'var(--muted)' }}
+          title={new Date(run.submittedAt).toLocaleString()}
+        >
+          submitted {formatRelativeTime(run.submittedAt)}
         </span>
       )}
     </Card>
@@ -236,7 +240,9 @@ function useQueueStats(): QueueStats | null {
         });
     };
     load();
-    const timer = globalThis.setInterval(load, 30_000);
+    // 30 s was long enough that a freshly started job still saw "0 running", which reads
+    // as a contradiction next to its own running bar.
+    const timer = globalThis.setInterval(load, 10_000);
     return () => {
       cancelled = true;
       globalThis.clearInterval(timer);
