@@ -15,7 +15,7 @@ services:
     restart: unless-stopped
     stop_grace_period: 30s
     mem_limit: 512m
-    cpus: '0.5'
+    cpus: 0.5
     pids_limit: 256
     labels:
       - 'traefik.enable=true'
@@ -42,7 +42,7 @@ services:
       core: 0
     restart: unless-stopped
     mem_limit: 1g
-    cpus: '1'
+    cpus: 1
     pids_limit: 256
     volumes:
       - ./data/redis:/data
@@ -59,7 +59,7 @@ services:
     restart: unless-stopped
     stop_grace_period: 30s
     mem_limit: 64g
-    cpus: '16'
+    cpus: 16
     pids_limit: 512
     labels:
       - 'traefik.enable=true'
@@ -108,7 +108,7 @@ services:
     restart: unless-stopped
     stop_grace_period: 30s
     mem_limit: 32g
-    cpus: '16'
+    cpus: 16
     pids_limit: 1024
     environment:
       - CELERY_BROKER_URL=redis://redis:6379/0
@@ -127,7 +127,7 @@ services:
       - no-new-privileges:true
     restart: unless-stopped
     mem_limit: 128g
-    cpus: '4'
+    cpus: 4
     pids_limit: 1024
     volumes:
       - ./pubchem_vector_db_hnsw_pqm_16_ef_256_m_32:/pubchem_vector_db_hnsw_pq.index
@@ -140,7 +140,7 @@ services:
       - no-new-privileges:true
     restart: unless-stopped
     mem_limit: 8g
-    cpus: '4'
+    cpus: 4
     pids_limit: 512
 
 networks:
