@@ -66,14 +66,24 @@ services:
       # The container is on two networks, so Traefik cannot infer the port.
       - 'traefik.http.services.elucidation.loadbalancer.server.port=8000'
 
-      # High priority: only these paths belong to the API. Everything else, including
-      # `/` and the SPA's hash routes, falls through to the frontend router above.
-      - 'traefik.http.routers.elucidation.rule=Host(`elucidation.cheminfo.org`) && (PathPrefix(`/submit`) || PathPrefix(`/jobs`) || PathPrefix(`/queue`) || PathPrefix(`/workers`) || PathPrefix(`/docs`) || PathPrefix(`/redoc`) || PathPrefix(`/openapi.json`))'
+      # Submissions get their own router so the rate limit applies to them alone.
+      # It must out-prioritise the general API router below, which also matches /submit.
+      - 'traefik.http.routers.elucidation-submit.rule=Host(`elucidation.cheminfo.org`) && Path(`/submit`)'
+      - 'traefik.http.routers.elucidation-submit.priority=110'
+      - 'traefik.http.routers.elucidation-submit.entrypoints=websecure'
+      - 'traefik.http.routers.elucidation-submit.tls.certresolver=letsencrypt'
+      - 'traefik.http.routers.elucidation-submit.service=elucidation'
+      - 'traefik.http.routers.elucidation-submit.middlewares=elucidation-cors,elucidation-submit-ratelimit'
+
+      # Everything else the API owns. No rate limit here: the interface polls
+      # /jobs/{id}/status every 10s per running job and /queue/stats every 30s, so a
+      # limit meant for submissions would lock the app out within seconds.
+      - 'traefik.http.routers.elucidation.rule=Host(`elucidation.cheminfo.org`) && (PathPrefix(`/jobs`) || PathPrefix(`/queue`) || PathPrefix(`/workers`) || PathPrefix(`/docs`) || PathPrefix(`/redoc`) || PathPrefix(`/openapi.json`))'
       - 'traefik.http.routers.elucidation.priority=100'
       - 'traefik.http.routers.elucidation.entrypoints=websecure'
       - 'traefik.http.routers.elucidation.tls.certresolver=letsencrypt'
       - 'traefik.http.routers.elucidation.service=elucidation'
-      - 'traefik.http.routers.elucidation.middlewares=elucidation-cors,elucidation-submit-ratelimit'
+      - 'traefik.http.routers.elucidation.middlewares=elucidation-cors'
 
       # CORS for third-party clients. allowmethods was missing before, which made a
       # DELETE preflight (job cancellation) fail.
@@ -83,7 +93,8 @@ services:
       - 'traefik.http.middlewares.elucidation-cors.headers.accesscontrolmaxage=86400'
 
       # Every accepted submission occupies a worker for 20-45 minutes and there is no
-      # authentication, so submissions are rate limited per source address.
+      # authentication, so submissions are rate limited per source address. This applies
+      # only to the elucidation-submit router above.
       - 'traefik.http.middlewares.elucidation-submit-ratelimit.ratelimit.average=10'
       - 'traefik.http.middlewares.elucidation-submit-ratelimit.ratelimit.period=1h'
       - 'traefik.http.middlewares.elucidation-submit-ratelimit.ratelimit.burst=3'
