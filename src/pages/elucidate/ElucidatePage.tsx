@@ -22,6 +22,7 @@ import {
 import { preferences } from '../../state/preferences.ts';
 import { findRun, runs, updateRun } from '../../state/runs.ts';
 import type { StoredRun } from '../../state/runsDb.ts';
+import { navigate } from '../../state/view.ts';
 import { formatRelativeTime } from '../../time/relativeTime.ts';
 
 import { InputPanel } from './InputPanel.tsx';
@@ -69,6 +70,10 @@ export function ElucidatePage() {
       } else {
         setReused(outcome.kind === 'existing');
         activeJobId.value = outcome.jobId;
+        // Put the job in the URL, otherwise a reload lands on a bare `#/elucidate`,
+        // startRunRestore has no id to restore, and a job still running on the server
+        // looks like it was never submitted.
+        navigate('elucidate', outcome.jobId);
       }
     } catch (error_) {
       setError(error_ instanceof Error ? error_.message : String(error_));

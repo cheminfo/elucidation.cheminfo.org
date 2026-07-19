@@ -63,6 +63,12 @@ test('the panel follows the job through queued, running and finished', async ({
       json: { active_tasks: 1, reserved_tasks: 3, workers: ['w1'] },
     }),
   );
+  // Stubbed so the rendered capacity does not depend on the real deployment's pool.
+  await page.route('**/workers', (route) =>
+    route.fulfill({
+      json: { workers: { 'celery@w1': { pool: { 'max-concurrency': 4 } } } },
+    }),
+  );
 
   await page.goto('/');
   await dropFiles(page);
@@ -72,12 +78,13 @@ test('the panel follows the job through queued, running and finished', async ({
   const progress = page.getByTestId('job-progress');
   await expect(progress).toContainText('Queued');
   await expect(progress).toContainText('Waiting for a free worker.');
+  await expect(progress).toContainText('3 other jobs ahead of yours.');
 
   // The worker picks the job up: the stage string replaces the queued message.
   phase = 'running';
   await expect(progress).toContainText('Running', { timeout: 20_000 });
   await expect(progress).toContainText('Initializing genetic algorithm...');
-  await expect(progress).toContainText('Queue: 1 running');
+  await expect(progress).toContainText('The server is running 1 of the 4 jobs');
 
   // The job finishes: the panel gives way to the ranked candidates.
   phase = 'success';
@@ -123,4 +130,47 @@ test('the elapsed time keeps ticking while the status string stays frozen', asyn
   await expect(progress).toContainText('Running');
   await expect(progress).toContainText('3 s', { timeout: 10_000 });
   await expect(progress).toContainText('6 s', { timeout: 10_000 });
+});
+
+/**
+ * A run outlives the page: it is computed on the server for tens of minutes and stored
+ * in IndexedDB. Restoring it depends entirely on the job id being in the URL, so this
+ * pins the behaviour that a reload keeps showing a job the server is still running.
+ */
+test('a running job is still shown after a reload', async ({ page }) => {
+  await page.route('**/submit', (route) =>
+    route.fulfill({
+      json: { job_id: 'reload-1', task_id: 't1', status: 'submitted' },
+    }),
+  );
+  await page.route('**/jobs/reload-1/status', (route) =>
+    route.fulfill({
+      json: {
+        job_id: 'reload-1',
+        task_id: 't1',
+        status: 'Initializing genetic algorithm...',
+        current: 0,
+        total: 10,
+      },
+    }),
+  );
+  await page.route('**/queue/stats', (route) =>
+    route.fulfill({
+      json: { active_tasks: 1, reserved_tasks: 0, workers: ['w1'] },
+    }),
+  );
+
+  await page.goto('/');
+  await dropFiles(page);
+  await page.getByTestId('mf-input').fill('C4H8O');
+  await page.getByTestId('submit-button').click();
+
+  await expect(page.getByTestId('job-progress')).toContainText('Running');
+  // The id must reach the URL, because that is what survives the reload.
+  expect(page.url()).toContain('#/elucidate/reload-1');
+
+  await page.reload();
+
+  await expect(page.getByTestId('job-progress')).toContainText('Running');
+  await expect(page.getByTestId('run-summary')).toContainText('reload-1');
 });

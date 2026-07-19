@@ -120,6 +120,12 @@ test('a running job shows elapsed time and no invented percentage', async ({
       json: { active_tasks: 1, reserved_tasks: 0, workers: ['w1'] },
     }),
   );
+  // Stubbed so the rendered capacity does not depend on the real deployment's pool.
+  await page.route('**/workers', (route) =>
+    route.fulfill({
+      json: { workers: { 'celery@w1': { pool: { 'max-concurrency': 4 } } } },
+    }),
+  );
 
   await page.goto('/');
   await dropSpectrum(page);
@@ -128,7 +134,7 @@ test('a running job shows elapsed time and no invented percentage', async ({
 
   const progress = page.getByTestId('job-progress');
   await expect(progress).toContainText('Initializing genetic algorithm...');
-  await expect(progress).toContainText('Queue: 1 running');
+  await expect(progress).toContainText('The server is running 1 of the 4 jobs');
   await expect(progress).toContainText('shows activity, not completion');
   // The bar must be indeterminate: no percentage is knowable from this backend.
   await expect(progress.locator('.bp6-progress-bar')).toBeVisible();
