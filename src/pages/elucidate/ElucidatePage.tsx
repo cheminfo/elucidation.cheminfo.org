@@ -210,7 +210,9 @@ function RunSummary(props: { run: StoredRun }) {
       </Tag>
       <code style={{ fontSize: 12 }}>{run.jobId}</code>
       <Tag minimal>{run.request.model ?? 'residual'}</Tag>
-      <Tag minimal>{run.request.gens_ga ?? 10} generations</Tag>
+      {run.request.gens_ga !== undefined && (
+        <Tag minimal>{run.request.gens_ga} generations</Tag>
+      )}
       {run.submittedAt > 0 && (
         <span
           style={{ fontSize: 12, color: 'var(--muted)' }}

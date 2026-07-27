@@ -16,8 +16,8 @@ export interface Preferences {
  * The server identifies a run by its spectrum alone, so a spectrum submitted once can
  * never be recomputed with a different model or different search parameters — it will
  * always return the original result. Exposing these as controls would therefore invite
- * users into a setting that silently does nothing, so the values used are the defaults
- * from the paper and they stay constant.
+ * users into a setting that silently does nothing, so the values stay constant at
+ * {@link DEFAULT_GA_PARAMETERS}.
  */
 export const preferences = signal<Preferences>({
   apiUrl: '',

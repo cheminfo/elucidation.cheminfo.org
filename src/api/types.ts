@@ -9,15 +9,21 @@ export interface ApiSpectrum {
 /** Selects the 1H encoder checkpoint. Not an algorithm choice. */
 export type SecsModel = 'residual' | 'regular';
 
-/** Genetic-algorithm settings. The defaults are the ones used in the paper. */
+/**
+ * Genetic-algorithm settings.
+ *
+ * The defaults are the reference client's, not the paper's. The paper runs
+ * `gens_ga: 10`, `pop_ga: 512`, `offspring_ga: 1024`, which scores roughly twenty times
+ * more molecules per run and takes correspondingly longer for a demo-sized problem.
+ */
 export interface GaParameters {
   /** Random seed. @default 42 */
   seed: number;
-  /** Number of GA generations. @default 10 */
+  /** Number of GA generations. @default 5 */
   gens_ga: number;
-  /** Population size carried between generations. @default 512 */
+  /** Population size carried between generations. @default 50 */
   pop_ga: number;
-  /** Candidates generated per generation. @default 1024 */
+  /** Candidates generated per generation. @default 256 */
   offspring_ga: number;
   /** Fraction of offspring produced by mutation rather than crossover. @default 0.3 */
   frac_graph_ga_mutate: number;
@@ -25,9 +31,9 @@ export interface GaParameters {
 
 export const DEFAULT_GA_PARAMETERS: GaParameters = {
   seed: 42,
-  gens_ga: 10,
-  pop_ga: 512,
-  offspring_ga: 1024,
+  gens_ga: 5,
+  pop_ga: 50,
+  offspring_ga: 256,
   frac_graph_ga_mutate: 0.3,
 };
 
