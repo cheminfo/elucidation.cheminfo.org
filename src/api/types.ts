@@ -12,16 +12,17 @@ export type SecsModel = 'residual' | 'regular';
 /**
  * Genetic-algorithm settings.
  *
- * The defaults are the reference client's, not the paper's. The paper runs
- * `gens_ga: 10`, `pop_ga: 512`, `offspring_ga: 1024`, which scores roughly twenty times
- * more molecules per run and takes correspondingly longer for a demo-sized problem.
+ * Chosen from measurements against the deployment, not from the paper — see the run
+ * duration table in the README. The search size (`gens_ga * offspring_ga`) is kept small
+ * because a run is dominated by a fixed ~90 s cost, while `pop_ga` is kept large because
+ * it costs about five seconds and is what the user actually receives.
  */
 export interface GaParameters {
   /** Random seed. @default 42 */
   seed: number;
   /** Number of GA generations. @default 5 */
   gens_ga: number;
-  /** Population size carried between generations. @default 50 */
+  /** Population size carried between generations, and the size of the result list. @default 512 */
   pop_ga: number;
   /** Candidates generated per generation. @default 256 */
   offspring_ga: number;
@@ -32,7 +33,7 @@ export interface GaParameters {
 export const DEFAULT_GA_PARAMETERS: GaParameters = {
   seed: 42,
   gens_ga: 5,
-  pop_ga: 50,
+  pop_ga: 512,
   offspring_ga: 256,
   frac_graph_ga_mutate: 0.3,
 };

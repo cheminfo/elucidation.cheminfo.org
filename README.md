@@ -96,27 +96,40 @@ smaller quota.
 Measured against the deployment on 2026-07-27 with the ethyl vinyl ether reference
 spectrum, one point perturbed per probe to defeat the result cache:
 
-| `gens_ga` × `offspring_ga`          | `pop_ga` | candidates scored | wall clock |
-| ----------------------------------- | -------- | ----------------- | ---------- |
-| 1 × 64 (first run after a redeploy) | 50       | 64                | 112 s      |
-| 1 × 64 (containers warm)            | 50       | 64                | 91 s       |
-| 5 × 256                             | 50       | 1 280             | 96 s       |
-| 5 × 256                             | 512      | 1 280             | 101 s      |
+| `gens_ga` × `offspring_ga`          | `pop_ga` | candidates scored | wall clock | usable candidates | rank of the answer |
+| ----------------------------------- | -------- | ----------------- | ---------- | ----------------- | ------------------ |
+| 1 × 64 (first run after a redeploy) | 50       | 64                | 112 s      | 6                 | 1                  |
+| 1 × 64 (containers warm)            | 50       | 64                | 91 s       | 6                 | 1                  |
+| 5 × 256                             | 50       | 1 280             | 96 s       | 1                 | 1                  |
+| 5 × 256 ← **the defaults**          | 512      | 1 280             | 101 s      | 41                | 1                  |
+| 10 × 1024 (the paper's setting)     | 512      | 10 240            | 201 s      | 6                 | 1                  |
+| 20 × 2048                           | 512      | 40 960            | 452 s      | 1                 | 1                  |
 
-Three things follow, and all are load-bearing for how the parameters are chosen:
+"Usable candidates" counts those whose molecular formula matches the query: the formula
+enters the fitness function only as a penalty, so most returned structures are rejected
+before the user sees them. Four things follow, and all are load-bearing for how the
+parameters are chosen:
 
-- **A run is almost entirely fixed cost.** Twenty times the genetic-algorithm work costs
-  five seconds. Roughly 91 s goes to model loading, the encoder pass and retrieval before
-  any candidate is scored, and about 4 ms per candidate after that. Shrinking the GA
-  parameters therefore buys very little time while costing result quality.
-- **`pop_ga` is nearly free, and it is what the user sees.** It sets the length of the
-  returned candidate list: 50 costs 96 s, 512 costs 101 s. Ten times the results for five
-  seconds.
+- **A run is mostly fixed cost.** Roughly 87 s goes to model loading, the encoder pass and
+  retrieval before any candidate is scored, and about 11 ms per candidate after that. The
+  first 1 280 candidates are close to free.
+- **`pop_ga` is nearly free and it is what the user receives.** It sets the length of the
+  result list. At 50 this spectrum yields a single admissible structure; at 512 it yields
+  41, for five extra seconds. It is set to 512 for that reason alone.
+- **A larger search made the result worse, not just slower.** Usable candidates fall from
+  41 to 6 to 1 as the search grows, and the best formula-matching score drifts down
+  (0.823 → 0.815 → 0.807): the formula is only a fitness penalty, so extra generations
+  are spent converging on high-scoring structures that then get rejected for having the
+  wrong formula. This is one easy molecule and one seed, so read it as evidence against
+  paying 4× by default rather than proof that the search size never helps — a harder
+  spectrum may still need it.
 - **A cold container costs ~21 s.** The first run after a redeploy pays for model loading;
   it is not a property of the run.
 
 For reference, the same 5 × 256 run took **365 s** before the stack was retuned for
-single-run latency — the sizing was worth 3.8×.
+single-run latency — the sizing was worth 3.8×. The effect is far larger on a big search:
+10 × 1024 was still running after **an hour** on the old sizing, and the identical job
+finished in ~200 s once it was requeued onto the retuned stack.
 
 ## Things worth knowing about the backend
 
