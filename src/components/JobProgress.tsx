@@ -1,13 +1,17 @@
 import { Button, Callout, Card, ProgressBar, Tag } from '@blueprintjs/core';
 import { useEffect, useState } from 'react';
 
+import { estimateRunSeconds } from '../api/duration.ts';
 import type { QueueStats } from '../api/types.ts';
 import type { StoredRun } from '../state/runsDb.ts';
 
 const FINISHED = new Set(['success', 'failure', 'revoked', 'expired']);
 
-/** Median wall clock of a run with the default settings, used only to set expectations. */
-const TYPICAL_DURATION_MS = 30 * 60 * 1000;
+/**
+ * Where the bar stops while the job is still running. It must never reach the end on an
+ * estimate: a full bar next to a job that has not finished reads as a stuck interface.
+ */
+const MAX_ESTIMATED_FRACTION = 0.95;
 
 export interface JobProgressProps {
   run: StoredRun;
@@ -18,17 +22,20 @@ export interface JobProgressProps {
 /**
  * Live state of a running elucidation.
  *
- * The backend cannot report real progress: it emits a single Celery `PROGRESS` event
- * before the genetic algorithm starts, with `current` hard-coded to 0, and never updates
- * it. A percentage bar would therefore be invented, so this shows an indeterminate bar
- * plus the things that are genuinely known — elapsed time, the stage string the worker
- * leaked into the status field, queue depth and worker count.
+ * The backend reports no real progress: it emits a single Celery `PROGRESS` event before
+ * the genetic algorithm starts, with `current` hard-coded to 0, and never updates it —
+ * `/jobs/{id}/result` answers 400 until the run ends, and there is no other endpoint. So
+ * the bar is driven by elapsed time against {@link estimateRunSeconds}, which is an
+ * estimate from the run's own GA parameters and is labelled as one. It stops short of the
+ * end while running, and gives up on the estimate rather than stalling at 95% once a run
+ * outlives it.
  * @param props - The run, current queue statistics and a cancel handler.
  * @returns The progress panel.
  */
 export function JobProgress(props: JobProgressProps) {
   const { run, queue, onCancel } = props;
-  const elapsed = useElapsed(run.submittedAt, !FINISHED.has(run.state));
+  const live = !FINISHED.has(run.state);
+  const now = useTicker(live);
 
   if (run.state === 'failure') {
     return (
@@ -49,6 +56,16 @@ export function JobProgress(props: JobProgressProps) {
 
   const waiting = run.state === 'pending';
   const queueText = queue === null ? null : describeQueue(queue, waiting);
+  const elapsed = Math.max(0, now - run.submittedAt);
+  const expectedMs = estimateRunSeconds(run.request) * 1000;
+
+  // Time the estimate against the moment the job started, not the moment it was
+  // submitted: queue time is not compute time, and counting it would run the bar out
+  // before the algorithm had done anything.
+  const computing = Math.max(0, now - (run.startedAt ?? run.submittedAt));
+  const fraction = waiting ? 0 : computing / expectedMs;
+  const overrun = fraction >= 1;
+  const remaining = Math.max(0, expectedMs - computing);
 
   return (
     <Card
@@ -63,6 +80,14 @@ export function JobProgress(props: JobProgressProps) {
         <strong style={{ fontVariantNumeric: 'tabular-nums' }}>
           {formatDuration(elapsed)}
         </strong>
+        {!waiting && !overrun && (
+          <span
+            data-testid="job-remaining"
+            style={{ fontSize: 12, color: 'var(--muted)' }}
+          >
+            about {formatDuration(remaining)} left
+          </span>
+        )}
         <span style={{ flex: 1 }} />
         <Button
           size="small"
@@ -74,16 +99,25 @@ export function JobProgress(props: JobProgressProps) {
         />
       </div>
 
-      <ProgressBar intent="primary" stripes animate />
+      <ProgressBar
+        intent="primary"
+        stripes
+        animate
+        // An indeterminate bar is the honest rendering both before the job starts and
+        // once it has outlived its estimate; in between, show how far along it should be.
+        value={
+          waiting || overrun
+            ? undefined
+            : Math.min(fraction, MAX_ESTIMATED_FRACTION)
+        }
+      />
 
       <div
         style={{ fontSize: 12, color: 'var(--muted)', display: 'grid', gap: 2 }}
       >
         <span>{describeStage(run.status?.status ?? '', waiting)}</span>
-        <span>
-          A run takes roughly {Math.round(TYPICAL_DURATION_MS / 60_000)}{' '}
-          minutes. The server does not report intermediate progress, so this bar
-          shows activity, not completion.
+        <span data-testid="job-estimate">
+          {describeEstimate(run, expectedMs, waiting, overrun)}
         </span>
         {queueText !== null && <span>{queueText}</span>}
         <span>
@@ -92,6 +126,32 @@ export function JobProgress(props: JobProgressProps) {
       </div>
     </Card>
   );
+}
+
+/**
+ * The sentence under the bar, which must never let the estimate pass for measured
+ * progress: the server reports none, so the wording always names it as an estimate and
+ * says what it is derived from.
+ * @param run - The run being displayed.
+ * @param expectedMs - Its estimated duration.
+ * @param waiting - Whether it is still queued.
+ * @param overrun - Whether it has already outlived the estimate.
+ * @returns The sentence to render.
+ */
+function describeEstimate(
+  run: StoredRun,
+  expectedMs: number,
+  waiting: boolean,
+  overrun: boolean,
+): string {
+  const size = `${run.request.gens_ga ?? '?'} generations of ${run.request.offspring_ga ?? '?'} candidates`;
+  if (waiting) {
+    return `Once started it should take about ${formatDuration(expectedMs)} (${size}).`;
+  }
+  if (overrun) {
+    return `This is taking longer than the estimated ${formatDuration(expectedMs)}. The server reports no progress, so there is nothing to read beyond elapsed time.`;
+  }
+  return `Estimated from ${size}; the server reports no real progress, so the bar is a projection, not a measurement.`;
 }
 
 /**
@@ -127,14 +187,14 @@ function describeStage(status: string, waiting: boolean): string {
   return status;
 }
 
-function useElapsed(since: number, live: boolean): number {
+function useTicker(live: boolean): number {
   const [now, setNow] = useState(() => Date.now());
   useEffect(() => {
     if (!live) return;
     const timer = globalThis.setInterval(() => setNow(Date.now()), 1000);
     return () => globalThis.clearInterval(timer);
   }, [live]);
-  return Math.max(0, now - since);
+  return now;
 }
 
 function formatDuration(ms: number): string {

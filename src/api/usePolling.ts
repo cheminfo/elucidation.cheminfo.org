@@ -105,7 +105,13 @@ async function refresh(
   try {
     const status = await getJobStatus(run.jobId, baseUrl);
     const state = toRunState(status.status);
-    await updateRun(run.jobId, { status, state, error: status.error });
+    const patch: Partial<StoredRun> = { status, state, error: status.error };
+    // Stamp the first sighting outside the queue, and only then: the key must not be
+    // present in the patch otherwise, or it would overwrite the real value with undefined.
+    if (run.startedAt === undefined && state !== 'pending') {
+      patch.startedAt = Date.now();
+    }
+    await updateRun(run.jobId, patch);
 
     if (state === 'success') {
       await cacheResult(run.jobId, baseUrl);

@@ -19,8 +19,9 @@ Two ways in:
   experimental spectrum and the ranked candidates the model produced. Precomputed and
   shipped with the site, so browsing them is instant and makes no API call.
 - **Elucidate** — drop your own spectrum (JCAMP-DX, zipped Bruker, JEOL, Varian), enter a
-  molecular formula, and submit. A run takes roughly 20–45 minutes; it survives closing
-  the page and is listed under **Runs**.
+  molecular formula, and submit. A run takes a couple of minutes (see
+  [Run duration](#run-duration)); it survives closing the page and is listed under
+  **Runs**.
 
 Every run is stored in IndexedDB with the exact request that was sent — including the
 full 10 000-point spectrum and the search parameters — and every response that came back,
@@ -76,8 +77,46 @@ docker compose up -d
 100, and everything else to the static frontend at priority 50. The frontend therefore
 calls relative paths and CORS never applies.
 
-Submissions are rate limited per source address, because each accepted job occupies a
-worker for tens of minutes and the API has no authentication.
+Submissions are rate limited per source address (HTTP 429 with a `retry-after` header,
+currently around 30 s), because the API has no authentication and one job occupies the
+single worker slot for the duration of the run.
+
+The stack is sized for **the latency of one run**, not for throughput: the Celery worker
+runs `--concurrency=1`, so a second submission queues rather than competing for the same
+two sidecars. The three compute services (`worker`, `vectordb`, `forward_synthesis`) are
+each given a quota of 8 CPUs on a 20-core host — deliberately summing above the core
+count, since with one job in flight they are active in turn and a `cpus:` quota is a
+ceiling rather than a reservation. Their `OMP_NUM_THREADS` is pinned to the same number,
+because `cpus:` is a CFS quota and not an affinity mask: left unset, each container sees
+all 20 host cores and sizes its thread pools to 20, then spins at barriers inside a much
+smaller quota.
+
+### Run duration
+
+Measured against the deployment on 2026-07-27 with the ethyl vinyl ether reference
+spectrum, one point perturbed per probe to defeat the result cache:
+
+| `gens_ga` × `offspring_ga`          | `pop_ga` | candidates scored | wall clock |
+| ----------------------------------- | -------- | ----------------- | ---------- |
+| 1 × 64 (first run after a redeploy) | 50       | 64                | 112 s      |
+| 1 × 64 (containers warm)            | 50       | 64                | 91 s       |
+| 5 × 256                             | 50       | 1 280             | 96 s       |
+| 5 × 256                             | 512      | 1 280             | 101 s      |
+
+Three things follow, and all are load-bearing for how the parameters are chosen:
+
+- **A run is almost entirely fixed cost.** Twenty times the genetic-algorithm work costs
+  five seconds. Roughly 91 s goes to model loading, the encoder pass and retrieval before
+  any candidate is scored, and about 4 ms per candidate after that. Shrinking the GA
+  parameters therefore buys very little time while costing result quality.
+- **`pop_ga` is nearly free, and it is what the user sees.** It sets the length of the
+  returned candidate list: 50 costs 96 s, 512 costs 101 s. Ten times the results for five
+  seconds.
+- **A cold container costs ~21 s.** The first run after a redeploy pays for model loading;
+  it is not a property of the run.
+
+For reference, the same 5 × 256 run took **365 s** before the stack was retuned for
+single-run latency — the sizing was worth 3.8×.
 
 ## Things worth knowing about the backend
 
@@ -92,10 +131,14 @@ These shape the interface, and are not obvious from the API alone:
   points between −2 and 10 ppm and rescaled to 0–1. Changing that grid changes every job
   id and invalidates every cached result, so `src/spectrum/grid.ts` must not be touched.
 - **There is no real progress reporting.** The worker emits one Celery `PROGRESS` event
-  before the genetic algorithm starts, with `current` fixed at 0, and nothing after. The
-  UI therefore shows an indeterminate bar with elapsed time and queue depth, never a
-  percentage. The API also overwrites `status` with the worker's own stage string, so any
-  value that is not a known Celery state is treated as "running".
+  before the genetic algorithm starts, with `current` fixed at 0, and nothing after —
+  `total` does carry `gens_ga`, but `current` never moves off 0. `/jobs/{id}/result`
+  answers 400 until the run ends, and no other endpoint exists. The bar is therefore
+  driven by elapsed time against an estimate computed from the run's own GA parameters
+  (`src/api/duration.ts`), it stops at 95 % rather than reaching the end, and both the
+  bar and the sentence under it say it is a projection. The API also overwrites `status`
+  with the worker's own stage string, so any value that is not a known Celery state is
+  treated as "running".
 - **Results expire.** The Celery result is dropped an hour after completion and the job
   mapping after a day. Candidates are fetched once on completion and stored in IndexedDB,
   which is the only durable copy.

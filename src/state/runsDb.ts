@@ -53,6 +53,12 @@ export interface StoredRun {
   /** Local state label, kept separate from the server's free-text status string. */
   state: RunState;
   submittedAt: number;
+  /**
+   * When this browser first saw the job in a non-pending state, so a progress estimate
+   * can be timed against compute rather than against queue time. Absent for runs that
+   * were never observed while running (restored, migrated, or already finished).
+   */
+  startedAt?: number;
   updatedAt: number;
   completedAt: number | null;
   /** Last error surfaced for this run, if any. */
