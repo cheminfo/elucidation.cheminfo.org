@@ -114,13 +114,14 @@ services:
 
   worker:
     image: adrianmirza/celery
-    # Sized for the latency of one run, not for concurrency nobody uses: the queue has
-    # taken 8 jobs in its lifetime, so 12 slots bought nothing while starving the two
-    # services a run actually waits on. Six slots is still six concurrent runs.
+    # One slot, deliberately: this deployment is tuned for the latency of a single run and
+    # everything else waits its turn. Concurrent runs share the same two sidecars and the
+    # GA blocks on them every generation, so slots past the first only made each run
+    # slower without raising throughput.
     #
-    # The GA itself is sequential, but it blocks on vectordb and forward_synthesis every
-    # generation, so their cores set the wall clock of a single job.
-    command: celery -A celery_config.celery_app worker -l info -Q spectrum_queue --concurrency=6
+    # prefetch-multiplier=1 leaves a queued job on the broker instead of reserving it
+    # here, so /queue/stats reports the number of jobs actually waiting.
+    command: celery -A celery_config.celery_app worker -l info -Q spectrum_queue --concurrency=1 --prefetch-multiplier=1
     depends_on:
       - redis
       - api
@@ -129,20 +130,18 @@ services:
       - no-new-privileges:true
     restart: unless-stopped
     stop_grace_period: 30s
-    mem_limit: 24g
-    cpus: 6
+    mem_limit: 16g
+    cpus: 8
     pids_limit: 1024
     environment:
       - CELERY_BROKER_URL=redis://redis:6379/0
       - CELERY_RESULT_BACKEND=redis://redis:6379/0
-      # One thread per slot. Six concurrent tasks each spawning a 20-thread torch pool
-      # would put 120 threads on six cores, where they mostly fight each other.
-      # This assumes the worker orchestrates and the sidecars compute. If profiling ever
-      # shows the GA itself is CPU-bound in-process, raise these and drop concurrency to
-      # match — a lone job would otherwise be held to one core with five idle.
-      - OMP_NUM_THREADS=1
-      - MKL_NUM_THREADS=1
-      - OPENBLAS_NUM_THREADS=1
+      # The one task owns the container, so it gets the whole quota. Pinned to 1 thread it
+      # ran the GA's in-process work — scoring, RDKit, the encoder pass — on a single core
+      # with the rest idle, and that work sits on the critical path of every generation.
+      - OMP_NUM_THREADS=8
+      - MKL_NUM_THREADS=8
+      - OPENBLAS_NUM_THREADS=8
     volumes:
       # Must match the api service exactly: both read and write the same result files.
       - ./cache:/app/cache
@@ -157,15 +156,19 @@ services:
       - no-new-privileges:true
     restart: unless-stopped
     mem_limit: 64g
-    cpus: 4
+    cpus: 8
     pids_limit: 1024
     environment:
       # cpus is a CFS quota, not an affinity mask: the container still sees all 20 host
       # cores, so torch/OpenMP/BLAS size their pools to 20 and then spin at barriers
       # inside a much smaller quota. Pin the pools to the quota instead.
-      - OMP_NUM_THREADS=4
-      - MKL_NUM_THREADS=4
-      - OPENBLAS_NUM_THREADS=4
+      #
+      # worker + vectordb + forward_synthesis now sum to 24 quota on a 20-core host. That
+      # is deliberate: with a single job in flight the three run in turn, never at once,
+      # and a quota is a ceiling rather than a reservation.
+      - OMP_NUM_THREADS=8
+      - MKL_NUM_THREADS=8
+      - OPENBLAS_NUM_THREADS=8
     volumes:
       - ./pubchem_vector_db_hnsw_pqm_16_ef_256_m_32:/pubchem_vector_db_hnsw_pq.index
 
@@ -177,15 +180,16 @@ services:
       - no-new-privileges:true
     restart: unless-stopped
     mem_limit: 8g
-    cpus: 4
+    cpus: 8
     pids_limit: 512
     environment:
-      # cpus is a CFS quota, not an affinity mask: the container still sees all 20 host
-      # cores, so torch/OpenMP/BLAS size their pools to 20 and then spin at barriers
-      # inside a much smaller quota. Pin the pools to the quota instead.
-      - OMP_NUM_THREADS=4
-      - MKL_NUM_THREADS=4
-      - OPENBLAS_NUM_THREADS=4
+      # Same reasoning as vectordb: pin the pools to the quota, and let the quotas overlap
+      # because only one of the three compute services is active at any moment.
+      # This one is called once per candidate, so it is the service a larger offspring_ga
+      # buys time from.
+      - OMP_NUM_THREADS=8
+      - MKL_NUM_THREADS=8
+      - OPENBLAS_NUM_THREADS=8
 
 networks:
   traefik:
