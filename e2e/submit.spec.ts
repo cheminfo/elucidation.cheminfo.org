@@ -135,9 +135,20 @@ test('a running job shows elapsed time and no invented percentage', async ({
   const progress = page.getByTestId('job-progress');
   await expect(progress).toContainText('Initializing genetic algorithm...');
   await expect(progress).toContainText('The server is running 1 of the 4 jobs');
-  await expect(progress).toContainText('shows activity, not completion');
-  // The bar must be indeterminate: no percentage is knowable from this backend.
+  // The bar is driven by elapsed time against an estimate, so the sentence under it
+  // must name what the estimate comes from and refuse to pass for measured progress.
+  await expect(progress.getByTestId('job-estimate')).toContainText(
+    'Estimated from 5 generations of 256 candidates',
+  );
+  await expect(progress.getByTestId('job-estimate')).toContainText(
+    'a projection, not a measurement',
+  );
+  // 5 x 256 candidates is estimated at 101 s, counted from the moment the job started.
+  await expect(progress.getByTestId('job-remaining')).toContainText(
+    /about 1 min \d\d s left/,
+  );
   await expect(progress.locator('.bp6-progress-bar')).toBeVisible();
+  // The server reports no percentage, so none may be shown as a number.
   await expect(progress).not.toContainText('%');
 });
 

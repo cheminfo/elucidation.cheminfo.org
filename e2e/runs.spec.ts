@@ -169,7 +169,13 @@ test('a submitted run is written to IndexedDB with the full request and response
   const stored = await readStoredRun(page, 'new-1');
 
   const run = stored as {
-    request: { mf: string; spectrum: { y: number[] }; gens_ga: number };
+    request: {
+      mf: string;
+      spectrum: { y: number[] };
+      gens_ga: number;
+      pop_ga: number;
+      offspring_ga: number;
+    };
     submitResponse: { task_id: string; status: string };
     resultPayload: { results: unknown[]; metadata: { job_id: string } };
     state: string;
@@ -179,7 +185,11 @@ test('a submitted run is written to IndexedDB with the full request and response
   // The exact request that was sent, including the full spectrum and the parameters.
   expect(run?.request.mf).toBe('C9H6N4');
   expect(run?.request.spectrum.y).toHaveLength(10_000);
-  expect(run?.request.gens_ga).toBe(10);
+  // The GA settings the app defaults to; the estimate shown while running is derived
+  // from these, so a silent change here would also mislabel every progress bar.
+  expect(run?.request.gens_ga).toBe(5);
+  expect(run?.request.pop_ga).toBe(512);
+  expect(run?.request.offspring_ga).toBe(256);
   // The exact responses that came back.
   expect(run?.submitResponse.task_id).toBe('task-1');
   expect(run?.submitResponse.status).toBe('submitted');
