@@ -87,3 +87,37 @@ test('the demo challenges hide provenance, which their data does not record', as
     page.getByTestId('candidate-card').filter({ hasText: 'Retrieved' }),
   ).toHaveCount(0);
 });
+
+test('the substructure editor stays inside the box reserved for it', async ({
+  page,
+}) => {
+  await page.goto('/#/examples');
+  await page.getByTestId('challenge-card').first().click();
+  await expect(page.getByTestId('candidate-card').first()).toBeVisible();
+  await page.getByText('Filter by substructure', { exact: true }).click();
+
+  // The OCL editor renders a fixed-size toolbar in a shadow root and clips nothing,
+  // so a box that is too small lets it spill over the candidates below.
+  const overflow = await page.evaluate(() => {
+    const box = document.querySelector('[data-testid="substructure-editor"]');
+    if (!box) return [];
+    const host = [...box.querySelectorAll('div')].find(
+      (element) => element.shadowRoot !== null,
+    );
+    if (!host?.shadowRoot) return [];
+    const hostRect = host.getBoundingClientRect();
+    return [...host.shadowRoot.querySelectorAll('canvas')].map((canvas) => {
+      const rect = canvas.getBoundingClientRect();
+      return {
+        bottom: Math.round(rect.bottom - hostRect.bottom),
+        right: Math.round(rect.right - hostRect.right),
+      };
+    });
+  });
+
+  expect(overflow).toHaveLength(2);
+  for (const canvas of overflow) {
+    expect(canvas.bottom).toBeLessThanOrEqual(0);
+    expect(canvas.right).toBeLessThanOrEqual(0);
+  }
+});

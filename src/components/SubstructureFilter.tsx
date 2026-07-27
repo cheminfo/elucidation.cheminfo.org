@@ -2,6 +2,14 @@ import { Button, Collapse } from '@blueprintjs/core';
 import { useState } from 'react';
 import { CanvasMoleculeEditor } from 'react-ocl';
 
+/**
+ * The OCL canvas editor lays out a fixed 46x361px toolbar next to a drawing area
+ * that never goes below 300px, and it clips neither: a smaller box lets the
+ * toolbar spill over whatever follows it.
+ */
+const EDITOR_MIN_WIDTH = 346;
+const EDITOR_HEIGHT = 380;
+
 export interface SubstructureFilterProps {
   /** Current query as an OCL id code, empty when no query is drawn. */
   query: string;
@@ -43,11 +51,23 @@ export function SubstructureFilter(props: SubstructureFilterProps) {
       </div>
       <Collapse isOpen={open}>
         <div style={{ paddingTop: 8 }} data-testid="substructure-editor">
-          <CanvasMoleculeEditor
-            width={320}
-            height={220}
-            onChange={(molecule) => onQueryChange(molecule.getIdcode())}
-          />
+          <div style={{ maxWidth: 560, overflowX: 'auto' }}>
+            <div
+              style={{
+                minWidth: EDITOR_MIN_WIDTH,
+                height: EDITOR_HEIGHT,
+                border: '1px solid var(--border)',
+                borderRadius: 4,
+                overflow: 'hidden',
+              }}
+            >
+              <CanvasMoleculeEditor
+                width="100%"
+                height="100%"
+                onChange={(molecule) => onQueryChange(molecule.getIdcode())}
+              />
+            </div>
+          </div>
           <p style={{ fontSize: 12, color: 'var(--muted)', marginTop: 4 }}>
             Draw a fragment to keep only candidates that contain it.
           </p>
