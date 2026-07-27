@@ -27,6 +27,15 @@ export interface SubstructureFilterProps {
 export function SubstructureFilter(props: SubstructureFilterProps) {
   const { query, onQueryChange } = props;
   const [open, setOpen] = useState(false);
+  // The editor owns its structure, so clearing the query cannot empty the canvas:
+  // remount it instead of feeding the query back as `inputValue`, which would reset
+  // the coordinates on every stroke.
+  const [editorKey, setEditorKey] = useState(0);
+
+  function clear() {
+    onQueryChange('');
+    setEditorKey((key) => key + 1);
+  }
 
   return (
     <div>
@@ -45,7 +54,7 @@ export function SubstructureFilter(props: SubstructureFilterProps) {
             intent="warning"
             icon="filter-remove"
             text="Clear"
-            onClick={() => onQueryChange('')}
+            onClick={clear}
           />
         )}
       </div>
@@ -62,9 +71,18 @@ export function SubstructureFilter(props: SubstructureFilterProps) {
               }}
             >
               <CanvasMoleculeEditor
+                key={editorKey}
                 width="100%"
                 height="100%"
-                onChange={(molecule) => onQueryChange(molecule.getIdcode())}
+                onChange={(molecule) =>
+                  // An erased canvas still yields the id code of the empty molecule
+                  // (`d@`), which would keep the filter alive with nothing drawn.
+                  onQueryChange(
+                    molecule.getMolecule().getAllAtoms() === 0
+                      ? ''
+                      : molecule.getIdcode(),
+                  )
+                }
               />
             </div>
           </div>
