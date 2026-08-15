@@ -1,0 +1,16 @@
+##TITLE= Parameter file, TopSpin 3.7.0
+##JCAMPDX= 5.0
+##DATATYPE= Parameter Values
+##NPOINTS= 1	$$ modification sequence number
+##ORIGIN= Bruker BioSpin GmbH
+##OWNER= nmrsu
+$$ 2025-05-07 16:51:03.270 +0200  nmrsu@av300
+$$ /opt/av300/automation/3-2505A/335/1/pdata/1/outd
+$$ process /opt/topspin3.7.0/prog/mod/xwish3
+##$CURPLOT= <Microsoft XPS Document Writer>
+##$CURPRIN= <$Microsoft XPS Document Writer>
+##$DFORMAT= <normdp>
+##$LAYOUT= <+/1D_H.xwp>
+##$LFORMAT= <normlp>
+##$PFORMAT= <normpl>
+##END=

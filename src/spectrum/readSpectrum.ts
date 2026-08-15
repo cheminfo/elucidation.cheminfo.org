@@ -1,7 +1,7 @@
-import type { NMRiumCore } from '@zakodium/nmrium-core';
-import { reimAbsolute, xMinMaxValues } from 'ml-spectra-processing';
+import type { NMRiumCore, Spectrum1D, Spectrum } from '@zakodium/nmrium-core';
 
 import type { XY } from './normalize.ts';
+import { phaseSpectrum } from './phaseSpectrum.ts';
 
 export interface SpectrumMeta {
   name: string;
@@ -42,7 +42,10 @@ export async function readSpectrum(
 ): Promise<LoadedSpectrum | null> {
   // The NMR loaders are a large dependency and are only needed once a file is dropped,
   // so they are kept out of the initial bundle.
-  const { FileCollection } = await import('file-collection');
+  const [{ FileCollection }, { isSpectrum1D }] = await Promise.all([
+    import('file-collection'),
+    import('@zakodium/nmrium-core'),
+  ]);
   // Cache the promise, not the instance, so concurrent drops share one initialization.
   corePromise ??= createCore();
   const core = await corePromise;
@@ -52,61 +55,34 @@ export async function readSpectrum(
     onLoadProcessing: { autoProcessing: true },
   });
 
-  const spectra = (result.state.data?.spectra ?? []) as RawSpectrum[];
-  const usable = spectra.filter(hasCurve);
+  const spectra: Spectrum[] = result.state.data?.spectra ?? [];
+  const usable = spectra.filter(
+    (spectrum) => isSpectrum1D(spectrum) && spectrum.data.re !== undefined,
+  ) as Spectrum1D[];
   const spectrum = usable.toSorted(byRelevance)[0];
   if (spectrum === undefined) return null;
 
-  const x = spectrum.data.x;
-  const real = spectrum.data.re ?? spectrum.data.y;
-  if (x === undefined || real === undefined) return null;
-
-  const { im } = spectrum.data;
   const fromFid = spectrum.originalInfo?.isFid ?? false;
-  const dispersive = fromFid && isDispersive(real);
-  const y =
-    dispersive && im !== undefined ? reimAbsolute({ re: real, im }) : real;
+  const magnitude = fromFid ? await phaseSpectrum(spectrum) : false;
 
   // A Bruker experiment yields both its FID and the spectrum processed from it; those
   // are one dataset, and only a second experiment is worth telling the user about.
   const names = new Set(usable.map((item) => displayName(item, files)));
 
   return {
-    data: { x, y },
+    data: { x: spectrum.data.x, y: spectrum.data.re },
     meta: {
       name: displayName(spectrum, files),
-      nucleus: spectrum.info?.nucleus ?? '',
+      nucleus: nucleusOf(spectrum),
       solvent: spectrum.info?.solvent ?? '',
       frequency: spectrum.info?.baseFrequency ?? null,
     },
     fromFid,
-    magnitude: y !== real,
+    magnitude,
     isFid: spectrum.info?.isFid ?? false,
     dimension: spectrum.info?.dimension ?? 1,
     count: names.size,
   };
-}
-
-/**
- * Tells a phased spectrum from one the automatic phase correction gave up on.
- *
- * A phased proton spectrum dips barely below zero — a few thousandths of the tallest
- * peak. A dispersive line shape puts a trough next to every peak that is a sizeable
- * fraction of it, and rescaling such a spectrum onto the submission grid crushes the
- * real signal into the top of the range.
- * @param real - The real part of the spectrum.
- * @returns True when the negative excursion is too large to be noise.
- */
-function isDispersive(real: Float64Array | number[]): boolean {
-  const { min, max } = xMinMaxValues(real);
-  return max > 0 && -min > 0.2 * max;
-}
-
-function hasCurve(spectrum: RawSpectrum): boolean {
-  return (
-    spectrum.data?.x !== undefined &&
-    (spectrum.data.re ?? spectrum.data.y) !== undefined
-  );
 }
 
 /**
@@ -117,16 +93,21 @@ function hasCurve(spectrum: RawSpectrum): boolean {
  * @param b - Right spectrum.
  * @returns The comparison of their penalties.
  */
-function byRelevance(a: RawSpectrum, b: RawSpectrum): number {
+function byRelevance(a: Spectrum1D, b: Spectrum1D): number {
   return penalty(a) - penalty(b);
 }
 
-function penalty(spectrum: RawSpectrum): number {
+function penalty(spectrum: Spectrum1D): number {
   let value = 0;
   if ((spectrum.info?.dimension ?? 1) !== 1) value += 4;
-  if (spectrum.info?.nucleus !== '1H') value += 2;
+  if (nucleusOf(spectrum) !== '1H') value += 2;
   if (spectrum.originalInfo?.isFid === true) value += 1;
   return value;
+}
+
+function nucleusOf(spectrum: Spectrum1D): string {
+  const { nucleus } = spectrum.info;
+  return (Array.isArray(nucleus) ? nucleus[0] : nucleus) ?? '';
 }
 
 /**
@@ -138,7 +119,7 @@ function penalty(spectrum: RawSpectrum): number {
  * @param files - The files of the drop, for a last-resort name.
  * @returns A display name.
  */
-function displayName(spectrum: RawSpectrum, files: readonly File[]): string {
+function displayName(spectrum: Spectrum1D, files: readonly File[]): string {
   const name = spectrum.info?.name ?? spectrum.info?.title;
   const path = spectrum.selector?.files?.[0];
   if (name !== undefined && /^\d+$/.test(name) && path !== undefined) {
@@ -166,28 +147,4 @@ async function createCore(): Promise<NMRiumCore> {
     ]),
   );
   return instance;
-}
-
-interface RawSpectrum {
-  data: {
-    x?: Float64Array | number[];
-    re?: Float64Array | number[];
-    im?: Float64Array | number[];
-    y?: Float64Array | number[];
-  };
-  info?: {
-    name?: string;
-    title?: string;
-    nucleus?: string;
-    solvent?: string;
-    baseFrequency?: number;
-    isFid?: boolean;
-    dimension?: number;
-  };
-  originalInfo?: {
-    isFid?: boolean;
-  };
-  selector?: {
-    files?: string[];
-  };
 }

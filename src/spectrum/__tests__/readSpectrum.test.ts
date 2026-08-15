@@ -11,11 +11,15 @@ const DATA = join(import.meta.dirname, 'data');
 const ASPIRIN_FID = join(DATA, 'aspirin', '1h.fid.dx');
 /** One Bruker experiment: acqus + fid + pdata/1 (bruker-data-test, MIT). */
 const BRUKER = join(DATA, 'coffee', '20');
+/**
+ * Ibuprofen in CDCl3 at 300 MHz, never processed: `pdata/1` holds a `procs` but no
+ * spectrum, and the PHC0/PHC1 stored there phase the transformed FID into a dispersive
+ * line shape. Only the automatic phase correction recovers it.
+ */
+const IBUPROFEN = join(DATA, 'ibuprofen', '1');
 
 const FID_NOTE =
   'This file holds a FID. It was apodized, zero-filled, Fourier-transformed and phase-corrected automatically — check the spectrum before submitting.';
-const MAGNITUDE_NOTE =
-  'The automatic phase correction did not converge on this FID, so its magnitude spectrum is used. Lines are broader than on a phased spectrum; supply the processed data if you have it.';
 
 /**
  * Rebuilds what the browser hands over when a folder is dropped: plain files carrying
@@ -145,8 +149,7 @@ test('a Bruker folder holding only a FID is transformed on load', async () => {
   // Neither file has an extension: they are only readable as a dataset.
   expect(parsed.errors).toStrictEqual([]);
   expect(parsed.warnings).toStrictEqual([]);
-  // Without pdata there is no stored phase, and auto-phasing fails on this spectrum.
-  expect(parsed.notes).toStrictEqual([FID_NOTE, MAGNITUDE_NOTE]);
+  expect(parsed.notes).toStrictEqual([FID_NOTE]);
   expect(parsed.meta?.name).toBe('20');
   expect(parsed.meta?.frequency).toBe(400.13);
 });
@@ -173,10 +176,47 @@ test('transforming the FID reproduces the spectrometer-processed spectrum', asyn
     );
   }
 
-  // The point of the magnitude fallback: an empty region stays at the bottom of the
-  // rescaled range instead of floating a quarter of the way up it.
-  expect(intensityAt(transformed.spectrum, 7)).toBeLessThan(0.02);
-  expect(intensityAt(processed.spectrum, 7)).toBeLessThan(0.02);
+  // An empty region stays near the bottom of the rescaled range instead of floating a
+  // quarter of the way up it, which is where a dispersive line shape would put it.
+  expect(intensityAt(transformed.spectrum, 7)).toBeLessThan(0.06);
+  expect(intensityAt(processed.spectrum, 7)).toBeLessThan(0.01);
+});
+
+test('a FID whose stored phase is wrong is phased by the automatic correction', async () => {
+  const parsed = await parseDroppedFiles(folderFiles(IBUPROFEN));
+
+  expect(parsed.errors).toStrictEqual([]);
+  expect(parsed.warnings).toStrictEqual([]);
+  // Applying the stored PHC0/PHC1 leaves a trough half the height of every peak, which
+  // used to send this spectrum through the magnitude fallback.
+  expect(parsed.notes).toStrictEqual([FID_NOTE]);
+  expect(parsed.meta).toStrictEqual({
+    name: '1',
+    nucleus: '1H',
+    solvent: 'CDCl3',
+    frequency: 300.159,
+  });
+});
+
+test('the phased ibuprofen FID puts every multiplet at its shift', async () => {
+  const parsed = await parseDroppedFiles(folderFiles(IBUPROFEN));
+  const spectrum = parsed.spectrum;
+  if (spectrum === null) throw new Error('the spectrum failed to parse');
+
+  // The isopropyl methyls, the methyl doublet, the isopropyl methine, the benzylic
+  // CH2, the CH alpha to the acid, and both halves of the aromatic AA'BB'.
+  expect(shiftOfTallestBetween(spectrum, 0.7, 1.1)).toBeCloseTo(0.934, 2);
+  expect(shiftOfTallestBetween(spectrum, 1.4, 1.7)).toBeCloseTo(1.537, 2);
+  expect(shiftOfTallestBetween(spectrum, 1.7, 2)).toBeCloseTo(1.87, 2);
+  expect(shiftOfTallestBetween(spectrum, 2.3, 2.6)).toBeCloseTo(2.461, 2);
+  expect(shiftOfTallestBetween(spectrum, 3.5, 3.9)).toBeCloseTo(3.722, 2);
+  expect(shiftOfTallestBetween(spectrum, 7.05, 7.2)).toBeCloseTo(7.14, 2);
+  expect(shiftOfTallestBetween(spectrum, 7.2, 7.35)).toBeCloseTo(7.235, 2);
+
+  // Absorption mode, not dispersion: the empty regions on both sides of the CH quartet
+  // sit on the floor of the rescaled range.
+  expect(intensityAt(spectrum, 5)).toBeLessThan(0.005);
+  expect(intensityAt(spectrum, 6)).toBeLessThan(0.005);
 });
 
 test('a stray file next to a dataset is read with it rather than rejected', async () => {
