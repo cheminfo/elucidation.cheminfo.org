@@ -8,10 +8,12 @@ test-results
 
 # Runtime data produced by docker compose: the shared result cache, the redis
 # volume, container logs and the PubChem index the vectordb service mounts.
-cache
-data
-logs
-pubchem_vector_db_hnsw_pqm_16_ef_256_m_32
+# Anchored to the root, or they would also swallow the test fixtures under
+# src/spectrum/__tests__/data.
+/cache
+/data
+/logs
+/pubchem_vector_db_hnsw_pqm_16_ef_256_m_32
 
 # Kept aside on the deployment host, not part of the project.
-old
+/old

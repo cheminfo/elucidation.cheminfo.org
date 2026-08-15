@@ -18,8 +18,10 @@ Two ways in:
 - **Examples** — 20 reference challenges published with the paper, each with its
   experimental spectrum and the ranked candidates the model produced. Precomputed and
   shipped with the site, so browsing them is instant and makes no API call.
-- **Elucidate** — drop your own spectrum (JCAMP-DX, zipped Bruker, JEOL, Varian), enter a
-  molecular formula, and submit. A run takes a couple of minutes (see
+- **Elucidate** — drop your own spectrum (JCAMP-DX, JEOL, or a Bruker or Varian folder,
+  dropped as-is or zipped), enter a molecular formula, and submit. Time-domain data is
+  accepted too: a FID is apodized, zero-filled, Fourier-transformed and phase-corrected
+  on load (see [Reading a FID](#reading-a-fid)). A run takes a couple of minutes (see
   [Run duration](#run-duration)); it survives closing the page and is listed under
   **Runs**.
 
@@ -50,6 +52,27 @@ npm run playwright # end-to-end tests
 `https://elucidation.cheminfo.org`. Point them elsewhere with `API_TARGET`. There is no
 runtime endpoint override: the app always calls relative paths, since it is deployed
 same-origin with the API.
+
+### Reading a FID
+
+The NMRium loaders read a spectrometer directory as a whole, so a Bruker or Varian
+dataset can be dropped as a folder rather than zipped first. An experiment directory
+usually holds both the FID and the spectrum the spectrometer processed from it; the
+processed one is preferred, because its phase and referencing are the operator's.
+
+When only time-domain data is there, the load pipeline runs instead: digital-filter
+removal, exponential apodization (1 Hz), zero-filling to the next power of two, FFT, and
+phase correction from the stored `PHC0`/`PHC1` when the dataset carries them, or
+automatic phase correction when it does not.
+
+Automatic phasing is not reliable on every spectrum — it fails on the coffee fixture in
+`src/spectrum/__tests__/data`, leaving a dispersive line shape whose negative trough is
+40 % of the tallest peak. Since submission rescales the spectrum between its minimum and
+maximum, such a spectrum would reach the model with its real signal crushed into the top
+quarter of the range. So a spectrum that still dips more than 20 % below zero after
+phasing falls back to the magnitude of the complex spectrum: broader lines, but a flat
+baseline and no negative lobes. Both the transform and the fallback are reported in the
+interface.
 
 ## Demo data
 

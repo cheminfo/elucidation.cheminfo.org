@@ -4,7 +4,7 @@ import { join } from 'node:path';
 import type { Page, Route } from '@playwright/test';
 import { expect, test } from '@playwright/test';
 
-import { dropFiles } from './helpers.ts';
+import { dropDirectory, dropFiles } from './helpers.ts';
 
 const FIXTURE = join(
   import.meta.dirname,
@@ -14,6 +14,17 @@ const FIXTURE = join(
   '__tests__',
   'data',
   '4-chlorobenzylamine.jdx',
+);
+
+const BRUKER_FIXTURE = join(
+  import.meta.dirname,
+  '..',
+  'src',
+  'spectrum',
+  '__tests__',
+  'data',
+  'coffee',
+  '20',
 );
 
 const CANDIDATES = [
@@ -49,6 +60,20 @@ test('a dropped JCAMP file is parsed, plotted and described', async ({
   await expect(page.getByText('CDCl3', { exact: true })).toBeVisible();
   // Submission needs a formula, which this file does not carry.
   await expect(page.getByTestId('submit-button')).toBeDisabled();
+});
+
+test('a dropped Bruker experiment folder is loaded', async ({ page }) => {
+  await page.goto('/');
+  await dropDirectory(page, BRUKER_FIXTURE);
+
+  await expect(
+    page.getByText('Normalized spectrum', { exact: true }),
+  ).toBeVisible();
+  await expect(page.getByText('20', { exact: true })).toBeVisible();
+  await expect(
+    page.getByText('COFFEE_calctemp', { exact: true }),
+  ).toBeVisible();
+  await expect(page.getByText('400.13 MHz', { exact: true })).toBeVisible();
 });
 
 test('submitting sends exactly 10000 points on the fixed grid', async ({

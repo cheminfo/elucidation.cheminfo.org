@@ -46,7 +46,7 @@ export function WelcomePanel() {
           <PathCard
             icon="arrow-left"
             title="Use your own spectrum"
-            body="Drop a JCAMP-DX, Bruker, JEOL or Varian file into the panel on the left, add the molecular formula, and start a run."
+            body="Drop a JCAMP-DX file or a whole Bruker or Varian folder into the panel on the left — a FID is transformed for you — add the molecular formula, and start a run."
             note="A run takes 20 to 45 minutes."
           />
           <PathCard

@@ -1,4 +1,5 @@
-import { join } from 'node:path';
+import { readFileSync, readdirSync } from 'node:fs';
+import { dirname, join, relative } from 'node:path';
 
 import type { Page } from '@playwright/test';
 import { expect } from '@playwright/test';
@@ -28,6 +29,58 @@ export async function dropFiles(
   await page
     .locator('[data-testid="file-dropzone"] input[type="file"]')
     .setInputFiles(files);
+  await expect(
+    page.getByText('Normalized spectrum', { exact: true }),
+  ).toBeVisible();
+}
+
+/**
+ * Drops a directory on the drop zone.
+ *
+ * A hidden input cannot carry a folder, so the files are handed over as a real drop:
+ * each one keeps the `path` a browser sets when a directory is dragged, which is what
+ * the parser reads to recognize a Bruker or Varian dataset.
+ * @param page - The page under test.
+ * @param directory - Absolute path of the folder to drop.
+ */
+export async function dropDirectory(
+  page: Page,
+  directory: string,
+): Promise<void> {
+  const parent = dirname(directory);
+  const entries = readdirSync(directory, {
+    recursive: true,
+    withFileTypes: true,
+  })
+    .filter((entry) => entry.isFile())
+    .map((entry) => {
+      const full = join(entry.parentPath, entry.name);
+      return {
+        name: entry.name,
+        path: relative(parent, full),
+        bytes: [...readFileSync(full)],
+      };
+    });
+
+  await page.evaluate((files) => {
+    const dropped = files.map((file) => {
+      const created = new File([new Uint8Array(file.bytes)], file.name);
+      // file-selector keeps a `path` that is already a string, so this survives as the
+      // relative path of the dragged folder.
+      Object.defineProperty(created, 'path', { value: file.path });
+      return created;
+    });
+    const zone = document.querySelector('[data-testid="file-dropzone"] > div');
+    if (zone === null) throw new Error('the drop zone is not on the page');
+    const event = new Event('drop', { bubbles: true });
+    // `items` is left out on purpose: with it, file-selector reads the entries through
+    // `webkitGetAsEntry`, which a synthetic transfer cannot provide.
+    Object.defineProperty(event, 'dataTransfer', {
+      value: { files: dropped, types: ['Files'] },
+    });
+    zone.dispatchEvent(event);
+  }, entries);
+
   await expect(
     page.getByText('Normalized spectrum', { exact: true }),
   ).toBeVisible();

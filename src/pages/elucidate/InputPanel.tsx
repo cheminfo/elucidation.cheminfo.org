@@ -19,20 +19,10 @@ import {
   expectedStructure,
   mfInput,
   parseErrors,
+  parseNotes,
   parseWarnings,
   spectrumMeta,
 } from '../../state/data.ts';
-
-/**
- * Extensions the parser understands. react-dropzone matches on the extension as well as
- * the MIME type, so the browser guessing `application/octet-stream` for a .jdx is fine.
- */
-const ACCEPTED_FILES = {
-  'chemical/x-jcamp-dx': ['.jdx', '.dx'],
-  'chemical/x-mdl-molfile': ['.mol', '.sdf'],
-  'application/zip': ['.zip'],
-  'application/octet-stream': ['.jdf'],
-};
 
 export interface InputPanelProps {
   onSubmit: () => void;
@@ -49,6 +39,7 @@ export interface InputPanelProps {
 async function handleFiles(files: readonly File[]): Promise<void> {
   if (files.length === 0) return;
   const parsed = await parseDroppedFiles([...files]);
+  parseNotes.value = parsed.notes;
   parseWarnings.value = parsed.warnings;
   parseErrors.value = parsed.errors;
   if (parsed.spectrum !== null) {
@@ -80,19 +71,24 @@ export function InputPanel(props: InputPanelProps) {
     <Card style={{ display: 'grid', gap: 12, alignContent: 'start' }}>
       <FormGroup
         label="Spectrum and optional reference structure"
-        helperText="JCAMP-DX (.jdx, .dx), zipped Bruker, JEOL or Varian data. Add a .mol file to score the run against a known answer."
+        helperText="JCAMP-DX (.jdx, .dx), a Bruker or Varian folder (as-is or zipped), JEOL (.jdf). A FID is transformed for you. A .mol file scores the run against a known answer."
+        style={{ margin: 0 }}
       >
         {/* A definite height, not min-height: the drop zone's root is `height: 100%`,
             which resolves to auto against a min-height parent and collapses the root to
             zero. Its drag-over overlay is `position: absolute; inset: 0`, so it would
             then shrink to its own border and spill its contents over the label. */}
-        <div style={{ height: 210 }} data-testid="file-dropzone">
+        {/* No `accept`: the files of a Bruker or Varian directory carry no extension,
+            and react-dropzone would silently drop every one of them. */}
+        <div
+          className="file-dropzone"
+          style={{ height: 120 }}
+          data-testid="file-dropzone"
+        >
           <DropZone
-            accept={ACCEPTED_FILES}
             onDrop={(files) => void handleFiles(files)}
-            emptyIcon="upload"
-            emptyTitle="Drop your spectrum here"
-            emptyDescription="Drag and drop the files, or browse for them"
+            emptyTitle="Drop a spectrum or a folder"
+            emptyDescription="or browse for the files"
             emptyButtonText="Choose files"
             emptyButtonIcon="folder-open"
           />
@@ -106,6 +102,11 @@ export function InputPanel(props: InputPanelProps) {
       ))}
       {parseWarnings.value.map((message) => (
         <Callout key={message} intent="warning" icon="warning-sign">
+          {message}
+        </Callout>
+      ))}
+      {parseNotes.value.map((message) => (
+        <Callout key={message} intent="primary" icon="info-sign">
           {message}
         </Callout>
       ))}
@@ -141,7 +142,8 @@ export function InputPanel(props: InputPanelProps) {
 
       <FormGroup
         label="Molecular formula"
-        helperText="Usually from high-resolution mass spectrometry. Required, and editable without a reference structure."
+        helperText="Required. From high-resolution mass spectrometry."
+        style={{ margin: 0 }}
         intent={mfInput.value !== '' && info === null ? 'danger' : 'none'}
       >
         <InputGroup

@@ -28,6 +28,10 @@ test('there is exactly one drop target on the page', async ({ page }) => {
   await page.goto('/');
 
   await expect(page.getByTestId('file-dropzone')).toHaveCount(1);
+  await expect(
+    page.locator('[data-testid="file-dropzone"] input[type="file"]'),
+  ).toHaveCount(1);
+  // The drop zone's own input is the only one: a folder is dragged in, never browsed for.
   await expect(page.locator('input[type="file"]')).toHaveCount(1);
 });
 

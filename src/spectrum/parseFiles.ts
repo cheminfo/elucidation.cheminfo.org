@@ -1,16 +1,11 @@
-import type { NMRiumCore } from '@zakodium/nmrium-core';
-
 import { expectedFromMolfile } from '../chemistry/candidates.ts';
 
-import type { NormalizedSpectrum, XY } from './normalize.ts';
+import type { NormalizedSpectrum } from './normalize.ts';
 import { normalizeSpectrum } from './normalize.ts';
+import type { LoadedSpectrum, SpectrumMeta } from './readSpectrum.ts';
+import { readSpectrum } from './readSpectrum.ts';
 
-export interface SpectrumMeta {
-  name: string;
-  nucleus: string;
-  solvent: string;
-  frequency: number | null;
-}
+export type { SpectrumMeta } from './readSpectrum.ts';
 
 export interface ExpectedStructure {
   idCode: string;
@@ -23,6 +18,8 @@ export interface ParsedDrop {
   spectrum: NormalizedSpectrum | null;
   meta: SpectrumMeta | null;
   expected: ExpectedStructure | null;
+  /** How the file was read, when that is not what the user would assume. */
+  notes: string[];
   /** Problems the user should see but which do not prevent submission. */
   warnings: string[];
   /** Problems that stopped a file from being used at all. */
@@ -33,41 +30,46 @@ const MOLFILE_EXTENSIONS = new Set(['mol', 'sdf']);
 const SPECTRUM_EXTENSIONS = new Set([
   'jdx',
   'dx',
+  'jcamp',
   'zip',
   'jdf',
   'fid',
   'nmrium',
 ]);
 
-let corePromise: Promise<NMRiumCore> | null = null;
+/**
+ * Files that only ever appear inside a spectrometer directory. One of them is enough
+ * to tell that the drop is a dataset rather than a set of standalone files, which is
+ * the only way to know that `fid`, `1r`, `pulseprog` and friends belong together.
+ */
+const DATASET_MARKERS = new Set(['acqu', 'acqus', 'proc', 'procs', 'procpar']);
 
 /**
  * Parses dropped files into a normalized spectrum and, when present, the known structure.
  *
- * Accepts JCAMP-DX, zipped Bruker directories, JEOL and Varian data through the NMRium
- * loaders, plus a molfile carrying the expected answer. The spectrum is validated as a
- * 1D proton FT spectrum: submitting a FID, a 2D experiment or a carbon spectrum silently
- * produces meaningless candidates, so those cases are reported rather than sent.
+ * Accepts JCAMP-DX, Bruker and Varian directories (dropped as a folder or zipped), JEOL
+ * files and NMRium files. Time-domain data is transformed on load, so a FID and the
+ * spectrum processed from it are both usable. The result is validated as a 1D proton
+ * spectrum: submitting a 2D experiment or a carbon spectrum silently produces
+ * meaningless candidates, so those cases are reported rather than sent.
  * @param files - Files from a drop or file input.
  * @returns The normalized spectrum, its metadata, the expected structure and any messages.
  */
 export async function parseDroppedFiles(
   files: readonly File[],
 ): Promise<ParsedDrop> {
+  const notes: string[] = [];
   const warnings: string[] = [];
   const errors: string[] = [];
   let expected: ExpectedStructure | null = null;
 
-  const spectrumFiles: File[] = [];
   const molfiles: File[] = [];
+  const others: File[] = [];
   for (const file of files) {
-    const extension = file.name.split('.').pop()?.toLowerCase() ?? '';
-    if (MOLFILE_EXTENSIONS.has(extension)) {
+    if (MOLFILE_EXTENSIONS.has(extensionOf(file.name))) {
       molfiles.push(file);
-    } else if (SPECTRUM_EXTENSIONS.has(extension)) {
-      spectrumFiles.push(file);
     } else {
-      errors.push(`${file.name}: unsupported file type ".${extension}".`);
+      others.push(file);
     }
   }
 
@@ -83,26 +85,39 @@ export async function parseDroppedFiles(
     }
   }
 
-  if (spectrumFiles.length === 0) {
-    return { spectrum: null, meta: null, expected, warnings, errors };
+  // A dataset directory is read as a whole: its files carry no extension and mean
+  // nothing on their own, so they must not be sorted into supported and unsupported.
+  const spectrumFiles: File[] = [];
+  if (isDataset(others)) {
+    spectrumFiles.push(...others);
+  } else {
+    for (const file of others) {
+      const extension = extensionOf(file.name);
+      if (SPECTRUM_EXTENSIONS.has(extension)) {
+        spectrumFiles.push(file);
+      } else {
+        errors.push(`${file.name}: unsupported file type ".${extension}".`);
+      }
+    }
   }
-  if (spectrumFiles.length > 1) {
-    warnings.push(
-      `${spectrumFiles.length} spectra were dropped; only ${spectrumFiles[0]?.name ?? 'the first'} was used.`,
-    );
+
+  if (spectrumFiles.length === 0) {
+    return { spectrum: null, meta: null, expected, notes, warnings, errors };
   }
 
   try {
     const loaded = await readSpectrum(spectrumFiles);
     if (loaded === null) {
       errors.push('No 1D spectrum could be read from the dropped file.');
-      return { spectrum: null, meta: null, expected, warnings, errors };
+      return { spectrum: null, meta: null, expected, notes, warnings, errors };
     }
-    warnings.push(...validate(loaded.meta, loaded.isFid, loaded.dimension));
+    notes.push(...describe(loaded));
+    warnings.push(...validate(loaded));
     return {
       spectrum: normalizeSpectrum(loaded.data),
       meta: loaded.meta,
       expected,
+      notes,
       warnings,
       errors,
     };
@@ -110,102 +125,73 @@ export async function parseDroppedFiles(
     errors.push(
       `Could not read the spectrum: ${error instanceof Error ? error.message : String(error)}`,
     );
-    return { spectrum: null, meta: null, expected, warnings, errors };
+    return { spectrum: null, meta: null, expected, notes, warnings, errors };
   }
 }
 
-interface LoadedSpectrum {
-  data: XY;
-  meta: SpectrumMeta;
-  isFid: boolean;
-  dimension: number;
+function extensionOf(name: string): string {
+  return name.split('.').pop()?.toLowerCase() ?? '';
 }
 
-async function readSpectrum(
-  files: readonly File[],
-): Promise<LoadedSpectrum | null> {
-  // The NMR loaders are a large dependency and are only needed once a file is dropped,
-  // so they are kept out of the initial bundle.
-  const { FileCollection } = await import('file-collection');
-  // Cache the promise, not the instance, so concurrent drops share one initialization.
-  corePromise ??= createCore();
-  const core = await corePromise;
-  const collection = new FileCollection();
-  await collection.appendFileList(files);
-  const result = await core.read(collection);
-
-  const spectra = (result.state.data?.spectra ?? []) as RawSpectrum[];
-  const spectrum = spectra.find((item) => item.data?.x !== undefined);
-  if (spectrum === undefined) return null;
-
-  const x = spectrum.data.x;
-  const y = spectrum.data.re ?? spectrum.data.y;
-  if (x === undefined || y === undefined) return null;
-
-  return {
-    data: { x, y },
-    meta: {
-      name:
-        spectrum.info?.name ??
-        spectrum.info?.title ??
-        files[0]?.name ??
-        'spectrum',
-      nucleus: spectrum.info?.nucleus ?? '',
-      solvent: spectrum.info?.solvent ?? '',
-      frequency: spectrum.info?.baseFrequency ?? null,
-    },
-    isFid: spectrum.info?.isFid ?? false,
-    dimension: spectrum.info?.dimension ?? 1,
-  };
+function isDataset(files: readonly File[]): boolean {
+  for (const file of files) {
+    const path = relativePathOf(file).toLowerCase();
+    if (path.includes('/pdata/')) return true;
+    if (DATASET_MARKERS.has(path.split('/').pop() ?? '')) return true;
+  }
+  return false;
 }
 
-function validate(
-  meta: SpectrumMeta,
-  isFid: boolean,
-  dimension: number,
-): string[] {
+/**
+ * Reads the path a file had inside the dropped directory.
+ *
+ * A folder drop sets `path`, the folder picker sets `webkitRelativePath`, and a plain
+ * file has neither.
+ * @param file - The dropped file.
+ * @returns The relative path, falling back to the bare name.
+ */
+function relativePathOf(file: File): string {
+  const dropped = (file as File & { path?: string }).path;
+  return dropped ?? (file.webkitRelativePath || file.name);
+}
+
+function describe(loaded: LoadedSpectrum): string[] {
+  const notes: string[] = [];
+  if (loaded.fromFid && !loaded.isFid) {
+    notes.push(
+      'This file holds a FID. It was apodized, zero-filled, Fourier-transformed and phase-corrected automatically — check the spectrum before submitting.',
+    );
+  }
+  if (loaded.magnitude) {
+    notes.push(
+      'The automatic phase correction did not converge on this FID, so its magnitude spectrum is used. Lines are broader than on a phased spectrum; supply the processed data if you have it.',
+    );
+  }
+  if (loaded.count > 1) {
+    notes.push(
+      `${loaded.count} spectra were read; ${loaded.meta.name} was used as the proton spectrum.`,
+    );
+  }
+  return notes;
+}
+
+function validate(loaded: LoadedSpectrum): string[] {
   const warnings: string[] = [];
-  if (isFid) {
+  if (loaded.isFid) {
     warnings.push(
-      'This file is a FID (time domain). SECS expects a Fourier-transformed, phased spectrum.',
+      'This file is a FID (time domain) and could not be Fourier-transformed. SECS expects a transformed, phased spectrum.',
     );
   }
-  if (dimension !== 1) {
+  if (loaded.dimension !== 1) {
     warnings.push(
-      `This is a ${dimension}D experiment. SECS only uses 1D proton spectra in this deployment.`,
+      `This is a ${loaded.dimension}D experiment. SECS only uses 1D proton spectra in this deployment.`,
     );
   }
-  if (meta.nucleus !== '' && meta.nucleus !== '1H') {
+  const { nucleus } = loaded.meta;
+  if (nucleus !== '' && nucleus !== '1H') {
     warnings.push(
-      `The nucleus is reported as ${meta.nucleus}. SECS only uses 1H spectra in this deployment.`,
+      `The nucleus is reported as ${nucleus}. SECS only uses 1H spectra in this deployment.`,
     );
   }
   return warnings;
-}
-
-async function createCore(): Promise<NMRiumCore> {
-  const [{ NMRiumCore }, { recommended }] = await Promise.all([
-    import('@zakodium/nmrium-core'),
-    import('@zakodium/nmrium-core-plugins'),
-  ]);
-  const instance = new NMRiumCore();
-  instance.registerPlugins(recommended(instance));
-  return instance;
-}
-
-interface RawSpectrum {
-  data: {
-    x?: Float64Array | number[];
-    re?: Float64Array | number[];
-    y?: Float64Array | number[];
-  };
-  info?: {
-    name?: string;
-    title?: string;
-    nucleus?: string;
-    solvent?: string;
-    baseFrequency?: number;
-    isFid?: boolean;
-    dimension?: number;
-  };
 }

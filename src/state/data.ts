@@ -21,6 +21,7 @@ export const mfInput = signal<string>('');
 export const expectedStructure = signal<ExpectedStructure | null>(null);
 
 /** Messages from the last file parse. */
+export const parseNotes = signal<string[]>([]);
 export const parseWarnings = signal<string[]>([]);
 export const parseErrors = signal<string[]>([]);
 
@@ -60,6 +61,7 @@ export function resetAnalysis(): void {
   spectrumMeta.value = null;
   mfInput.value = '';
   expectedStructure.value = null;
+  parseNotes.value = [];
   parseWarnings.value = [];
   parseErrors.value = [];
   activeJobId.value = null;
