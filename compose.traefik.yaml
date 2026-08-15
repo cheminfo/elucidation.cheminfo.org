@@ -2,7 +2,9 @@ services:
   # The web interface. Served at the root of the host, same-origin with the API below,
   # so the browser calls relative paths and CORS never enters the picture.
   frontend:
-    image: ghcr.io/cheminfo/elucidation-frontend:latest
+    # IMAGE_TAG is managed by ./deploy.sh so every build stays addressable for
+    # a rollback. Unset, this runs the released :latest image.
+    image: ${IMAGE_NAME:-ghcr.io/cheminfo/elucidation-frontend}:${IMAGE_TAG:-latest}
     build: .
     init: true
     read_only: true

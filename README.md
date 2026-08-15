@@ -114,6 +114,42 @@ because `cpus:` is a CFS quota and not an affinity mask: left unset, each contai
 all 20 host cores and sizes its thread pools to 20, then spins at barriers inside a much
 smaller quota.
 
+### Deploy and rollback
+
+Never deploy with `git pull && docker compose up -d --build`: the build overwrites the
+running tag in place and `git pull` moves the source at the same time, so there is
+nothing left to go back to. Use `./deploy.sh`.
+
+```sh
+./deploy.sh                                  # pull, build, start, health-check, auto-revert on failure
+./deploy.sh rollback                         # back to the previous known-good deploy
+./deploy.sh rollback 20260801-1332-a1b2c3d   # back to a specific one
+./deploy.sh list                             # what is running, and what can be rolled back to
+./deploy.sh prune                            # drop images older than the last 10 deploys
+```
+
+Only the frontend is built here — the backend services run published images. Each deploy
+builds an immutable tag `<utc date>-<utc hhmm>-<short sha>`, writes it to `IMAGE_TAG` in
+`.env`, and appends `date tag commit` to `.deploy/history`. The build runs before `up`, so
+a failed build never touches the running stack; the new container is then probed on `/`
+from inside the container (the traefik mode publishes no host port) and automatically
+reverted if it does not answer.
+
+A rollback rewrites `IMAGE_TAG` and checks out the recorded commit, so the image and the
+compose file, Dockerfile and build that go with it move back together. It needs no build
+and no network. The checkout is left on a detached HEAD on purpose — `deploy.sh` refuses
+to deploy from there until you `git checkout main`.
+
+The last 10 frontend images are kept; older ones are removed after each successful deploy.
+Raise `KEEP` in `deploy.sh` to keep a longer history.
+
+| Variable       | Description                                                          |
+| -------------- | -------------------------------------------------------------------- |
+| `COMPOSE_FILE` | Deployment mode: `compose.yaml` (default) or `compose.traefik.yaml`. |
+| `PORT`         | Host port the frontend publishes in port mode. Defaults to 10718.    |
+| `IMAGE_NAME`   | Frontend image. Defaults to `ghcr.io/cheminfo/elucidation-frontend`. |
+| `IMAGE_TAG`    | Frontend tag deployed. Rewritten by `./deploy.sh` — never by hand.   |
+
 ### Run duration
 
 Measured against the deployment on 2026-07-27 with the ethyl vinyl ether reference
