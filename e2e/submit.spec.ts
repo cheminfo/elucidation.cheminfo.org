@@ -23,8 +23,8 @@ const BRUKER_FIXTURE = join(
   'spectrum',
   '__tests__',
   'data',
-  'coffee',
-  '20',
+  'ibuprofen-400',
+  '1',
 );
 
 const CANDIDATES = [
@@ -69,10 +69,7 @@ test('a dropped Bruker experiment folder is loaded', async ({ page }) => {
   await expect(
     page.getByText('Normalized spectrum', { exact: true }),
   ).toBeVisible();
-  await expect(page.getByText('20', { exact: true })).toBeVisible();
-  await expect(
-    page.getByText('COFFEE_calctemp', { exact: true }),
-  ).toBeVisible();
+  await expect(page.getByText('CDCl3', { exact: true })).toBeVisible();
   await expect(page.getByText('400.13 MHz', { exact: true })).toBeVisible();
 });
 

@@ -1,0 +1,16 @@
+##TITLE= Parameter file, TopSpin 3.7.0
+##JCAMPDX= 5.0
+##DATATYPE= Parameter Values
+##NPOINTS= 1	$$ modification sequence number
+##ORIGIN= Bruker BioSpin GmbH
+##OWNER= nmrsu
+$$ 2025-05-06 20:52:31.955 +0200  nmrsu@av3-600
+$$ /opt/av3-600/av600/AV600-2505A6/1/pdata/700/outd
+$$ process /opt/topspin3.7.0/prog/mod/go4
+##$CURPLOT= <>
+##$CURPRIN= <>
+##$DFORMAT= <>
+##$LAYOUT= <>
+##$LFORMAT= <>
+##$PFORMAT= <>
+##END=
