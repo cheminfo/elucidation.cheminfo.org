@@ -1,8 +1,9 @@
-import { Alignment, Button, Navbar, Tag } from '@blueprintjs/core';
+import { Icon, Tag } from '@blueprintjs/core';
 import { useSignals } from '@preact/signals-react/runtime';
 import { useEffect } from 'react';
 
 import { useJobPolling } from './api/usePolling.ts';
+import { BrandMark, Wordmark } from './components/Brand.tsx';
 import { AboutPage } from './pages/about/AboutPage.tsx';
 import { CITATION } from './pages/about/citation.ts';
 import { DebugPage } from './pages/debug/DebugPage.tsx';
@@ -50,42 +51,51 @@ export function App() {
     <div
       style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}
     >
-      <Navbar>
-        <Navbar.Group align={Alignment.START}>
-          <Navbar.Heading style={{ fontWeight: 600 }}>
-            SECS{' '}
-            <span style={{ fontWeight: 400, opacity: 0.7 }}>
-              · structure elucidation
-            </span>
-          </Navbar.Heading>
-          <Navbar.Divider />
-          {TABS.map((tab) => (
-            <Button
-              key={tab.page}
-              variant="minimal"
-              icon={tab.icon}
-              text={tab.label}
-              active={current === tab.page}
-              onClick={() =>
-                navigate(
-                  tab.page,
-                  // Keep the open run in the hash so a reload comes back to it.
-                  tab.page === 'elucidate'
-                    ? (activeJobId.value ?? undefined)
-                    : undefined,
-                )
-              }
-              endIcon={
-                tab.page === 'jobs' && runningCount > 0 ? (
+      <header className="app-header">
+        <div className="app-header__inner">
+          <a
+            href="#/elucidate"
+            className="brand"
+            title="elucidation.cheminfo.org"
+          >
+            <BrandMark />
+            <Wordmark />
+          </a>
+          <nav className="app-header-nav">
+            {TABS.map((tab) => (
+              <button
+                key={tab.page}
+                type="button"
+                className={
+                  current === tab.page
+                    ? 'nav-link nav-link--active'
+                    : 'nav-link'
+                }
+                onClick={() =>
+                  navigate(
+                    tab.page,
+                    // Keep the open run in the hash so a reload comes back to it.
+                    tab.page === 'elucidate'
+                      ? (activeJobId.value ?? undefined)
+                      : undefined,
+                  )
+                }
+              >
+                <Icon icon={tab.icon} size={14} />
+                {tab.label}
+                {tab.page === 'jobs' && runningCount > 0 ? (
                   <Tag round minimal intent="primary">
                     {runningCount}
                   </Tag>
-                ) : undefined
-              }
-            />
-          ))}
-        </Navbar.Group>
-      </Navbar>
+                ) : null}
+              </button>
+            ))}
+          </nav>
+        </div>
+      </header>
+      <p className="app-tagline">
+        SECS · structure elucidation from NMR spectra
+      </p>
 
       <main style={{ flex: 1, padding: 16, minWidth: 0 }}>
         {current === 'elucidate' && <ElucidatePage />}

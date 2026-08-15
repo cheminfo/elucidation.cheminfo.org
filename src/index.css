@@ -15,10 +15,37 @@
    from painting a dark canvas behind light Blueprint components when the operating
    system is in dark mode, which left a black page around white cards. */
 :root {
-  --muted: #5f6b7c;
-  --border: #d3d8de;
-  --app-bg: #f6f7f9;
-  --structure-bg: #ffffff;
+  /* Neutrals, geometry and type shared by every *.cheminfo.org site. */
+  --surface: #ffffff;
+  --surface-sunken: #f5f7fa;
+  --surface-raised: #ffffff;
+  --border: #dfe3e8;
+  --border-strong: #c3cad3;
+  --text: #16202c;
+  --text-muted: #5b6875;
+  --text-faint: #8a96a3;
+
+  --radius: 10px;
+  --radius-lg: 16px;
+  --shadow-sm: 0 1px 2px rgb(16 32 48 / 8%);
+  --shadow-md: 0 4px 14px rgb(16 32 48 / 10%);
+  --shadow-lg: 0 12px 32px rgb(16 32 48 / 16%);
+
+  --header-height: 3.5rem;
+
+  /* The two colours this site owns: the trace, and the peak that settles it. */
+  --brand: #7e22ce;
+  --brand-alt: #f59e0b;
+
+  /* The mark's amber reaches 2.2:1 on white — far too little for text, so set
+     text in a darkened one (4.9:1) of the same hue. */
+  --brand-alt-text: #b45309;
+
+  --accent: var(--brand);
+
+  --muted: var(--text-muted);
+  --app-bg: var(--surface-sunken);
+  --structure-bg: var(--surface);
   --bar-track: #e5e8eb;
   --code-bg: #f6f7f9;
   --panel-bg: #fafbfc;
@@ -30,9 +57,151 @@
 body {
   margin: 0;
   background: var(--app-bg);
-  color: #1c2127;
+  color: var(--text);
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial,
+    sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+input,
+textarea,
+select,
+button {
+  font-family: inherit;
 }
 
 #root {
   min-height: 100vh;
+}
+
+/* ── The shared chrome ─────────────────────────────────────────────────────── */
+
+.app-header {
+  position: sticky;
+  z-index: 20;
+  top: 0;
+  flex: none;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+
+.app-header__inner {
+  display: flex;
+  height: var(--header-height);
+  align-items: center;
+  padding: 0 1.25rem;
+  gap: 1rem;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  color: var(--text);
+  font-weight: 700;
+  gap: 0.55rem;
+}
+
+.brand:hover {
+  text-decoration: none;
+}
+
+.brand-mark {
+  display: block;
+  flex: none;
+}
+
+.wordmark {
+  font-size: 1.0625rem;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
+.wordmark__lead {
+  color: var(--brand);
+}
+
+.wordmark__dot {
+  color: var(--text-faint);
+}
+
+.wordmark__alt {
+  color: var(--brand-alt-text);
+}
+
+.app-header-nav {
+  display: flex;
+  flex: 1 1 auto;
+  min-width: 0;
+  align-items: center;
+  justify-content: flex-end;
+  overflow-x: auto;
+  overflow-y: hidden;
+  gap: 0.15rem;
+  scrollbar-width: thin;
+}
+
+/* Carried by both a link and a button, so the two read alike in the bar. */
+.nav-link {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.4rem 0.7rem;
+  border: 0;
+  border-radius: 8px;
+  background: none;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  font-weight: 600;
+  white-space: nowrap;
+  gap: 0.4rem;
+  cursor: pointer;
+}
+
+.nav-link:hover {
+  background: var(--surface-sunken);
+  color: var(--text);
+  text-decoration: none;
+}
+
+.nav-link--active {
+  background: color-mix(in oklab, var(--accent) 12%, white);
+  color: var(--accent);
+}
+
+/* The tagline names the method — too long for the bar, so it sits on its own
+   line directly under it rather than being dropped. */
+.app-tagline {
+  padding: 0.6rem 1.25rem 0;
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+
+/* The drop zone is a narrow column: the arrow circle pushes the title onto three
+   lines and the button out of the box, so the zone carries text only. Blueprint
+   sizes a non-ideal state for a full page — 20px between children and a heading
+   at h4 — which fills the box edge to edge here. */
+.file-dropzone .bp6-non-ideal-state {
+  padding: 0.75rem;
+}
+
+.file-dropzone .bp6-non-ideal-state-visual {
+  display: none;
+}
+
+.file-dropzone .bp6-non-ideal-state > * {
+  margin-bottom: 0.5rem;
+}
+
+.file-dropzone .bp6-non-ideal-state .bp6-heading {
+  margin-bottom: 0.25rem;
+  font-size: 0.9375rem;
+  line-height: 1.3;
+}
+
+.file-dropzone .bp6-non-ideal-state-text {
+  font-size: 0.8125rem;
+  line-height: 1.35;
 }
