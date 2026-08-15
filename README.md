@@ -152,9 +152,17 @@ These shape the interface, and are not obvious from the API alone:
   bar and the sentence under it say it is a projection. The API also overwrites `status`
   with the worker's own stage string, so any value that is not a known Celery state is
   treated as "running".
-- **Results expire.** The Celery result is dropped an hour after completion and the job
-  mapping after a day. Candidates are fetched once on completion and stored in IndexedDB,
-  which is the only durable copy.
+- **A job stops being trackable long before its result goes away.** The Celery result is
+  dropped an hour after completion and the job-to-task mapping after a day, so
+  `/jobs/{id}/status` starts answering 404 while `/jobs/{id}/result` keeps serving the
+  worker's cache file — it reads the file directly and never consults Redis. A 404 on the
+  status endpoint therefore says nothing about the result, and the app asks for the result
+  before writing a run off as lost (`src/api/recoverResult.ts`). The cache file itself is
+  in the `./cache` bind mount and is only ever removed by a cleanup task that keeps
+  180 days, which this deployment does not schedule.
+- **The local copy is still the durable one.** Candidates are fetched once on completion
+  and stored in IndexedDB together with the request; the server's file carries the
+  candidates alone, not the formula, the source file or the spectrum.
 
 ## Licence
 

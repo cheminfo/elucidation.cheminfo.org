@@ -61,10 +61,13 @@ export async function getJobStatus(
  * Fetches a job's result payload, exactly as the server returned it.
  *
  * The payload is returned unmodified so it can be stored verbatim; use
- * {@link extractCandidates} to read the candidate list from either shape. Throws
- * {@link ApiError} with status 400 while the job is still running and 404 once the
- * backend has forgotten it (the Celery result expires after 1 h and the job mapping
- * after 24 h). Persist it the first time it succeeds.
+ * {@link extractCandidates} to read the candidate list from either shape.
+ *
+ * This endpoint reads the worker's cache file rather than the Celery result, so it keeps
+ * answering long after `/jobs/{id}/status` has started returning 404 — the job-to-task
+ * mapping expires a day after submission, the file does not. Throws {@link ApiError} with
+ * status 400 while the job is still running, 410 when a file exists but holds no completed
+ * result, and 404 when the server has nothing for that id.
  * @param jobId - The job id.
  * @param baseUrl - API origin. Empty string means same-origin.
  * @returns The raw result payload.
@@ -81,8 +84,8 @@ export async function getJobResult(
 /**
  * Asks the backend to revoke a running job.
  *
- * The backend does not delete the job's cache file, so the same spectrum can never be
- * recomputed afterwards — it will keep answering `cached`.
+ * The backend drops the job-to-task mapping and the in-progress snapshot, keeping only a
+ * completed result file if one exists, so the same spectrum can be submitted again.
  * @param jobId - The job id.
  * @param baseUrl - API origin. Empty string means same-origin.
  */

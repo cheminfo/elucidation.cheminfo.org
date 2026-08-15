@@ -46,9 +46,14 @@ export function JobProgress(props: JobProgressProps) {
   }
   if (run.state === 'expired') {
     return (
-      <Callout intent="warning" icon="time" title="The server forgot this job">
-        Results are kept for a limited time. Because a job is identified by its
-        spectrum, resubmitting the same file cannot recompute it.
+      <Callout
+        intent="warning"
+        icon="time"
+        title="The server has no result for this run"
+      >
+        The run did not finish, and nothing was kept for it. Because a job is
+        identified by its spectrum, resubmitting the same file cannot recompute
+        it.
       </Callout>
     );
   }

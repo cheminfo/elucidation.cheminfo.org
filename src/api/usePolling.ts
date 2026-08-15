@@ -5,6 +5,7 @@ import { runs, toRunState, updateRun } from '../state/runs.ts';
 import type { StoredRun } from '../state/runsDb.ts';
 
 import { ApiError, getJobResult, getJobStatus } from './client.ts';
+import { recoverResult } from './recoverResult.ts';
 
 /** How often the run the user is looking at is refreshed. */
 const ACTIVE_INTERVAL_MS = 10_000;
@@ -39,12 +40,16 @@ export function useJobPolling(activeJobId: string | null): void {
   const inFlight = useRef(new Set<string>());
   const backoff = useRef(0);
   const lastPolled = useRef(new Map<string, number>());
+  const recovered = useRef(new Set<string>());
 
   useEffect(() => {
     let cancelled = false;
 
     async function tick(): Promise<void> {
       if (cancelled || globalThis.document.visibilityState === 'hidden') return;
+
+      await recoverGivenUp(recovered.current);
+      if (cancelled) return;
 
       const now = Date.now();
       const due = runs.value.filter((run) => {
@@ -119,12 +124,19 @@ async function refresh(
     return 'ok';
   } catch (error) {
     if (error instanceof ApiError) {
-      // 404 means the backend has forgotten the job entirely: its mapping expired.
+      // 404 only means the job-to-task mapping expired, which happens a day after
+      // submission while the result file lives on. Ask for the result before writing
+      // the run off.
       if (error.status === 404) {
-        await updateRun(run.jobId, {
-          state: 'expired',
-          error: 'The server no longer knows this run.',
-        });
+        const recovery = await recoverResult(run.jobId, baseUrl);
+        if (recovery.kind === 'recovered') {
+          await updateRun(run.jobId, recovery.patch);
+        } else if (recovery.kind === 'gone') {
+          await updateRun(run.jobId, {
+            state: 'expired',
+            error: 'The server has no result for this run.',
+          });
+        }
       }
       return 'ok';
     }
@@ -132,6 +144,36 @@ async function refresh(
   } finally {
     inFlight.delete(run.jobId);
   }
+}
+
+/**
+ * Gives runs written off as expired one chance per session to come back.
+ *
+ * Before the result endpoint was consulted, any run whose mapping had expired was marked
+ * expired for good, even though the server still held its result. Those records are in
+ * users' histories, and polling never revisits a finished run, so they are picked up here
+ * instead — once per job per page load, since a run the server has really lost stays lost.
+ * @param attempted - Job ids already tried in this session; added to as it goes.
+ */
+async function recoverGivenUp(attempted: Set<string>): Promise<void> {
+  const candidates = runs.value.filter(
+    (run) =>
+      run.state === 'expired' &&
+      run.resultPayload === null &&
+      !attempted.has(run.jobId),
+  );
+  if (candidates.length === 0) return;
+
+  const baseUrl = preferences.value.apiUrl;
+  await Promise.all(
+    candidates.map(async (run) => {
+      attempted.add(run.jobId);
+      const recovery = await recoverResult(run.jobId, baseUrl);
+      if (recovery.kind === 'recovered') {
+        await updateRun(run.jobId, recovery.patch);
+      }
+    }),
+  );
 }
 
 async function cacheResult(jobId: string, baseUrl: string): Promise<void> {

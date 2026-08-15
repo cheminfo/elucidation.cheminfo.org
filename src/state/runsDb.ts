@@ -21,11 +21,13 @@ const STORE = 'runs';
  * A complete record of one elucidation run: exactly what was sent to the server and
  * exactly what came back.
  *
- * The server keeps a result for only an hour after completion and forgets the job
- * entirely after a day, and it identifies a run by its spectrum alone, so a run that is
- * not stored here cannot be recovered — resubmitting the same spectrum returns the old
- * job rather than recomputing it. This record is therefore the durable copy, and it
- * keeps the raw payloads rather than a digest so nothing is lost to interpretation.
+ * The server stops being able to report on a job a day after submission, and it
+ * identifies a run by its spectrum alone, so resubmitting the same spectrum returns the
+ * old job rather than recomputing it. Its result file outlives that by months and can
+ * still be fetched, but it carries none of the context — which formula was asked for,
+ * which file it came from, what the spectrum looked like. This record is therefore the
+ * durable copy, and it keeps the raw payloads rather than a digest so nothing is lost to
+ * interpretation.
  */
 export interface StoredRun {
   jobId: string;
