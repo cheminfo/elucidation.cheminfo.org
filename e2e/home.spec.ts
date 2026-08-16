@@ -35,20 +35,29 @@ test('there is exactly one drop target on the page', async ({ page }) => {
   await expect(page.locator('input[type="file"]')).toHaveCount(1);
 });
 
-test('the citation and DOI are on the home page, not only in the footer', async ({
+test('the citation and DOI are on the home page, not only in the header', async ({
   page,
 }) => {
   await page.goto('/');
 
   const citation = page.getByTestId('home-citation');
   await expect(citation).toBeVisible();
-  await expect(citation).toContainText('Nature Communications');
+  await expect(citation).toContainText('Nat. Commun.');
   await expect(
     citation.getByRole('link', { name: /doi:10\.1038/ }),
   ).toBeVisible();
-  await expect(
-    citation.getByRole('button', { name: 'Copy BibTeX' }),
-  ).toBeVisible();
+  await expect(citation.getByRole('button', { name: 'Cite' })).toBeVisible();
+});
+
+test('the header carries the Cite and Tools utilities', async ({ page }) => {
+  await page.goto('/');
+
+  const header = page.locator('.app-header');
+  await expect(header.getByRole('button', { name: 'Cite' })).toBeVisible();
+
+  await header.getByRole('button', { name: 'Tools' }).click();
+  // The ecosystem menu opens the other sites of the family.
+  await expect(page.getByRole('link', { name: /chemcalc/i })).toBeVisible();
 });
 
 test('the two entry points navigate where they say', async ({ page }) => {

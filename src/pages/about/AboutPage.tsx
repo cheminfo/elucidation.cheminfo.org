@@ -1,7 +1,8 @@
-import { Button, Callout, Card } from '@blueprintjs/core';
-import { useState } from 'react';
+import { Callout, Card } from '@blueprintjs/core';
+import { CiteButton } from 'react-cheminfo/ui';
 
-import { CITATION, CITATION_BIBTEX } from './citation.ts';
+import { CitationLine } from '../../components/CitationLine.tsx';
+import { SECS_PAPER } from '../../data/secsPaper.ts';
 
 const STEPS = [
   {
@@ -27,8 +28,6 @@ const STEPS = [
  * @returns The about page.
  */
 export function AboutPage() {
-  const [copied, setCopied] = useState(false);
-
   return (
     <div style={{ display: 'grid', gap: 16, maxWidth: 860 }}>
       <Card style={{ display: 'grid', gap: 8 }}>
@@ -86,39 +85,14 @@ export function AboutPage() {
         </ul>
       </Callout>
 
-      <Card style={{ display: 'grid', gap: 10 }}>
+      <Card style={{ display: 'grid', gap: 10, justifyItems: 'start' }}>
         <strong>How to cite</strong>
         <p style={{ margin: 0 }}>
-          {CITATION.authors}. {CITATION.title}. <em>{CITATION.journal}</em>{' '}
-          <strong>{CITATION.volume}</strong>, {CITATION.article} (
-          {CITATION.year}).
+          <CitationLine reference={SECS_PAPER} />
         </p>
-        <a href={CITATION.url} target="_blank" rel="noreferrer">
-          doi:{CITATION.doi}
-        </a>
-        <pre
-          style={{
-            background: 'var(--code-bg)',
-            padding: 12,
-            borderRadius: 4,
-            overflowX: 'auto',
-            fontSize: 12,
-            margin: 0,
-          }}
-        >
-          {CITATION_BIBTEX}
-        </pre>
-        <div>
-          <Button
-            icon={copied ? 'tick' : 'duplicate'}
-            text={copied ? 'Copied' : 'Copy BibTeX'}
-            onClick={() => {
-              void navigator.clipboard?.writeText(CITATION_BIBTEX);
-              setCopied(true);
-              globalThis.setTimeout(() => setCopied(false), 2000);
-            }}
-          />
-        </div>
+        {/* The styles a journal asks for, BibTeX, RIS and the files a reference
+            manager imports all come from the same button the header carries. */}
+        <CiteButton reference={SECS_PAPER} placement="bottom-start" />
       </Card>
 
       <Card style={{ display: 'grid', gap: 6 }}>

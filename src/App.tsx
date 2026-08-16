@@ -1,11 +1,13 @@
 import { Icon, Tag } from '@blueprintjs/core';
 import { useSignals } from '@preact/signals-react/runtime';
 import { useEffect } from 'react';
+import { CiteButton, EcosystemButton } from 'react-cheminfo/ui';
 
 import { useJobPolling } from './api/usePolling.ts';
 import { BrandMark, Wordmark } from './components/Brand.tsx';
+import { useCompactHeader } from './components/useCompactHeader.ts';
+import { SECS_PAPER } from './data/secsPaper.ts';
 import { AboutPage } from './pages/about/AboutPage.tsx';
-import { CITATION } from './pages/about/citation.ts';
 import { DebugPage } from './pages/debug/DebugPage.tsx';
 import { ElucidatePage } from './pages/elucidate/ElucidatePage.tsx';
 import { ExamplesPage } from './pages/examples/ExamplesPage.tsx';
@@ -28,7 +30,7 @@ const TABS: Array<{
 ];
 
 /**
- * Application shell: navigation, routing and the citation footer.
+ * Application shell: the header, the routing, and the open page.
  * @returns The app.
  */
 export function App() {
@@ -43,14 +45,31 @@ export function App() {
   useJobPolling(activeJobId.value);
 
   const current = route.value.page;
+
+  return (
+    <>
+      <Header current={current} />
+      <main className="page">
+        {current === 'elucidate' && <ElucidatePage />}
+        {current === 'examples' && <ExamplesPage />}
+        {current === 'jobs' && <JobsPage />}
+        {current === 'about' && <AboutPage />}
+        {current === 'debug' && <DebugPage />}
+      </main>
+    </>
+  );
+}
+
+function Header(props: { current: PageName }) {
+  useSignals();
+  const { current } = props;
+  const compact = useCompactHeader();
   const runningCount = runs.value.filter(
     (run) => run.state === 'pending' || run.state === 'running',
   ).length;
 
   return (
-    <div
-      style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}
-    >
+    <>
       <header className="app-header">
         <div className="app-header__inner">
           <a
@@ -91,46 +110,25 @@ export function App() {
               </button>
             ))}
           </nav>
+          <div className="app-header-actions">
+            <a
+              className="nav-link"
+              href="https://github.com/cheminfo/elucidation.cheminfo.org"
+              target="_blank"
+              rel="noreferrer"
+              title="Source of this web interface"
+            >
+              <Icon icon="git-repo" size={14} />
+              {compact ? null : 'Source'}
+            </a>
+            <CiteButton reference={SECS_PAPER} compact={compact} />
+            <EcosystemButton compact={compact} />
+          </div>
         </div>
       </header>
       <p className="app-tagline">
         SECS · structure elucidation from NMR spectra
       </p>
-
-      <main style={{ flex: 1, padding: 16, minWidth: 0 }}>
-        {current === 'elucidate' && <ElucidatePage />}
-        {current === 'examples' && <ExamplesPage />}
-        {current === 'jobs' && <JobsPage />}
-        {current === 'about' && <AboutPage />}
-        {current === 'debug' && <DebugPage />}
-      </main>
-
-      <footer
-        style={{
-          padding: '12px 16px',
-          borderTop: '1px solid var(--border)',
-          fontSize: 12,
-          color: 'var(--muted)',
-        }}
-      >
-        {/* Kept to a short reference line: the full citation, with BibTeX, lives on
-            the home page and on About, and repeating it in full on every screen was
-            just noise. */}
-        SECS · {CITATION.authors} <em>{CITATION.journal}</em>{' '}
-        <strong>{CITATION.volume}</strong>, {CITATION.article} ({CITATION.year})
-        ·{' '}
-        <a href={CITATION.url} target="_blank" rel="noreferrer">
-          doi:{CITATION.doi}
-        </a>{' '}
-        ·{' '}
-        <a
-          href="https://github.com/cheminfo/elucidation.cheminfo.org"
-          target="_blank"
-          rel="noreferrer"
-        >
-          Source
-        </a>
-      </footer>
-    </div>
+    </>
   );
 }

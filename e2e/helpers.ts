@@ -73,10 +73,17 @@ export async function dropDirectory(
     const zone = document.querySelector('[data-testid="file-dropzone"] > div');
     if (zone === null) throw new Error('the drop zone is not on the page');
     const event = new Event('drop', { bubbles: true });
-    // `items` is left out on purpose: with it, file-selector reads the entries through
-    // `webkitGetAsEntry`, which a synthetic transfer cannot provide.
+    // A dropped transfer is read through `items`, so each file is handed over as one.
+    // The items carry no `webkitGetAsEntry` and no `getAsFileSystemHandle`: both walk a
+    // real directory tree the browser owns, which a synthetic transfer cannot provide,
+    // and without them the file itself is taken with the `path` set above.
+    const items = dropped.map((file) => ({
+      kind: 'file',
+      type: file.type,
+      getAsFile: () => file,
+    }));
     Object.defineProperty(event, 'dataTransfer', {
-      value: { files: dropped, types: ['Files'] },
+      value: { files: dropped, items, types: ['Files'] },
     });
     zone.dispatchEvent(event);
   }, entries);

@@ -1,8 +1,9 @@
 import { Button, Card, Icon, Tag } from '@blueprintjs/core';
-import { useState } from 'react';
+import { CiteButton } from 'react-cheminfo/ui';
 
+import { CitationLine } from '../../components/CitationLine.tsx';
+import { SECS_PAPER } from '../../data/secsPaper.ts';
 import { navigate } from '../../state/view.ts';
-import { CITATION, CITATION_BIBTEX } from '../about/citation.ts';
 
 /**
  * The landing state of the workspace, shown until a spectrum is loaded.
@@ -122,12 +123,10 @@ function PathCard(props: PathCardProps) {
 }
 
 function CitationCard() {
-  const [copied, setCopied] = useState(false);
-
   return (
     <Card
       compact
-      style={{ display: 'grid', gap: 8 }}
+      style={{ display: 'grid', gap: 8, justifyItems: 'start' }}
       data-testid="home-citation"
     >
       <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
@@ -137,38 +136,9 @@ function CitationCard() {
         </strong>
       </div>
       <p style={{ margin: 0, fontSize: 13 }}>
-        {CITATION.authors} {CITATION.title}. <em>{CITATION.journal}</em>{' '}
-        <strong>{CITATION.volume}</strong>, {CITATION.article} ({CITATION.year}
-        ).
+        <CitationLine reference={SECS_PAPER} />
       </p>
-      <div
-        style={{
-          display: 'flex',
-          gap: 8,
-          alignItems: 'center',
-          flexWrap: 'wrap',
-        }}
-      >
-        <a
-          href={CITATION.url}
-          target="_blank"
-          rel="noreferrer"
-          style={{ fontSize: 13 }}
-        >
-          doi:{CITATION.doi}
-        </a>
-        <Button
-          variant="minimal"
-          size="small"
-          icon={copied ? 'tick' : 'duplicate'}
-          text={copied ? 'Copied' : 'Copy BibTeX'}
-          onClick={() => {
-            void navigator.clipboard?.writeText(CITATION_BIBTEX);
-            setCopied(true);
-            globalThis.setTimeout(() => setCopied(false), 2000);
-          }}
-        />
-      </div>
+      <CiteButton reference={SECS_PAPER} placement="bottom-start" />
     </Card>
   );
 }
