@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+# A development surface, not part of the tool.
+Disallow: /debug
+
+Sitemap: https://elucidation.cheminfo.org/sitemap.xml

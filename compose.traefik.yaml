@@ -8,6 +8,15 @@ services:
     build: .
     init: true
     read_only: true
+    # The pages served are written here at startup, so the analytics snippet can
+    # go in them while the image filesystem stays read-only.
+    tmpfs:
+      - /public:rw,noexec,nosuid,size=128m
+    environment:
+      # Read from .env when there is one, defaulted here so a bare checkout
+      # with no .env at all still starts. An empty value means "not set" to
+      # the entrypoint: nothing is loaded.
+      TRACKING_SCRIPT: ${TRACKING_SCRIPT:-}
     security_opt:
       - no-new-privileges:true
     cap_drop:

@@ -1,7 +1,7 @@
 import { Icon, Tag } from '@blueprintjs/core';
 import { useSignals } from '@preact/signals-react/runtime';
 import { useEffect } from 'react';
-import { CiteButton, EcosystemButton } from 'react-cheminfo/ui';
+import { CiteButton, EcosystemButton, EcosystemLinks } from 'react-cheminfo/ui';
 
 import { useJobPolling } from './api/usePolling.ts';
 import { BrandMark, Wordmark } from './components/Brand.tsx';
@@ -13,10 +13,11 @@ import { ElucidatePage } from './pages/elucidate/ElucidatePage.tsx';
 import { ExamplesPage } from './pages/examples/ExamplesPage.tsx';
 import { JobsPage } from './pages/jobs/JobsPage.tsx';
 import { activeJobId } from './state/data.ts';
+import { startDocumentMeta } from './state/documentMeta.ts';
 import { startRunRestore } from './state/restore.ts';
 import { hydrateRuns, runs } from './state/runs.ts';
 import type { PageName } from './state/view.ts';
-import { navigate, route, startRouting } from './state/view.ts';
+import { navigate, route, routePath, startRouting } from './state/view.ts';
 
 const TABS: Array<{
   page: PageName;
@@ -36,6 +37,7 @@ const TABS: Array<{
 export function App() {
   useSignals();
   useEffect(() => startRouting(), []);
+  useEffect(() => startDocumentMeta(), []);
   useEffect(() => {
     startRunRestore();
     void hydrateRuns();
@@ -56,6 +58,11 @@ export function App() {
         {current === 'about' && <AboutPage />}
         {current === 'debug' && <DebugPage />}
       </main>
+      <footer className="app-footer no-print">
+        <div className="app-footer__inner">
+          <EcosystemLinks currentSiteId="elucidation" />
+        </div>
+      </footer>
     </>
   );
 }
@@ -82,23 +89,28 @@ function Header(props: { current: PageName }) {
           </a>
           <nav className="app-header-nav">
             {TABS.map((tab) => (
-              <button
+              <a
                 key={tab.page}
-                type="button"
+                href={routePath({ page: tab.page, id: null })}
                 className={
                   current === tab.page
                     ? 'nav-link nav-link--active'
                     : 'nav-link'
                 }
-                onClick={() =>
+                onClick={(event) => {
+                  // A real link, so a crawler walks the site and a middle click
+                  // opens a tab; the plain click is the one taken over.
+                  if (event.metaKey || event.ctrlKey || event.shiftKey) return;
+                  event.preventDefault();
                   navigate(
                     tab.page,
-                    // Keep the open run in the hash so a reload comes back to it.
+                    // Keep the open run in the address so a reload comes back
+                    // to it.
                     tab.page === 'elucidate'
                       ? (activeJobId.value ?? undefined)
                       : undefined,
-                  )
-                }
+                  );
+                }}
               >
                 <Icon icon={tab.icon} size={14} />
                 {tab.label}
@@ -107,7 +119,7 @@ function Header(props: { current: PageName }) {
                     {runningCount}
                   </Tag>
                 ) : null}
-              </button>
+              </a>
             ))}
           </nav>
           <div className="app-header-actions">
@@ -122,7 +134,7 @@ function Header(props: { current: PageName }) {
               {compact ? null : 'Source'}
             </a>
             <CiteButton reference={SECS_PAPER} compact={compact} />
-            <EcosystemButton compact={compact} />
+            <EcosystemButton compact={compact} currentSiteId="elucidation" />
           </div>
         </div>
       </header>

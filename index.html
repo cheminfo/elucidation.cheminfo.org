@@ -3,7 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SECS · Structure elucidation from NMR spectra</title>
+    <!-- The title, the description, the canonical address and the social card
+         are written per page by `scripts/prerender.js`; these are what the
+         build carries before it runs. -->
+    <title>SECS — a structure from a 1H NMR spectrum and a formula</title>
     <!-- The same geometry `src/components/Brand.tsx` draws, written out with
          literal colours because a file served on its own cannot read the page's
          custom properties. Change one and change the other. -->
@@ -13,9 +16,61 @@
       name="description"
       content="Elucidate molecular structures from a 1H NMR spectrum and a molecular formula, using contrastive learning and evolutionary search."
     />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "elucidation.cheminfo.org",
+        "url": "https://elucidation.cheminfo.org/",
+        "applicationCategory": "ScienceApplication",
+        "operatingSystem": "Any",
+        "browserRequirements": "Requires JavaScript",
+        "description": "Elucidate molecular structures from a 1H NMR spectrum and a molecular formula, using contrastive learning and an evolutionary search over the isomer space.",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" },
+        "isAccessibleForFree": true,
+        "publisher": { "@type": "Organization", "name": "cheminfo" }
+      }
+    </script>
   </head>
   <body class="bp6-body">
     <div id="root"></div>
+    <noscript>
+      <h1>elucidation.cheminfo.org — SECS</h1>
+      <p>
+        Give a molecular formula and a 1H NMR spectrum, and get the structures
+        that explain it, found by contrastive learning and an evolutionary
+        search over the isomer space. The tool needs JavaScript.
+      </p>
+      <ul>
+        <li><a href="/">Elucidate — a spectrum and a formula in</a></li>
+        <li>
+          <a href="/examples">Examples — challenges whose answer is known</a>
+        </li>
+        <li><a href="/jobs">Your runs</a></li>
+        <li><a href="/about">About SECS, and what to cite</a></li>
+      </ul>
+      <h2>Our other tools</h2>
+      <ul>
+        <li><a href="https://inchi.cheminfo.org/">inchi.cheminfo.org</a></li>
+        <li><a href="https://vcl.cheminfo.org/">vcl.cheminfo.org</a></li>
+        <li><a href="https://smiles.cheminfo.org/">smiles.cheminfo.org</a></li>
+        <li><a href="https://www.chemcalc.org/">www.chemcalc.org</a></li>
+        <li><a href="https://www.nmrium.org/">www.nmrium.org</a></li>
+        <li><a href="https://surge.cheminfo.org/">surge.cheminfo.org</a></li>
+        <li><a href="https://tex.cheminfo.org/">tex.cheminfo.org</a></li>
+        <li><a href="https://lcao.cheminfo.org/">lcao.cheminfo.org</a></li>
+        <li><a href="https://regexp.cheminfo.org/">regexp.cheminfo.org</a></li>
+        <li><a href="https://pdb.cheminfo.org/">pdb.cheminfo.org</a></li>
+        <li>
+          <a href="https://equilibrium.cheminfo.org/"
+            >equilibrium.cheminfo.org</a
+          >
+        </li>
+        <li>
+          <a href="https://polycarp.cheminfo.org/">polycarp.cheminfo.org</a>
+        </li>
+      </ul>
+    </noscript>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

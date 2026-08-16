@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest';
 
-import { parseHash } from '../../state/view.ts';
+import { parsePath, pathFromLegacyHash } from '../../state/view.ts';
 import {
   candidateFormula,
   countSlots,
@@ -44,17 +44,25 @@ test('the two spellings of the formula key are both read', () => {
   expect(candidateFormula({ smiles: 'CCO', score: 1 })).toBe('');
 });
 
-test('hash routes are parsed and deep links carry an id', () => {
-  expect(parseHash('#/examples')).toStrictEqual({ page: 'examples', id: null });
-  expect(parseHash('#/examples/abc123')).toStrictEqual({
+test('addresses are parsed and deep links carry an id', () => {
+  expect(parsePath('/examples')).toStrictEqual({ page: 'examples', id: null });
+  expect(parsePath('/examples/abc123')).toStrictEqual({
     page: 'examples',
     id: 'abc123',
   });
-  expect(parseHash('')).toStrictEqual({ page: 'elucidate', id: null });
-  expect(parseHash('#/nonsense')).toStrictEqual({
+  expect(parsePath('/')).toStrictEqual({ page: 'elucidate', id: null });
+  expect(parsePath('/abc123')).toStrictEqual({
     page: 'elucidate',
-    id: null,
+    id: 'abc123',
   });
+});
+
+test('a link written when the site routed by the hash still opens', () => {
+  expect(pathFromLegacyHash('#/examples')).toBe('/examples');
+  expect(pathFromLegacyHash('#/examples/abc123')).toBe('/examples/abc123');
+  expect(pathFromLegacyHash('#/elucidate')).toBe('/');
+  expect(pathFromLegacyHash('#/nonsense')).toBeNull();
+  expect(pathFromLegacyHash('')).toBeNull();
 });
 
 test('slots are summed across worker nodes', () => {

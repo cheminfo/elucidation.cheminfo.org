@@ -235,3 +235,17 @@ button {
   font-size: 0.8125rem;
   line-height: 1.35;
 }
+
+/* The family, in the page rather than only behind the Tools button: this is
+   what lets a crawler — and a reader — walk from one of our tools to the next. */
+.app-footer {
+  border-top: 1px solid var(--border);
+  margin-top: 2rem;
+  background: var(--surface);
+}
+
+.app-footer__inner {
+  max-width: var(--page-max);
+  padding: 1.25rem;
+  margin: 0 auto;
+}
