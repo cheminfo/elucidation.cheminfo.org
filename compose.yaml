@@ -3,9 +3,9 @@
 # app's settings at http://localhost:8000, or put both behind a reverse proxy.
 services:
   frontend:
-    # IMAGE_TAG is managed by ./deploy.sh so every build stays addressable for
-    # a rollback. Unset, this runs the released :latest image.
-    image: ${IMAGE_NAME:-ghcr.io/cheminfo/elucidation-frontend}:${IMAGE_TAG:-latest}
+    # IMAGE_TAG is managed by the server's deploy script so every build stays
+    # addressable for a rollback. Unset, this runs the released :latest image.
+    image: ${IMAGE_NAME:-ghcr.io/cheminfo/elucidation.cheminfo.org}:${IMAGE_TAG:-latest}
     build: .
     init: true
     read_only: true
