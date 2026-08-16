@@ -204,6 +204,9 @@ button {
 
 .page {
   max-width: var(--page-max);
+  /* The page owns the screen it opens on, so the family links below it are
+     always reached by scrolling, however short the page is. */
+  min-height: calc(100dvh - var(--header-height));
   min-width: 0;
   padding: 1rem 1.25rem 1.5rem;
   margin: 0 auto;
