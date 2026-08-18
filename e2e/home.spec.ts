@@ -57,7 +57,9 @@ test('the header carries the Cite and Tools utilities', async ({ page }) => {
 
   await header.getByRole('button', { name: 'Tools' }).click();
   // The ecosystem menu opens the other sites of the family.
-  await expect(page.getByRole('link', { name: /chemcalc/i })).toBeVisible();
+  await expect(
+    page.getByLabel('Our other tools').getByRole('link', { name: /chemcalc/i }),
+  ).toBeVisible();
 });
 
 test('the two entry points navigate where they say', async ({ page }) => {
@@ -65,7 +67,7 @@ test('the two entry points navigate where they say', async ({ page }) => {
 
   await page.getByRole('button', { name: 'Browse examples' }).click();
   await expect(page.getByTestId('challenge-card').first()).toBeVisible();
-  expect(page.url()).toContain('#/examples');
+  expect(new URL(page.url()).pathname).toBe('/examples');
 
   await page.goto('/');
   await page.getByRole('button', { name: 'How the method works' }).click();
@@ -74,7 +76,7 @@ test('the two entry points navigate where they say', async ({ page }) => {
       name: /Structure elucidation from a 1H NMR spectrum/,
     }),
   ).toBeVisible();
-  expect(page.url()).toContain('#/about');
+  expect(new URL(page.url()).pathname).toBe('/about');
 });
 
 test('the welcome panel gives way to the spectrum once a file is loaded', async ({

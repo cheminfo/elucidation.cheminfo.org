@@ -1,6 +1,8 @@
 import { Icon, Tag } from '@blueprintjs/core';
+import { effect } from '@preact/signals-react';
 import { useSignals } from '@preact/signals-react/runtime';
 import { useEffect } from 'react';
+import { startDocumentMeta } from 'react-cheminfo/core';
 import { CiteButton, EcosystemButton, EcosystemLinks } from 'react-cheminfo/ui';
 
 import { useJobPolling } from './api/usePolling.ts';
@@ -12,8 +14,8 @@ import { DebugPage } from './pages/debug/DebugPage.tsx';
 import { ElucidatePage } from './pages/elucidate/ElucidatePage.tsx';
 import { ExamplesPage } from './pages/examples/ExamplesPage.tsx';
 import { JobsPage } from './pages/jobs/JobsPage.tsx';
+import { APP_ROUTES } from './seo/routes.ts';
 import { activeJobId } from './state/data.ts';
-import { startDocumentMeta } from './state/documentMeta.ts';
 import { startRunRestore } from './state/restore.ts';
 import { hydrateRuns, runs } from './state/runs.ts';
 import type { PageName } from './state/view.ts';
@@ -37,7 +39,18 @@ const TABS: Array<{
 export function App() {
   useSignals();
   useEffect(() => startRouting(), []);
-  useEffect(() => startDocumentMeta(), []);
+  useEffect(
+    () =>
+      startDocumentMeta({
+        site: 'elucidation',
+        routes: APP_ROUTES,
+        // The id a route carries is dropped: a run and a challenge are opened
+        // inside a page, not indexed beside it.
+        url: () => routePath({ page: route.value.page, id: null }),
+        follow: effect,
+      }),
+    [],
+  );
   useEffect(() => {
     startRunRestore();
     void hydrateRuns();

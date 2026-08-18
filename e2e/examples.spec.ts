@@ -51,7 +51,7 @@ test('a challenge is deep-linkable and the spectrum renders', async ({
   await page.goto('/#/examples');
   await page.getByTestId('challenge-card').first().click();
   const url = page.url();
-  expect(url).toContain('#/examples/');
+  expect(new URL(url).pathname).toMatch(/^\/examples\/.+/);
 
   await page.goto(url);
   await expect(

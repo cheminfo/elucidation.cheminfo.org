@@ -167,7 +167,7 @@ test('a running job is still shown after a reload', async ({ page }) => {
 
   await expect(page.getByTestId('job-progress')).toContainText('Running');
   // The id must reach the URL, because that is what survives the reload.
-  expect(page.url()).toContain('#/elucidate/reload-1');
+  expect(new URL(page.url()).pathname).toBe('/reload-1');
 
   await page.reload();
 
