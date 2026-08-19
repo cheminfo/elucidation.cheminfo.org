@@ -34,7 +34,7 @@ export function HomeTiles() {
         <h2 style={{ margin: 0, fontSize: 18 }}>
           Structure elucidation from a 1H NMR spectrum
         </h2>
-        <p style={{ margin: 0, color: 'var(--muted)' }}>
+        <p style={{ margin: 0, color: 'var(--text-muted)' }}>
           Drop a spectrum and give its molecular formula. A genetic algorithm
           then searches chemical space for the structures whose predicted
           spectrum best matches yours, and returns them ranked. A run typically
@@ -52,7 +52,7 @@ export function HomeTiles() {
       >
         <Card style={{ display: 'grid', gap: 10, alignContent: 'start' }}>
           <TileHeading icon="grid-view" title="Reference examples" />
-          <p style={{ margin: 0, color: 'var(--muted)', fontSize: 13 }}>
+          <p style={{ margin: 0, color: 'var(--text-muted)', fontSize: 13 }}>
             Solved challenges from the paper, each with its spectrum and
             precomputed candidates. They open instantly and need no run, so this
             is the quickest way to see what the results look like.
@@ -77,7 +77,7 @@ export function HomeTiles() {
             }
           />
           {recent.length === 0 ? (
-            <p style={{ margin: 0, color: 'var(--muted)', fontSize: 13 }}>
+            <p style={{ margin: 0, color: 'var(--text-muted)', fontSize: 13 }}>
               Nothing submitted yet. Runs you start are kept in this browser and
               come back after a reload, with their status refreshed from the
               server.
@@ -130,7 +130,7 @@ function RecentRun(props: { run: StoredRun }) {
         </span>
         <JobStatusTag state={run.state} />
         <span
-          style={{ color: 'var(--muted)', whiteSpace: 'nowrap' }}
+          style={{ color: 'var(--text-muted)', whiteSpace: 'nowrap' }}
           title={
             run.submittedAt === 0
               ? undefined

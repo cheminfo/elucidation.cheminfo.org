@@ -1,13 +1,21 @@
-import { Icon, Tag } from '@blueprintjs/core';
+import type { IconName } from '@blueprintjs/core';
+import { Tag } from '@blueprintjs/core';
 import { effect } from '@preact/signals-react';
 import { useSignals } from '@preact/signals-react/runtime';
 import { useEffect } from 'react';
 import { startDocumentMeta } from 'react-cheminfo/core';
-import { CiteButton, EcosystemButton, EcosystemLinks } from 'react-cheminfo/ui';
+import type { NavItem } from 'react-cheminfo/ui';
+import {
+  CiteButton,
+  EcosystemButton,
+  NavLink,
+  SiteFooter,
+  SiteHeader,
+  SiteTheme,
+  useCompactHeader,
+} from 'react-cheminfo/ui';
 
 import { useJobPolling } from './api/usePolling.ts';
-import { BrandMark, Wordmark } from './components/Brand.tsx';
-import { useCompactHeader } from './components/useCompactHeader.ts';
 import { SECS_PAPER } from './data/secsPaper.ts';
 import { AboutPage } from './pages/about/AboutPage.tsx';
 import { DebugPage } from './pages/debug/DebugPage.tsx';
@@ -21,15 +29,15 @@ import { hydrateRuns, runs } from './state/runs.ts';
 import type { PageName } from './state/view.ts';
 import { navigate, route, routePath, startRouting } from './state/view.ts';
 
-const TABS: Array<{
-  page: PageName;
-  label: string;
-  icon: 'lab-test' | 'grid-view' | 'history' | 'info-sign';
-}> = [
+const SITE_ID = 'elucidation';
+const REPOSITORY = 'https://github.com/cheminfo/elucidation.cheminfo.org';
+
+// The pages, in the order the bar lists them. About is not among them: it is
+// about the site rather than a place in the tool, so it sits with the utilities.
+const PAGES: Array<{ page: PageName; label: string; icon: IconName }> = [
   { page: 'elucidate', label: 'Elucidate', icon: 'lab-test' },
   { page: 'examples', label: 'Examples', icon: 'grid-view' },
   { page: 'jobs', label: 'Runs', icon: 'history' },
-  { page: 'about', label: 'About', icon: 'info-sign' },
 ];
 
 /**
@@ -42,7 +50,7 @@ export function App() {
   useEffect(
     () =>
       startDocumentMeta({
-        site: 'elucidation',
+        site: SITE_ID,
         routes: APP_ROUTES,
         // The id a route carries is dropped: a run and a challenge are opened
         // inside a page, not indexed beside it.
@@ -60,10 +68,55 @@ export function App() {
   useJobPolling(activeJobId.value);
 
   const current = route.value.page;
+  const compact = useCompactHeader();
 
   return (
     <>
-      <Header current={current} />
+      <SiteTheme siteId={SITE_ID} />
+
+      <SiteHeader
+        siteId={SITE_ID}
+        markSize={26}
+        nav={navItems()}
+        activeId={current}
+        homeHref="/"
+        onHome={() => {
+          navigate('elucidate');
+        }}
+        actions={
+          <>
+            <NavLink
+              item={{
+                id: 'about',
+                label: compact ? null : 'About',
+                icon: 'info-sign',
+                title: 'About',
+                href: routePath({ page: 'about', id: null }),
+                onSelect: () => {
+                  navigate('about');
+                },
+              }}
+              active={current === 'about'}
+            />
+            <NavLink
+              item={{
+                id: 'source',
+                label: compact ? null : 'Source',
+                icon: 'git-repo',
+                title: 'Source of this web interface',
+                href: REPOSITORY,
+                external: true,
+              }}
+            />
+            <CiteButton reference={SECS_PAPER} compact={compact} />
+            <EcosystemButton compact={compact} currentSiteId={SITE_ID} />
+          </>
+        }
+      />
+      <p className="app-tagline">
+        SECS · structure elucidation from NMR spectra
+      </p>
+
       <main className="page">
         {current === 'elucidate' && <ElucidatePage />}
         {current === 'examples' && <ExamplesPage />}
@@ -71,89 +124,39 @@ export function App() {
         {current === 'about' && <AboutPage />}
         {current === 'debug' && <DebugPage />}
       </main>
-      <footer className="app-footer no-print">
-        <div className="app-footer__inner">
-          <EcosystemLinks currentSiteId="elucidation" />
-        </div>
-      </footer>
+
+      <SiteFooter siteId={SITE_ID} />
     </>
   );
 }
 
-function Header(props: { current: PageName }) {
-  useSignals();
-  const { current } = props;
-  const compact = useCompactHeader();
+/**
+ * The pages of the bar, each a real address as well as an action, so a crawler
+ * walks the site and a middle click opens a tab of its own.
+ * @returns One entry per page, the runs entry carrying what is still running.
+ */
+function navItems(): NavItem[] {
   const runningCount = runs.value.filter(
     (run) => run.state === 'pending' || run.state === 'running',
   ).length;
 
-  return (
-    <>
-      <header className="app-header">
-        <div className="app-header__inner">
-          <a
-            href="#/elucidate"
-            className="brand"
-            title="elucidation.cheminfo.org"
-          >
-            <BrandMark />
-            <Wordmark />
-          </a>
-          <nav className="app-header-nav">
-            {TABS.map((tab) => (
-              <a
-                key={tab.page}
-                href={routePath({ page: tab.page, id: null })}
-                className={
-                  current === tab.page
-                    ? 'nav-link nav-link--active'
-                    : 'nav-link'
-                }
-                onClick={(event) => {
-                  // A real link, so a crawler walks the site and a middle click
-                  // opens a tab; the plain click is the one taken over.
-                  if (event.metaKey || event.ctrlKey || event.shiftKey) return;
-                  event.preventDefault();
-                  navigate(
-                    tab.page,
-                    // Keep the open run in the address so a reload comes back
-                    // to it.
-                    tab.page === 'elucidate'
-                      ? (activeJobId.value ?? undefined)
-                      : undefined,
-                  );
-                }}
-              >
-                <Icon icon={tab.icon} size={14} />
-                {tab.label}
-                {tab.page === 'jobs' && runningCount > 0 ? (
-                  <Tag round minimal intent="primary">
-                    {runningCount}
-                  </Tag>
-                ) : null}
-              </a>
-            ))}
-          </nav>
-          <div className="app-header-actions">
-            <a
-              className="nav-link"
-              href="https://github.com/cheminfo/elucidation.cheminfo.org"
-              target="_blank"
-              rel="noreferrer"
-              title="Source of this web interface"
-            >
-              <Icon icon="git-repo" size={14} />
-              {compact ? null : 'Source'}
-            </a>
-            <CiteButton reference={SECS_PAPER} compact={compact} />
-            <EcosystemButton compact={compact} currentSiteId="elucidation" />
-          </div>
-        </div>
-      </header>
-      <p className="app-tagline">
-        SECS · structure elucidation from NMR spectra
-      </p>
-    </>
-  );
+  return PAGES.map((tab) => ({
+    id: tab.page,
+    label: tab.label,
+    icon: tab.icon,
+    href: routePath({ page: tab.page, id: null }),
+    after:
+      tab.page === 'jobs' && runningCount > 0 ? (
+        <Tag round minimal intent="primary">
+          {runningCount}
+        </Tag>
+      ) : null,
+    onSelect: () => {
+      navigate(
+        tab.page,
+        // Keep the open run in the address so a reload comes back to it.
+        tab.page === 'elucidate' ? (activeJobId.value ?? undefined) : undefined,
+      );
+    },
+  }));
 }

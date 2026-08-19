@@ -72,7 +72,7 @@ export function CandidateList(props: CandidateListProps) {
 
       <SubstructureFilter query={query} onQueryChange={setQuery} />
 
-      <div style={{ fontSize: 12, color: 'var(--muted)' }}>
+      <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>
         Showing {filtered.length} of {ranked.candidates.length} candidates
         {ranked.rejectedCount > 0 &&
           ` · ${ranked.rejectedCount} rejected for not matching the formula`}

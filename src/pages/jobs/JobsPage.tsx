@@ -103,7 +103,7 @@ export function JobsPage() {
         />
         <span style={{ flex: 1 }} />
         {usage !== null && (
-          <span style={{ fontSize: 12, color: 'var(--muted)' }}>
+          <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>
             {formatBytes(usage.usage)} stored
           </span>
         )}
@@ -142,7 +142,7 @@ export function JobsPage() {
               >
                 <td>
                   {run.expected === null ? (
-                    <span style={{ color: 'var(--muted)' }}>—</span>
+                    <span style={{ color: 'var(--text-muted)' }}>—</span>
                   ) : (
                     <IdcodeSvgRenderer
                       idcode={run.expected.idCode}

@@ -88,7 +88,7 @@ export function JobProgress(props: JobProgressProps) {
         {!waiting && !overrun && (
           <span
             data-testid="job-remaining"
-            style={{ fontSize: 12, color: 'var(--muted)' }}
+            style={{ fontSize: 12, color: 'var(--text-muted)' }}
           >
             about {formatDuration(remaining)} left
           </span>
@@ -118,7 +118,12 @@ export function JobProgress(props: JobProgressProps) {
       />
 
       <div
-        style={{ fontSize: 12, color: 'var(--muted)', display: 'grid', gap: 2 }}
+        style={{
+          fontSize: 12,
+          color: 'var(--text-muted)',
+          display: 'grid',
+          gap: 2,
+        }}
       >
         <span>{describeStage(run.status?.status ?? '', waiting)}</span>
         <span data-testid="job-estimate">

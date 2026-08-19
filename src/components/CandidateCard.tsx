@@ -31,7 +31,7 @@ export function CandidateCard(props: CandidateCardProps) {
       style={{
         display: 'grid',
         gap: 8,
-        borderLeft: `4px solid ${candidate.isExpected ? '#238551' : 'transparent'}`,
+        borderLeft: `4px solid ${candidate.isExpected ? 'var(--success)' : 'transparent'}`,
       }}
     >
       <div
@@ -71,7 +71,7 @@ export function CandidateCard(props: CandidateCardProps) {
         style={{
           display: 'flex',
           justifyContent: 'center',
-          background: 'var(--structure-bg)',
+          background: 'var(--surface)',
           borderRadius: 4,
           padding: 4,
         }}
@@ -105,7 +105,9 @@ export function CandidateCard(props: CandidateCardProps) {
             style={{
               height: '100%',
               width: `${(fraction * 100).toFixed(1)}%`,
-              background: candidate.isExpected ? '#238551' : '#1c6fd4',
+              background: candidate.isExpected
+                ? 'var(--success)'
+                : 'var(--accent)',
               borderRadius: 2,
             }}
           />

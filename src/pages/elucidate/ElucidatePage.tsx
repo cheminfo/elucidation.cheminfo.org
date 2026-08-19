@@ -152,7 +152,7 @@ export function ElucidatePage() {
               integral={spectrum.integral}
               showIntegral={showIntegral}
             />
-            <p style={{ fontSize: 12, color: 'var(--muted)', margin: 0 }}>
+            <p style={{ fontSize: 12, color: 'var(--text-muted)', margin: 0 }}>
               Resampled to 10 000 points between −2 and 10 ppm and rescaled to
               0–1. This fixed grid is what the model was trained on. Scroll to
               scale the intensity, drag to zoom a shift range, double click to
@@ -215,7 +215,7 @@ function RunSummary(props: { run: StoredRun }) {
       )}
       {run.submittedAt > 0 && (
         <span
-          style={{ fontSize: 12, color: 'var(--muted)' }}
+          style={{ fontSize: 12, color: 'var(--text-muted)' }}
           title={new Date(run.submittedAt).toLocaleString()}
         >
           submitted {formatRelativeTime(run.submittedAt)}

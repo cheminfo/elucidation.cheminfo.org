@@ -126,7 +126,13 @@ export function InputPanel(props: InputPanelProps) {
 
       {expected !== null && (
         <div>
-          <div style={{ fontSize: 12, color: 'var(--muted)', marginBottom: 4 }}>
+          <div
+            style={{
+              fontSize: 12,
+              color: 'var(--text-muted)',
+              marginBottom: 4,
+            }}
+          >
             Reference structure
           </div>
           <div style={{ display: 'flex', justifyContent: 'center' }}>

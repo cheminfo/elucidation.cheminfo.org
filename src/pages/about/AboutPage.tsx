@@ -53,7 +53,7 @@ export function AboutPage() {
         {STEPS.map((step) => (
           <Card key={step.title} compact style={{ display: 'grid', gap: 6 }}>
             <strong>{step.title}</strong>
-            <span style={{ fontSize: 13, color: 'var(--muted)' }}>
+            <span style={{ fontSize: 13, color: 'var(--text-muted)' }}>
               {step.body}
             </span>
           </Card>

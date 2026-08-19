@@ -52,7 +52,7 @@ export function ChallengeCard(props: ChallengeCardProps) {
           {solved ? `Rank ${challenge.positionNoStereo + 1}` : 'Not found'}
         </Tag>
       </div>
-      <div style={{ fontSize: 12, color: 'var(--muted)' }}>
+      <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>
         {challenge.candidates.length} candidates · {challenge.nbHydrogens} H ·{' '}
         {challenge.monoisotopicMass.toFixed(3)} Da
       </div>

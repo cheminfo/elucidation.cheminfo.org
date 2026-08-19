@@ -10,6 +10,8 @@ import {
   usePlotControls,
 } from 'react-plot';
 
+// Two chart series, not chrome: the trace and its integral are told apart by
+// their colours, so they keep their own rather than following the brand.
 const SPECTRUM_COLOR = '#1c6fd4';
 const INTEGRAL_COLOR = '#c87619';
 const MIN_WIDTH = 320;

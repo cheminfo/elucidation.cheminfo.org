@@ -34,7 +34,9 @@ export function DebugPage() {
     <div style={{ display: 'grid', gap: 16 }}>
       <Card style={{ display: 'grid', gap: 8 }}>
         <strong>Queue</strong>
-        {error !== null && <span style={{ color: '#c23030' }}>{error}</span>}
+        {error !== null && (
+          <span style={{ color: 'var(--danger)' }}>{error}</span>
+        )}
         {stats !== null && (
           <HTMLTable compact>
             <tbody>

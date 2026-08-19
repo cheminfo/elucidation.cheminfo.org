@@ -26,7 +26,7 @@ export function WelcomePanel() {
             style={{
               margin: 0,
               fontSize: 15,
-              color: 'var(--muted)',
+              color: 'var(--text-muted)',
               maxWidth: '62ch',
             }}
           >
@@ -96,14 +96,14 @@ function PathCard(props: PathCardProps) {
         padding: 16,
         borderRadius: 6,
         border: '1px solid var(--border)',
-        background: 'var(--panel-bg)',
+        background: 'var(--surface-raised)',
       }}
     >
       <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
         <Icon icon={icon} intent="primary" />
         <strong>{title}</strong>
       </div>
-      <span style={{ fontSize: 13, color: 'var(--muted)' }}>{body}</span>
+      <span style={{ fontSize: 13, color: 'var(--text-muted)' }}>{body}</span>
       {note !== undefined && (
         <Tag minimal icon="time">
           {note}
@@ -130,7 +130,7 @@ function CitationCard() {
       data-testid="home-citation"
     >
       <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-        <Icon icon="book" color="var(--muted)" />
+        <Icon icon="book" color="var(--text-muted)" />
         <strong style={{ fontSize: 13 }}>
           If you use this tool, please cite
         </strong>

@@ -86,7 +86,7 @@ export function SubstructureFilter(props: SubstructureFilterProps) {
               />
             </div>
           </div>
-          <p style={{ fontSize: 12, color: 'var(--muted)', marginTop: 4 }}>
+          <p style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 4 }}>
             Draw a fragment to keep only candidates that contain it.
           </p>
         </div>

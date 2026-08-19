@@ -74,7 +74,7 @@ export function ExamplesPage() {
     <div style={{ display: 'grid', gap: 16 }}>
       <Card style={{ display: 'grid', gap: 6 }}>
         <strong>Reference challenges</strong>
-        <p style={{ margin: 0, color: 'var(--muted)' }}>
+        <p style={{ margin: 0, color: 'var(--text-muted)' }}>
           {challenges.length} experimental spectra of compounds the model had
           never seen, each with the ranked candidates it produced. The correct
           structure was recovered for {solved} of them.
