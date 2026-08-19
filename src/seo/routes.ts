@@ -42,7 +42,7 @@ export const PAGE_ROUTES: readonly RouteMeta[] = [
     path: '/about',
     title: 'About SECS, and what to cite',
     description:
-      'How structure elucidation from a 1H NMR spectrum works here, what the model was trained on, its limits, and the paper to cite when it helped.',
+      'What SECS does, what this deployment deliberately does not do, what it is built on, and the paper to cite when it helped.',
   },
 ];
 

@@ -30,7 +30,6 @@ import type { PageName } from './state/view.ts';
 import { navigate, route, routePath, startRouting } from './state/view.ts';
 
 const SITE_ID = 'elucidation';
-const REPOSITORY = 'https://github.com/cheminfo/elucidation.cheminfo.org';
 
 // The pages, in the order the bar lists them. About is not among them: it is
 // about the site rather than a place in the tool, so it sits with the utilities.
@@ -97,16 +96,6 @@ export function App() {
                 },
               }}
               active={current === 'about'}
-            />
-            <NavLink
-              item={{
-                id: 'source',
-                label: compact ? null : 'Source',
-                icon: 'git-repo',
-                title: 'Source of this web interface',
-                href: REPOSITORY,
-                external: true,
-              }}
             />
             <CiteButton reference={SECS_PAPER} compact={compact} />
             <EcosystemButton compact={compact} currentSiteId={SITE_ID} />

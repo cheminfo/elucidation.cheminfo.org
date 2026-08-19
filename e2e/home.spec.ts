@@ -62,7 +62,9 @@ test('the header carries the Cite and Tools utilities', async ({ page }) => {
   ).toBeVisible();
 });
 
-test('the two entry points navigate where they say', async ({ page }) => {
+test('the entry point navigates where it says, and the method unfolds in place', async ({
+  page,
+}) => {
   await page.goto('/');
 
   await page.getByRole('button', { name: 'Browse examples' }).click();
@@ -70,13 +72,38 @@ test('the two entry points navigate where they say', async ({ page }) => {
   expect(new URL(page.url()).pathname).toBe('/examples');
 
   await page.goto('/');
+  const steps = page.getByText('1. Embed the spectrum', { exact: true });
+  await expect(steps).toBeHidden();
   await page.getByRole('button', { name: 'How the method works' }).click();
+  await expect(steps).toBeVisible();
+  await expect(
+    page.getByText('4. Rank with confidence', { exact: true }),
+  ).toBeVisible();
+  // The method is read where a run is started, so the address does not move.
+  expect(new URL(page.url()).pathname).toBe('/');
+});
+
+test('the about page is the family page, with what this deployment does not do', async ({
+  page,
+}) => {
+  await page.goto('/about');
+
   await expect(
     page.getByRole('heading', {
-      name: /Structure elucidation from a 1H NMR spectrum/,
+      name: 'What this deployment does and does not do',
     }),
   ).toBeVisible();
-  expect(new URL(page.url()).pathname).toBe('/about');
+  await expect(page.getByText('Carbon, IR and HSQC encoders')).toBeVisible();
+  await expect(
+    page.getByRole('link', { name: 'lamalab-org/secs-app' }),
+  ).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Built on' })).toBeVisible();
+  await expect(
+    page.getByRole('heading', { name: 'How to cite' }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole('link', { name: 'doi:10.1038/s41467-026-73846-y' }),
+  ).toBeVisible();
 });
 
 test('the welcome panel gives way to the spectrum once a file is loaded', async ({

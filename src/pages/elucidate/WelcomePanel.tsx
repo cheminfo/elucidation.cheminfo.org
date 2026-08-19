@@ -1,17 +1,37 @@
 import { Button, Card, Icon, Tag } from '@blueprintjs/core';
-import { CiteButton } from 'react-cheminfo/ui';
+import { CiteButton, CollapsibleSection } from 'react-cheminfo/ui';
 
 import { CitationLine } from '../../components/CitationLine.tsx';
 import { SECS_PAPER } from '../../data/secsPaper.ts';
 import { navigate } from '../../state/view.ts';
 
+/** The four steps between a spectrum and a ranked list of structures. */
+const STEPS = [
+  {
+    title: '1. Embed the spectrum',
+    body: 'Encoders trained with a contrastive objective place a spectrum and its molecule at nearly the same point in a shared space, so a measured spectrum can be used directly as a query for molecules.',
+  },
+  {
+    title: '2. Retrieve reference molecules',
+    body: 'The spectrum embedding is matched against an index built from PubChem, returning the known compounds whose predicted spectra look most like the measurement.',
+  },
+  {
+    title: '3. Evolve new candidates',
+    body: 'Because the compound may not be in any database, a graph genetic algorithm seeds itself with those hits and mutates molecular graphs. Fitness is similarity to the spectrum, penalised for departing from the given molecular formula.',
+  },
+  {
+    title: '4. Rank with confidence',
+    body: 'The final pool is ranked by similarity score. Scores are comparable within a run and act as calibrated confidence estimates.',
+  },
+];
+
 /**
  * The landing state of the workspace, shown until a spectrum is loaded.
  *
  * It stays deliberately short: it names what the tool does and points at the two ways
- * in, then gets out of the way. The method itself is explained on the About page rather
- * than repeated here, and it does not offer a second drop target — the one in the input
- * panel to the left is the only one, and this panel points at it.
+ * in, then gets out of the way. The method is folded away under its own heading, and it
+ * does not offer a second drop target — the one in the input panel to the left is the
+ * only one, and this panel points at it.
  * @returns The welcome panel.
  */
 export function WelcomePanel() {
@@ -61,15 +81,28 @@ export function WelcomePanel() {
           />
         </div>
 
-        <div>
-          <Button
-            variant="minimal"
-            size="small"
-            icon="info-sign"
-            text="How the method works"
-            onClick={() => navigate('about')}
-          />
-        </div>
+        <CollapsibleSection
+          title="How the method works"
+          icon="info-sign"
+          defaultOpen={false}
+        >
+          <div
+            style={{
+              display: 'grid',
+              gap: 12,
+              gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+            }}
+          >
+            {STEPS.map((step) => (
+              <div key={step.title} style={{ display: 'grid', gap: 6 }}>
+                <strong style={{ fontSize: 13 }}>{step.title}</strong>
+                <span style={{ fontSize: 13, color: 'var(--text-muted)' }}>
+                  {step.body}
+                </span>
+              </div>
+            ))}
+          </div>
+        </CollapsibleSection>
       </Card>
 
       <CitationCard />
