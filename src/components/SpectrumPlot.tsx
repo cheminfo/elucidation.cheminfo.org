@@ -1,4 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
+import { chartSeriesColor } from 'react-cheminfo/core';
+import { useContainerSize } from 'react-cheminfo/ui';
 import {
   Annotations,
   Axis,
@@ -11,9 +13,10 @@ import {
 } from 'react-plot';
 
 // Two chart series, not chrome: the trace and its integral are told apart by
-// their colours, so they keep their own rather than following the brand.
-const SPECTRUM_COLOR = '#1c6fd4';
-const INTEGRAL_COLOR = '#c87619';
+// their colours, so they are read off the family's colour-blind-safe palette
+// rather than following the brand.
+const SPECTRUM_COLOR = chartSeriesColor(0);
+const INTEGRAL_COLOR = chartSeriesColor(1);
 const MIN_WIDTH = 320;
 const AXIS_IDS = ['x', 'y', 'integral'];
 
@@ -53,7 +56,11 @@ function SpectrumPlotContent(props: SpectrumPlotProps) {
     controllerId = 'spectrum',
   } = props;
 
-  const [containerRef, plotWidth] = useContainerWidth();
+  const containerRef = useRef<HTMLDivElement>(null);
+  // The measurement is zero until the container is first observed, and a plot
+  // built at zero width paints nothing.
+  const { width } = useContainerSize(containerRef);
+  const plotWidth = Math.max(MIN_WIDTH, Math.floor(width));
   const controls = usePlotControls({ controllerId });
 
   // Wheel scales the intensity axis, so small peaks can be brought up without losing
@@ -119,28 +126,6 @@ function SpectrumPlotContent(props: SpectrumPlotProps) {
       </div>
     </div>
   );
-}
-
-function useContainerWidth(): [React.RefObject<HTMLDivElement | null>, number] {
-  const ref = useRef<HTMLDivElement>(null);
-  const [value, setValue] = useState(MIN_WIDTH);
-
-  useEffect(() => {
-    const element = ref.current;
-    if (element === null) return;
-    const observer = new ResizeObserver((entries) => {
-      const entry = entries[0];
-      if (entry !== undefined) {
-        setValue(Math.max(MIN_WIDTH, Math.floor(entry.contentRect.width)));
-      }
-    });
-    observer.observe(element);
-    return () => {
-      observer.disconnect();
-    };
-  }, []);
-
-  return [ref, value];
 }
 
 function toPoints(data: {

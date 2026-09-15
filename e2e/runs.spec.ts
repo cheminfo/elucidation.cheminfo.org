@@ -239,15 +239,17 @@ test('status capsules filter the run list', async ({ page }) => {
   await seedRuns(page, TWO_RUNS);
   await page.goto('/#/jobs');
 
-  await page.getByTestId('filter-done').click();
+  const capsules = page.getByRole('group', { name: 'Status' });
+
+  await capsules.getByText(/^Finished/).click();
   await expect(page.getByTestId('job-row')).toHaveCount(1);
   await expect(page.getByTestId('job-row').first()).toContainText('Finished');
 
-  await page.getByTestId('filter-failed').click();
+  await capsules.getByText(/^Failed/).click();
   await expect(page.getByTestId('job-row')).toHaveCount(1);
   await expect(page.getByTestId('job-row').first()).toContainText('Failed');
 
-  await page.getByTestId('filter-all').click();
+  await capsules.getByText(/^All/).click();
   await expect(page.getByTestId('job-row')).toHaveCount(2);
 });
 

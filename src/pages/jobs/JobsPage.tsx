@@ -8,10 +8,11 @@ import {
 } from '@blueprintjs/core';
 import { useSignals } from '@preact/signals-react/runtime';
 import { useEffect, useState } from 'react';
+import { formatBytes } from 'react-cheminfo/core';
+import { Structure } from 'react-cheminfo/structure';
+import { CapsuleFilter } from 'react-cheminfo/ui';
 import { MF } from 'react-mf';
-import { IdcodeSvgRenderer } from 'react-ocl';
 
-import { CapsuleFilter } from '../../components/CapsuleFilter.tsx';
 import { JobStatusTag } from '../../components/JobStatusTag.tsx';
 import { useListKeyboardNav } from '../../components/useListKeyboardNav.ts';
 import { activeJobId, challengeCandidates } from '../../state/data.ts';
@@ -77,6 +78,7 @@ export function JobsPage() {
         }}
       >
         <CapsuleFilter
+          label="Status"
           options={[
             { value: 'all', label: 'All', count: all.length },
             {
@@ -99,7 +101,7 @@ export function JobsPage() {
             },
           ]}
           value={filter}
-          onChange={(value) => setFilter(value as Filter)}
+          onChange={setFilter}
         />
         <span style={{ flex: 1 }} />
         {usage !== null && (
@@ -141,16 +143,11 @@ export function JobsPage() {
                 }}
               >
                 <td>
-                  {run.expected === null ? (
-                    <span style={{ color: 'var(--text-muted)' }}>—</span>
-                  ) : (
-                    <IdcodeSvgRenderer
-                      idcode={run.expected.idCode}
-                      width={90}
-                      height={60}
-                      autoCrop
-                    />
-                  )}
+                  <Structure
+                    idCode={run.expected?.idCode}
+                    width={90}
+                    height={60}
+                  />
                 </td>
                 <td>
                   <MF mf={run.request.mf} />
@@ -244,11 +241,6 @@ function useStorageUsage(): { usage: number; quota: number } | null {
     };
   }, []);
   return usage;
-}
-
-function formatBytes(bytes: number): string {
-  if (bytes < 1024 * 1024) return `${Math.round(bytes / 1024)} kB`;
-  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 }
 
 function matchesFilter(run: StoredRun, filter: Filter): boolean {

@@ -49,6 +49,7 @@ body {
 /* The tagline names the method — too long for the bar, so it sits on its own
    line directly under it rather than being dropped. */
 .app-tagline {
+  width: 100%;
   max-width: var(--page-max);
   padding: 0.6rem 1.25rem 0;
   margin: 0 auto;
@@ -56,14 +57,54 @@ body {
   font-size: 0.875rem;
 }
 
+/* The header and the page own the screen they open on, so the family links
+   below them are always reached by scrolling, however short the page is. */
+.app-screen {
+  display: flex;
+  min-height: 100dvh;
+  flex-direction: column;
+}
+
+.app-screen > main {
+  flex: 1 1 auto;
+}
+
 .page {
+  width: 100%;
   max-width: var(--page-max);
-  /* The page owns the screen it opens on, so the family links below it are
-     always reached by scrolling, however short the page is. */
-  min-height: calc(100dvh - var(--header-height));
   min-width: 0;
   padding: 1rem 1.25rem 1.5rem;
   margin: 0 auto;
+}
+
+/* The input column beside the results; on a phone the results go under it. */
+.elucidate-grid {
+  display: grid;
+  align-items: start;
+  gap: 16px;
+  grid-template-columns: minmax(280px, 340px) minmax(0, 1fr);
+}
+
+@media (max-width: 759px) {
+  .elucidate-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* A phone has no width to spend on nested gutters: the page and its cards keep
+   just enough to separate an edge from a line of text. */
+@media (max-width: 600px) {
+  .app-tagline {
+    padding: 0.5rem 0.75rem 0;
+  }
+
+  .page {
+    padding: 0.5rem 4px 1rem;
+  }
+
+  .page .bp6-card {
+    padding: 8px;
+  }
 }
 
 /* The drop zone is a narrow column: the arrow circle pushes the title onto three

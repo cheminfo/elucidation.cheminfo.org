@@ -7,8 +7,8 @@ import {
   Tag,
 } from '@blueprintjs/core';
 import { useSignals } from '@preact/signals-react/runtime';
+import { Structure } from 'react-cheminfo/structure';
 import { MF } from 'react-mf';
-import { IdcodeSvgRenderer } from 'react-ocl';
 import { DropZone } from 'react-science/ui';
 
 import { formulaFromSmiles } from '../../chemistry/candidates.ts';
@@ -136,12 +136,7 @@ export function InputPanel(props: InputPanelProps) {
             Reference structure
           </div>
           <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <IdcodeSvgRenderer
-              idcode={expected.idCode}
-              width={220}
-              height={150}
-              autoCrop
-            />
+            <Structure idCode={expected.idCode} width={220} height={150} />
           </div>
         </div>
       )}

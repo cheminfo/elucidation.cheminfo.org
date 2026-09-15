@@ -35,17 +35,13 @@ test('there is exactly one drop target on the page', async ({ page }) => {
   await expect(page.locator('input[type="file"]')).toHaveCount(1);
 });
 
-test('the citation and DOI are on the home page, not only in the header', async ({
+test('the Cite button is on the home page, not only in the header', async ({
   page,
 }) => {
   await page.goto('/');
 
   const citation = page.getByTestId('home-citation');
   await expect(citation).toBeVisible();
-  await expect(citation).toContainText('Nat. Commun.');
-  await expect(
-    citation.getByRole('link', { name: /doi:10\.1038/ }),
-  ).toBeVisible();
   await expect(citation.getByRole('button', { name: 'Cite' })).toBeVisible();
 });
 
@@ -101,9 +97,13 @@ test('the about page is the family page, with what this deployment does not do',
   await expect(
     page.getByRole('heading', { name: 'How to cite' }),
   ).toBeVisible();
+  await page
+    .getByRole('main')
+    .getByRole('button', { name: 'Cite SECS', exact: true })
+    .click();
   await expect(
-    page.getByRole('link', { name: 'doi:10.1038/s41467-026-73846-y' }),
-  ).toBeVisible();
+    page.getByRole('menuitem', { name: /10\.1038\/s41467-026-73846-y/ }),
+  ).toHaveAttribute('href', 'https://doi.org/10.1038/s41467-026-73846-y');
 });
 
 test('the welcome panel gives way to the spectrum once a file is loaded', async ({

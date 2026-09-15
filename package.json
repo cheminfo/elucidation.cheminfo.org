@@ -7,6 +7,7 @@
   "scripts": {
     "build": "vite build",
     "build-challenges": "node scripts/build-challenges.ts",
+    "check-tokens": "node node_modules/react-cheminfo/bin/check-tokens.mjs src",
     "check-types": "tsc --noEmit",
     "dev": "vite",
     "eslint": "eslint .",
@@ -15,7 +16,8 @@
     "preview": "vite preview",
     "prettier": "prettier --check .",
     "prettier-write": "prettier --write .",
-    "test": "npm run test-only && npm run check-types && npm run eslint && npm run prettier",
+    "test": "npm run test-only && npm run check-types && npm run check-tokens && npm run eslint && npm run prettier",
+    "test-e2e": "playwright test",
     "test-only": "vitest run --coverage"
   },
   "dependencies": {
@@ -30,10 +32,10 @@
     "mf-parser": "^3.9.1",
     "ml-spectra-processing": "^14.29.2",
     "nmr-processing": "^22.20.2",
-    "openchemlib": "^9.24.0",
+    "openchemlib": "^9.25.0",
     "openchemlib-utils": "^8.17.1",
     "react": "^19.2.0",
-    "react-cheminfo": "^0.11.0",
+    "react-cheminfo": "^0.12.0",
     "react-dom": "^19.2.0",
     "react-mf": "^3.1.1",
     "react-ocl": "^8.7.2",

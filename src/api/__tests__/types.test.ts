@@ -1,6 +1,6 @@
-import { expect, test } from 'vitest';
+import { afterEach, expect, test, vi } from 'vitest';
 
-import { parsePath, pathFromLegacyHash } from '../../state/view.ts';
+import { adoptLegacyHashAddress, parsePath } from '../../state/view.ts';
 import {
   candidateFormula,
   countSlots,
@@ -57,12 +57,46 @@ test('addresses are parsed and deep links carry an id', () => {
   });
 });
 
+/**
+ * Runs the startup adoption against one address.
+ * @param address - The address the browser is on.
+ * @returns The address put in the bar, or null when nothing was adopted.
+ */
+function adopt(address: string): string | null {
+  const url = new URL(address, 'https://elucidation.cheminfo.org');
+  let replaced: string | null = null;
+  vi.stubGlobal('location', {
+    pathname: url.pathname,
+    search: url.search,
+    hash: url.hash,
+  });
+  vi.stubGlobal('history', {
+    replaceState: (_state: unknown, _title: string, next: string) => {
+      replaced = next;
+    },
+  });
+  adoptLegacyHashAddress();
+  return replaced;
+}
+
+afterEach(() => {
+  vi.unstubAllGlobals();
+});
+
 test('a link written when the site routed by the hash still opens', () => {
-  expect(pathFromLegacyHash('#/examples')).toBe('/examples');
-  expect(pathFromLegacyHash('#/examples/abc123')).toBe('/examples/abc123');
-  expect(pathFromLegacyHash('#/elucidate')).toBe('/');
-  expect(pathFromLegacyHash('#/nonsense')).toBeNull();
-  expect(pathFromLegacyHash('')).toBeNull();
+  expect(adopt('/#/examples')).toBe('/examples');
+  expect(adopt('/#/examples/abc123')).toBe('/examples/abc123');
+  // The elucidate page is the home page, so its hash link lands on the single
+  // address the home page has rather than on a second one beside it.
+  expect(adopt('/#/elucidate')).toBe('/');
+  // A root segment the site does not know is a job id, as it is when typed.
+  expect(adopt('/#/abc123')).toBe('/abc123');
+  // An embed configuration lives in the query, and survives the move.
+  expect(adopt('/?embed#/jobs')).toBe('/jobs?embed');
+  // An anchor names a place inside a page, not an address of its own.
+  expect(adopt('/#results')).toBeNull();
+  expect(adopt('/')).toBeNull();
+  expect(adopt('/jobs#/examples')).toBeNull();
 });
 
 test('slots are summed across worker nodes', () => {

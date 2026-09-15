@@ -1,6 +1,6 @@
 import { Card, Tag } from '@blueprintjs/core';
+import { Structure } from 'react-cheminfo/structure';
 import { MF } from 'react-mf';
-import { IdcodeSvgRenderer } from 'react-ocl';
 
 import type { ChallengeSummary } from '../../challenges/load.ts';
 
@@ -27,12 +27,7 @@ export function ChallengeCard(props: ChallengeCardProps) {
       style={{ display: 'grid', gap: 8, alignContent: 'start' }}
     >
       <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <IdcodeSvgRenderer
-          idcode={challenge.idCode}
-          width={200}
-          height={130}
-          autoCrop
-        />
+        <Structure idCode={challenge.idCode} width={200} height={130} />
       </div>
       <div
         style={{

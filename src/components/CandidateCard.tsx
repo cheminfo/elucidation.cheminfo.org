@@ -1,6 +1,7 @@
-import { Button, Card, Tag, Tooltip } from '@blueprintjs/core';
+import { Card, Tag, Tooltip } from '@blueprintjs/core';
+import { Structure } from 'react-cheminfo/structure';
+import { CopyButton } from 'react-cheminfo/ui';
 import { MF } from 'react-mf';
-import { SmilesSvgRenderer } from 'react-ocl';
 
 import type { RankedCandidate } from '../chemistry/candidates.ts';
 
@@ -76,12 +77,7 @@ export function CandidateCard(props: CandidateCardProps) {
           padding: 4,
         }}
       >
-        <SmilesSvgRenderer
-          smiles={candidate.smiles}
-          width={200}
-          height={140}
-          autoCrop
-        />
+        <Structure smiles={candidate.smiles} width={200} height={140} />
       </div>
 
       <div style={{ display: 'grid', gap: 4 }}>
@@ -127,14 +123,11 @@ export function CandidateCard(props: CandidateCardProps) {
         >
           {candidate.smiles}
         </code>
-        <Button
-          variant="minimal"
-          size="small"
-          icon="duplicate"
-          aria-label="Copy SMILES"
-          onClick={() => {
-            void navigator.clipboard?.writeText(candidate.smiles);
-          }}
+        <CopyButton
+          content={candidate.smiles}
+          minimal
+          small
+          title="Copy SMILES"
         />
       </div>
     </Card>

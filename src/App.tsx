@@ -2,8 +2,8 @@ import type { IconName } from '@blueprintjs/core';
 import { Tag } from '@blueprintjs/core';
 import { effect } from '@preact/signals-react';
 import { useSignals } from '@preact/signals-react/runtime';
-import { useEffect } from 'react';
-import { startDocumentMeta } from 'react-cheminfo/core';
+import { useEffect, useState } from 'react';
+import { parseShareConfig, startDocumentMeta } from 'react-cheminfo/core';
 import type { NavItem } from 'react-cheminfo/ui';
 import {
   CiteButton,
@@ -15,8 +15,8 @@ import {
   useCompactHeader,
 } from 'react-cheminfo/ui';
 
+import { ABOUT } from './about.ts';
 import { useJobPolling } from './api/usePolling.ts';
-import { SECS_PAPER } from './data/secsPaper.ts';
 import { AboutPage } from './pages/about/AboutPage.tsx';
 import { DebugPage } from './pages/debug/DebugPage.tsx';
 import { ElucidatePage } from './pages/elucidate/ElucidatePage.tsx';
@@ -68,53 +68,63 @@ export function App() {
 
   const current = route.value.page;
   const compact = useCompactHeader();
+  // Read once: a run the tool opens rewrites the address without the query, and
+  // a framed page must not grow its chrome back when it does.
+  const [share] = useState(() =>
+    parseShareConfig(globalThis.location.search, { parts: [] }),
+  );
 
   return (
     <>
       <SiteTheme siteId={SITE_ID} />
 
-      <SiteHeader
-        siteId={SITE_ID}
-        markSize={26}
-        nav={navItems()}
-        activeId={current}
-        homeHref="/"
-        onHome={() => {
-          navigate('elucidate');
-        }}
-        actions={
-          <>
-            <NavLink
-              item={{
-                id: 'about',
-                label: compact ? null : 'About',
-                icon: 'info-sign',
-                title: 'About',
-                href: routePath({ page: 'about', id: null }),
-                onSelect: () => {
-                  navigate('about');
-                },
-              }}
-              active={current === 'about'}
-            />
-            <CiteButton reference={SECS_PAPER} compact={compact} />
-            <EcosystemButton compact={compact} currentSiteId={SITE_ID} />
-          </>
-        }
-      />
-      <p className="app-tagline">
-        SECS · structure elucidation from NMR spectra
-      </p>
+      <div className="app-screen">
+        <SiteHeader
+          siteId={SITE_ID}
+          embedded={share.embed}
+          markSize={26}
+          nav={navItems()}
+          activeId={current}
+          homeHref="/"
+          onHome={() => {
+            navigate('elucidate');
+          }}
+          actions={
+            <>
+              <NavLink
+                item={{
+                  id: 'about',
+                  label: compact ? null : 'About',
+                  icon: 'info-sign',
+                  title: 'About',
+                  href: routePath({ page: 'about', id: null }),
+                  onSelect: () => {
+                    navigate('about');
+                  },
+                }}
+                active={current === 'about'}
+              />
+              <CiteButton works={ABOUT.cite ?? []} compact={compact} />
+              <EcosystemButton compact={compact} currentSiteId={SITE_ID} />
+            </>
+          }
+        />
+        {share.embed ? null : (
+          <p className="app-tagline">
+            SECS · structure elucidation from NMR spectra
+          </p>
+        )}
 
-      <main className="page">
-        {current === 'elucidate' && <ElucidatePage />}
-        {current === 'examples' && <ExamplesPage />}
-        {current === 'jobs' && <JobsPage />}
-        {current === 'about' && <AboutPage />}
-        {current === 'debug' && <DebugPage />}
-      </main>
+        <main className="page">
+          {current === 'elucidate' && <ElucidatePage />}
+          {current === 'examples' && <ExamplesPage />}
+          {current === 'jobs' && <JobsPage />}
+          {current === 'about' && <AboutPage />}
+          {current === 'debug' && <DebugPage />}
+        </main>
+      </div>
 
-      <SiteFooter siteId={SITE_ID} />
+      <SiteFooter siteId={SITE_ID} embedded={share.embed} />
     </>
   );
 }

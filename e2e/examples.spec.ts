@@ -96,6 +96,7 @@ test('the substructure editor stays inside the box reserved for it', async ({
   await page.getByTestId('challenge-card').first().click();
   await expect(page.getByTestId('candidate-card').first()).toBeVisible();
   await page.getByText('Filter by substructure', { exact: true }).click();
+  await waitForEditor(page);
 
   // The OCL editor renders a fixed-size toolbar in a shadow root and clips nothing,
   // so a box that is too small lets it spill over the candidates below.
@@ -131,6 +132,7 @@ test('clearing the substructure filter also empties the editor', async ({
   await expect(page.getByTestId('candidate-card')).toHaveCount(54);
   await page.getByText('Filter by substructure', { exact: true }).click();
   await page.getByTestId('substructure-editor').scrollIntoViewIfNeeded();
+  await waitForEditor(page);
 
   const empty = await drawingCanvas(page);
   expect(empty.ink).toBe(0);
@@ -157,6 +159,18 @@ test('clearing the substructure filter also empties the editor', async ({
   const cleared = await drawingCanvas(page);
   expect(cleared.ink).toBe(0);
 });
+
+/**
+ * Waits for the editor's two canvases to exist.
+ *
+ * The editor is downloaded on demand, so nothing may be measured until the canvases
+ * it draws itself into are there.
+ */
+async function waitForEditor(page: Page): Promise<void> {
+  await expect(
+    page.locator('[data-testid="substructure-editor"] canvas'),
+  ).toHaveCount(2);
+}
 
 /**
  * Measures how much has been drawn in the editor's drawing area, and where it sits.

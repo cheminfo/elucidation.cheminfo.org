@@ -93,14 +93,7 @@ export function ElucidatePage() {
   }
 
   return (
-    <div
-      style={{
-        display: 'grid',
-        gap: 16,
-        gridTemplateColumns: 'minmax(280px, 340px) minmax(0, 1fr)',
-        alignItems: 'start',
-      }}
-    >
+    <div className="elucidate-grid">
       <div style={{ display: 'grid', gap: 16 }}>
         <InputPanel
           onSubmit={() => void handleSubmit()}

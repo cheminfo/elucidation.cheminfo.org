@@ -1,7 +1,6 @@
 import { Button, Card, Icon, Tag } from '@blueprintjs/core';
 import { CiteButton, CollapsibleSection } from 'react-cheminfo/ui';
 
-import { CitationLine } from '../../components/CitationLine.tsx';
 import { SECS_PAPER } from '../../data/secsPaper.ts';
 import { navigate } from '../../state/view.ts';
 
@@ -168,9 +167,6 @@ function CitationCard() {
           If you use this tool, please cite
         </strong>
       </div>
-      <p style={{ margin: 0, fontSize: 13 }}>
-        <CitationLine reference={SECS_PAPER} />
-      </p>
       <CiteButton reference={SECS_PAPER} placement="bottom-start" />
     </Card>
   );

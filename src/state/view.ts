@@ -1,4 +1,5 @@
 import { signal } from '@preact/signals-react';
+import { adoptLegacyHashAddress as legacyHashAddress } from 'react-cheminfo/core';
 
 export type PageName = 'elucidate' | 'examples' | 'jobs' | 'about' | 'debug';
 
@@ -81,24 +82,27 @@ export function parsePath(pathname: string): Route {
 }
 
 /**
- * The address a link written before this site routed by path points at. Those
- * links are in bookmarks and in other people's pages, so they are answered
- * rather than dropped.
- * @param hash - Fragment of the address, e.g. `#/examples/2b277b5e`.
- * @returns The path it means, or null when the fragment names no page.
- */
-export function pathFromLegacyHash(hash: string): string | null {
-  const parts = hash.replace(/^#\/?/, '').split('/').filter(Boolean);
-  const [page, id] = parts;
-  if (page === undefined || !PAGES.has(page as PageName)) return null;
-  return routePath({ page: page as PageName, id: id ?? null });
-}
-
-/**
  * Put the address a legacy hash link meant in the bar, before anything reads
  * it. Called once, at startup.
+ *
+ * Those links are in bookmarks and in other people's pages, so they are
+ * answered rather than dropped. The adopted path goes back through the site's
+ * own router, so a hash link to the elucidate page lands on the one address the
+ * home page has rather than on a second one.
  */
 export function adoptLegacyHashAddress(): void {
-  const path = pathFromLegacyHash(globalThis.location?.hash ?? '');
-  if (path) globalThis.history.replaceState(null, '', path);
+  const location = globalThis.location;
+  if (location === undefined) return;
+  const adopted = legacyHashAddress(
+    `${location.pathname}${location.search}${location.hash}`,
+  );
+  if (adopted === null) return;
+  const query = adopted.indexOf('?');
+  const path = query === -1 ? adopted : adopted.slice(0, query);
+  const search = query === -1 ? '' : adopted.slice(query);
+  globalThis.history.replaceState(
+    null,
+    '',
+    `${routePath(parsePath(path))}${search}`,
+  );
 }

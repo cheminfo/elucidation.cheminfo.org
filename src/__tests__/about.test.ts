@@ -59,13 +59,14 @@ test('the record resolves against the shared registries', () => {
   ]);
 });
 
-test('the SECS paper is the one work it asks to be cited', () => {
+test('the platform paper, then the SECS paper, are the works it asks to be cited', () => {
   const cite = ABOUT.cite ?? [];
 
-  expect(cite).toHaveLength(1);
-  expect(cite[0]?.reference.doi).toBe('10.1038/s41467-026-73846-y');
-  expect(cite[0]?.reference.journal).toBe('Nature Communications');
-  expect(cite[0]?.what).toBe('SECS');
+  expect(cite).toHaveLength(2);
+  expect(cite[0]?.reference.doi).toBe('10.2533/chimia.2025.66');
+  expect(cite[1]?.reference.doi).toBe('10.1038/s41467-026-73846-y');
+  expect(cite[1]?.reference.journal).toBe('Nature Communications');
+  expect(cite[1]?.what).toBe('SECS');
 });
 
 test('the context paragraph keeps the three stages of the method', () => {

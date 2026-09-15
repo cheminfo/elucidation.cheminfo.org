@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, expect, test, vi } from 'vitest';
 
-import { readStored, readStoredArray, writeStored } from '../persist.ts';
+import { readStoredArray } from '../persist.ts';
 
 function stubStorage(
   initial: Record<string, string> = {},
@@ -22,28 +22,13 @@ afterEach(() => {
   vi.unstubAllGlobals();
 });
 
-const DEFAULTS = { apiUrl: '', model: 'residual', showIntegral: true };
-
 test('missing keys fall back to the defaults', () => {
-  expect(readStored('absent', DEFAULTS)).toStrictEqual(DEFAULTS);
   expect(readStoredArray('absent')).toStrictEqual([]);
 });
 
-test('stored fields are merged over the defaults, so new fields get values', () => {
-  // A user who stored preferences before `showIntegral` existed must still get it.
-  stubStorage({ prefs: JSON.stringify({ model: 'regular' }) });
-
-  expect(readStored('prefs', DEFAULTS)).toStrictEqual({
-    apiUrl: '',
-    model: 'regular',
-    showIntegral: true,
-  });
-});
-
 test('corrupt JSON falls back instead of throwing', () => {
-  stubStorage({ prefs: '{not json', list: 'oops' });
+  stubStorage({ list: 'oops' });
 
-  expect(readStored('prefs', DEFAULTS)).toStrictEqual(DEFAULTS);
   expect(readStoredArray('list')).toStrictEqual([]);
 });
 
@@ -52,29 +37,13 @@ test('a stored non-array is not returned as a list', () => {
   expect(readStoredArray('list')).toStrictEqual([]);
 });
 
-test('writes round-trip', () => {
-  expect(writeStored('prefs', { model: 'regular' })).toBe(true);
-  expect(readStored('prefs', DEFAULTS)).toStrictEqual({
-    ...DEFAULTS,
-    model: 'regular',
-  });
+test('a stored array round-trips', () => {
+  stubStorage({ list: JSON.stringify([{ job_id: 'aaa' }]) });
+  expect(readStoredArray('list')).toStrictEqual([{ job_id: 'aaa' }]);
 });
 
-test('a storage that refuses to write is reported, not thrown', () => {
-  vi.stubGlobal('localStorage', {
-    getItem: () => null,
-    setItem: () => {
-      throw new DOMException('quota', 'QuotaExceededError');
-    },
-  });
-
-  expect(writeStored('prefs', { model: 'regular' })).toBe(false);
-});
-
-test('an absent localStorage does not break reads or writes', () => {
+test('an absent localStorage does not break reads', () => {
   vi.stubGlobal('localStorage', undefined);
 
-  expect(readStored('prefs', DEFAULTS)).toStrictEqual(DEFAULTS);
   expect(readStoredArray('list')).toStrictEqual([]);
-  expect(writeStored('prefs', {})).toBe(true);
 });

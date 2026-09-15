@@ -8,6 +8,7 @@
  */
 
 import type { AboutContent, CitedWork } from 'react-cheminfo/core';
+import { PLATFORM_WORK } from 'react-cheminfo/core';
 
 import { SECS_PAPER } from './data/secsPaper.ts';
 
@@ -42,12 +43,13 @@ export const ABOUT: AboutContent = {
 };
 
 /**
- * The work a reader publishing what this page produced owes: SECS itself, the
- * method behind every candidate the site ranks.
+ * The works a reader publishing what this page produced owes: the platform the
+ * site runs on, then SECS itself, the method behind every candidate it ranks.
  * @returns The works, in the order the page lists them.
  */
 function citedWorks(): CitedWork[] {
   return [
+    PLATFORM_WORK,
     {
       reference: SECS_PAPER,
       what: 'SECS',
