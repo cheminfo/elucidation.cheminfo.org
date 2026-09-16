@@ -3,8 +3,15 @@ import { signal } from '@preact/signals-react';
 import type { GaParameters, SecsModel } from '../api/types.ts';
 import { DEFAULT_GA_PARAMETERS } from '../api/types.ts';
 
+import { BASE_PATH } from './site.ts';
+
 export interface Preferences {
-  /** API origin. Empty means same-origin, which is how the site is deployed. */
+  /**
+   * Where the API answers. Empty means same-origin at the root, which is how
+   * the site is deployed on a host of its own; under a mount it is the mount,
+   * so the calls land on this deployment rather than on whatever owns the root
+   * of the shared host.
+   */
   apiUrl: string;
   model: SecsModel;
   parameters: GaParameters;
@@ -20,7 +27,7 @@ export interface Preferences {
  * {@link DEFAULT_GA_PARAMETERS}.
  */
 export const preferences = signal<Preferences>({
-  apiUrl: '',
+  apiUrl: BASE_PATH,
   model: 'residual',
   parameters: DEFAULT_GA_PARAMETERS,
 });

@@ -1,6 +1,8 @@
 import { signal } from '@preact/signals-react';
 import { adoptLegacyHashAddress as legacyHashAddress } from 'react-cheminfo/core';
 
+import { pathWithoutBase, withBase } from './site.ts';
+
 export type PageName = 'elucidate' | 'examples' | 'jobs' | 'about' | 'debug';
 
 export interface Route {
@@ -19,7 +21,7 @@ const PAGES = new Set<PageName>([
 const DEFAULT_ROUTE: Route = { page: 'elucidate', id: null };
 
 export const route = signal<Route>(
-  parsePath(globalThis.location?.pathname ?? '/'),
+  parsePath(pathWithoutBase(globalThis.location?.pathname ?? '/')),
 );
 
 /**
@@ -33,7 +35,7 @@ export const route = signal<Route>(
 export function navigate(page: PageName, id?: string): void {
   const next: Route = { page, id: id ?? null };
   if (globalThis.location !== undefined) {
-    globalThis.history.pushState(null, '', routePath(next));
+    globalThis.history.pushState(null, '', withBase(routePath(next)));
   }
   route.value = next;
 }
@@ -57,7 +59,7 @@ export function routePath(route: Route): string {
  */
 export function startRouting(): () => void {
   const onPopState = (): void => {
-    route.value = parsePath(globalThis.location.pathname);
+    route.value = parsePath(pathWithoutBase(globalThis.location.pathname));
   };
   globalThis.addEventListener('popstate', onPopState);
   onPopState();
@@ -94,7 +96,7 @@ export function adoptLegacyHashAddress(): void {
   const location = globalThis.location;
   if (location === undefined) return;
   const adopted = legacyHashAddress(
-    `${location.pathname}${location.search}${location.hash}`,
+    `${pathWithoutBase(location.pathname)}${location.search}${location.hash}`,
   );
   if (adopted === null) return;
   const query = adopted.indexOf('?');
@@ -103,6 +105,6 @@ export function adoptLegacyHashAddress(): void {
   globalThis.history.replaceState(
     null,
     '',
-    `${routePath(parsePath(path))}${search}`,
+    `${withBase(routePath(parsePath(path)))}${search}`,
   );
 }

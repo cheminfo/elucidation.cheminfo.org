@@ -29,6 +29,11 @@ const API_PATHS = [
 ];
 
 export default defineConfig({
+  // The build carries no mount path. Every asset is written relative, so the
+  // one `dist` serves this site's own host and a path of a shared one without
+  // being rebuilt: the `<base>` the page carries is what resolves them, and the
+  // router reads its mount back off that.
+  base: './',
   plugins: [
     react(),
     cheminfoPrerender({
@@ -41,6 +46,10 @@ export default defineConfig({
       description:
         'Elucidate molecular structures from a 1H NMR spectrum and a molecular formula, using contrastive learning and an evolutionary search over the isomer space.',
       noscript: {
+        // The build bakes in no mount, so the crawl path is written against
+        // the `<base>` the page carries rather than the root of a host this
+        // deployment may only share.
+        hrefs: 'relative',
         heading: 'elucidation.cheminfo.org — SECS',
         intro:
           'Give a molecular formula and a 1H NMR spectrum, and get the structures that explain it, found by contrastive learning and an evolutionary search over the isomer space. The tool needs JavaScript.',
