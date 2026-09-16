@@ -6,6 +6,12 @@
 # actually needs keeps the context at a few megabytes whatever else lands here.
 *
 
+# The build reads the commit it was made from out of these three, which is what
+# the About page shows. Nothing else of .git is sent.
+!.git/HEAD
+!.git/refs
+!.git/packed-refs
+
 !package.json
 !package-lock.json
 !index.html

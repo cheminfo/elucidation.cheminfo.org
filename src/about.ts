@@ -7,6 +7,7 @@
  * sits beside the record in `pages/about/AboutPage.tsx`.
  */
 
+import { BUILD_INFO } from 'react-cheminfo/build-info';
 import type { AboutContent, CitedWork } from 'react-cheminfo/core';
 import { PLATFORM_WORK } from 'react-cheminfo/core';
 
@@ -15,6 +16,9 @@ import { SECS_PAPER } from './data/secsPaper.ts';
 /** The record the `/about` page is drawn from. */
 export const ABOUT: AboutContent = {
   siteId: 'elucidation',
+  // Which release, built when, from which commit: the build says so,
+  // because a version written by hand is wrong by the next release.
+  build: BUILD_INFO,
   what: 'Drop a 1H NMR spectrum, give its molecular formula, and get candidate structures ranked by how well their predicted spectrum matches.',
   can: [
     'Drop a JCAMP-DX file or a Bruker or Varian folder — a FID is transformed for you.',
