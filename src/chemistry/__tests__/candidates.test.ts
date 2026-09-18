@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
-import { expect, test } from 'vitest';
+import { expect, test, vi } from 'vitest';
 
 import type { ApiCandidate } from '../../api/types.ts';
 import {
@@ -35,6 +35,10 @@ const CHALLENGES = JSON.parse(
     'utf8',
   ),
 ) as ChallengeFixture[];
+
+// Two tests rank every candidate of the 20 reference challenges, which takes
+// 5 to 7 s on a CI runner, past vitest's 5 s default.
+vi.setConfig({ testTimeout: 30_000 });
 
 test('canonicalMf normalizes spelling, case and ordering', () => {
   expect(canonicalMf('C9H6N4')).toBe('C9H6N4');
