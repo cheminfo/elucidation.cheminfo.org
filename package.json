@@ -21,7 +21,7 @@
     "test-only": "vitest run --coverage"
   },
   "dependencies": {
-    "@blueprintjs/core": "^6.17.2",
+    "@blueprintjs/core": "^6.18.0",
     "@blueprintjs/icons": "^6.13.0",
     "@blueprintjs/select": "^6.3.3",
     "@preact/signals-react": "^3.10.3",
@@ -35,7 +35,7 @@
     "openchemlib": "^9.25.0",
     "openchemlib-utils": "^8.17.1",
     "react": "^19.2.0",
-    "react-cheminfo": "^0.15.0",
+    "react-cheminfo": "^0.18.0",
     "react-dom": "^19.2.0",
     "react-mf": "^3.1.1",
     "react-ocl": "^8.7.2",
