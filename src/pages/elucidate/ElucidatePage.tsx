@@ -1,6 +1,7 @@
 import { Alert, Callout, Card, Switch, Tag } from '@blueprintjs/core';
 import { useSignals } from '@preact/signals-react/runtime';
 import { useEffect, useState } from 'react';
+import { ClickToCopy } from 'react-cheminfo/ui';
 
 import { cancelJob, getQueueStats, getWorkers } from '../../api/client.ts';
 import type { SubmitOutcome } from '../../api/submit.ts';
@@ -201,7 +202,9 @@ function RunSummary(props: { run: StoredRun }) {
       <Tag minimal icon="database">
         Stored run
       </Tag>
-      <code style={{ fontSize: 12 }}>{run.jobId}</code>
+      <ClickToCopy as="div" value={run.jobId} label="job id">
+        <code style={{ fontSize: 12 }}>{run.jobId}</code>
+      </ClickToCopy>
       <Tag minimal>{run.request.model ?? 'residual'}</Tag>
       {run.request.gens_ga !== undefined && (
         <Tag minimal>{run.request.gens_ga} generations</Tag>

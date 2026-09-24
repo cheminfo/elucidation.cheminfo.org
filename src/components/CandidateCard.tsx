@@ -1,6 +1,6 @@
 import { Card, Tag, Tooltip } from '@blueprintjs/core';
 import { Structure } from 'react-cheminfo/structure';
-import { CopyButton } from 'react-cheminfo/ui';
+import { ClickToCopy } from 'react-cheminfo/ui';
 import { MF } from 'react-mf';
 
 import type { RankedCandidate } from '../chemistry/candidates.ts';
@@ -90,12 +90,25 @@ export function CandidateCard(props: CandidateCardProps) {
           title="Cosine similarity between the spectrum and the molecule embedding"
         >
           <span>Similarity</span>
-          <span style={{ fontVariantNumeric: 'tabular-nums' }}>
+          <ClickToCopy
+            as="div"
+            value={candidate.score.toFixed(3)}
+            label="similarity score"
+            style={{ fontVariantNumeric: 'tabular-nums' }}
+          >
             {candidate.score.toFixed(3)}
-          </span>
+          </ClickToCopy>
         </div>
+        {/* Inset by the room the copyable score keeps for its glyph, so the track
+            ends where the number above it ends. */}
         <div
-          style={{ height: 4, background: 'var(--bar-track)', borderRadius: 2 }}
+          data-testid="score-bar"
+          style={{
+            height: 4,
+            marginRight: 22,
+            background: 'var(--bar-track)',
+            borderRadius: 2,
+          }}
         >
           <div
             style={{
@@ -110,26 +123,27 @@ export function CandidateCard(props: CandidateCardProps) {
         </div>
       </div>
 
-      <div style={{ display: 'flex', gap: 4, alignItems: 'center' }}>
+      {/* A block target, not an inline one: the code is cut with an ellipsis, so an
+          inline glyph floating past its right edge would be clipped away. */}
+      <ClickToCopy
+        as="div"
+        value={candidate.smiles}
+        label="SMILES"
+        style={{ minWidth: 0 }}
+      >
         <code
+          data-testid="candidate-smiles"
           style={{
-            flex: 1,
+            display: 'block',
             fontSize: 12,
             overflow: 'hidden',
             textOverflow: 'ellipsis',
             whiteSpace: 'nowrap',
           }}
-          title={candidate.smiles}
         >
           {candidate.smiles}
         </code>
-        <CopyButton
-          content={candidate.smiles}
-          minimal
-          small
-          title="Copy SMILES"
-        />
-      </div>
+      </ClickToCopy>
     </Card>
   );
 }

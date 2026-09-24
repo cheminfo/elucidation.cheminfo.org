@@ -1,6 +1,7 @@
 import { Card, NonIdealState, Spinner, Tag } from '@blueprintjs/core';
 import { useSignals } from '@preact/signals-react/runtime';
 import { useEffect, useState } from 'react';
+import { ClickToCopy } from 'react-cheminfo/ui';
 import { MF } from 'react-mf';
 
 import type { ChallengeSummary } from '../../challenges/load.ts';
@@ -119,7 +120,11 @@ function SelectedChallenge(props: { challenge: ChallengeSummary }) {
         <a href="#/examples" className="bp6-button bp6-minimal">
           ← All challenges
         </a>
-        <MF mf={challenge.mf} style={{ fontWeight: 600 }} />
+        {/* A block target: the tag beside it leaves less room than the glyph an
+            inline value floats past its right edge. */}
+        <ClickToCopy as="div" value={challenge.mf} label="molecular formula">
+          <MF mf={challenge.mf} style={{ fontWeight: 600 }} />
+        </ClickToCopy>
         <Tag minimal>{challenge.source}</Tag>
         <Tag
           minimal

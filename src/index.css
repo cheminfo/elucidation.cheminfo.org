@@ -8,9 +8,12 @@
 }
 
 /* Blueprint's default focus ring fights our layout; focus is conveyed by the
-   active state instead. Applied globally per the project's UI conventions. */
-*:focus,
-*:focus-visible {
+   active state instead. Applied globally per the project's UI conventions.
+   A copyable value is the exception: it is a tab stop with no active state and
+   its tint only answers the mouse, so the family's ring is the one thing that
+   says where the keyboard is. */
+*:not(.click-to-copy):focus,
+*:not(.click-to-copy):focus-visible {
   outline: none !important;
 }
 

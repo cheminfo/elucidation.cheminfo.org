@@ -1,6 +1,7 @@
-import { Card, HTMLTable } from '@blueprintjs/core';
+import { Callout, Card, HTMLTable } from '@blueprintjs/core';
 import { useSignals } from '@preact/signals-react/runtime';
 import { useEffect, useState } from 'react';
+import { CodeBlock } from 'react-cheminfo/ui';
 
 import { getQueueStats } from '../../api/client.ts';
 import type { QueueStats } from '../../api/types.ts';
@@ -34,8 +35,16 @@ export function DebugPage() {
     <div style={{ display: 'grid', gap: 16 }}>
       <Card style={{ display: 'grid', gap: 8 }}>
         <strong>Queue</strong>
+        {/* A danger callout like every other error of the site, which is also what
+            keeps the message selectable: it is the first thing pasted into an issue. */}
         {error !== null && (
-          <span style={{ color: 'var(--danger)' }}>{error}</span>
+          <Callout
+            intent="danger"
+            icon="error"
+            title="The queue could not be read"
+          >
+            {error}
+          </Callout>
         )}
         {stats !== null && (
           <HTMLTable compact>
@@ -67,8 +76,10 @@ export function DebugPage() {
 
       <Card style={{ display: 'grid', gap: 8 }}>
         <strong>Current ranking</strong>
-        <pre style={{ fontSize: 12, overflowX: 'auto', margin: 0 }}>
-          {JSON.stringify(
+        <CodeBlock
+          copyable
+          tone="muted"
+          code={JSON.stringify(
             {
               count: ranked?.candidates.length ?? 0,
               positionNoStereo: ranked?.positionNoStereo ?? null,
@@ -82,7 +93,7 @@ export function DebugPage() {
             null,
             2,
           )}
-        </pre>
+        />
       </Card>
     </div>
   );

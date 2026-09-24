@@ -8,6 +8,7 @@ import {
 } from '@blueprintjs/core';
 import { useSignals } from '@preact/signals-react/runtime';
 import { Structure } from 'react-cheminfo/structure';
+import { ClickToCopy } from 'react-cheminfo/ui';
 import { MF } from 'react-mf';
 import { DropZone } from 'react-science/ui';
 
@@ -161,14 +162,26 @@ export function InputPanel(props: InputPanelProps) {
       </FormGroup>
 
       {info !== null && (
+        // The gap leaves room for the copy glyph, which an inline value floats
+        // just past its right edge.
         <div
-          style={{ fontSize: 12, display: 'flex', gap: 10, flexWrap: 'wrap' }}
+          style={{ fontSize: 12, display: 'flex', gap: 22, flexWrap: 'wrap' }}
         >
-          <span>
+          <ClickToCopy value={info.mf} label="molecular formula">
             <MF mf={info.mf} />
-          </span>
-          <span>{info.monoisotopicMass.toFixed(4)} Da</span>
-          <span>{info.unsaturation} DBE</span>
+          </ClickToCopy>
+          <ClickToCopy
+            value={info.monoisotopicMass.toFixed(4)}
+            label="monoisotopic mass"
+          >
+            {info.monoisotopicMass.toFixed(4)} Da
+          </ClickToCopy>
+          <ClickToCopy
+            value={String(info.unsaturation)}
+            label="degree of unsaturation"
+          >
+            {info.unsaturation} DBE
+          </ClickToCopy>
           <span>{info.atoms.H ?? 0} H</span>
         </div>
       )}
