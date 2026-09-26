@@ -21,3 +21,4 @@
 !public
 !scripts
 !docker-entrypoint.sh
+!sws.toml

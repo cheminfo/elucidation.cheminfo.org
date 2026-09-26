@@ -19,6 +19,11 @@ ENV SERVER_FALLBACK_PAGE=/public/index.html
 # sitemap, the internal links and the page's own canonical never use.
 ENV SERVER_REDIRECT_TRAILING_SLASH=false
 ENV SERVER_PORT=80
+# What a browser may keep: a page is checked on every visit, the hashed bundles
+# it names are kept for a year. Without it static-web-server caches the page
+# itself for a day, and it then asks the next build for bundles it does not have.
+COPY sws.toml /etc/sws.toml
+ENV SERVER_CONFIG_FILE=/etc/sws.toml
 EXPOSE 80
 
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
