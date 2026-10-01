@@ -19,6 +19,14 @@ ENV SERVER_FALLBACK_PAGE=/public/index.html
 # sitemap, the internal links and the page's own canonical never use.
 ENV SERVER_REDIRECT_TRAILING_SLASH=false
 ENV SERVER_PORT=80
+# Every response a browser will accept compressed is compressed. On-demand
+# brotli covers HTML, CSS, JavaScript, JSON, SVG and WebAssembly; a `.br` or
+# `.gz` written beside a file at build time is served instead where there is
+# one, which is what reaches the types the on-demand list does not know —
+# notably Emscripten's `.data`, served as application/octet-stream — and costs
+# no CPU per request.
+ENV SERVER_COMPRESSION=true
+ENV SERVER_COMPRESSION_STATIC=true
 # What a browser may keep: a page is checked on every visit, the hashed bundles
 # it names are kept for a year. Without it static-web-server caches the page
 # itself for a day, and it then asks the next build for bundles it does not have.
