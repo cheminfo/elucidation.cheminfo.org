@@ -1,6 +1,6 @@
 {
   "name": "elucidation.cheminfo.org",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "private": true,
   "description": "Web interface for SECS: end-to-end structure elucidation from 1H NMR spectra",
   "type": "module",
