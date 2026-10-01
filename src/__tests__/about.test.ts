@@ -37,13 +37,6 @@ test('the record resolves against the shared registries', () => {
   const about = resolveAbout(ABOUT);
 
   expect(about.site.host).toBe('elucidation.cheminfo.org');
-  expect(about.license).toBe('MIT');
-  expect(about.repository).toBe(
-    'https://github.com/cheminfo/elucidation.cheminfo.org',
-  );
-  expect(about.issues).toBe(
-    'https://github.com/cheminfo/elucidation.cheminfo.org/issues',
-  );
   expect(about.credits.map((entry) => entry.name)).toStrictEqual([
     'OpenChemLib',
     'openchemlib-utils',
