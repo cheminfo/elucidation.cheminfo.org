@@ -5,8 +5,9 @@
   "description": "Web interface for SECS: end-to-end structure elucidation from 1H NMR spectra",
   "type": "module",
   "scripts": {
-    "build": "vite build",
+    "build": "vite build && npm run check-seo",
     "build-challenges": "node scripts/build-challenges.ts",
+    "check-seo": "node node_modules/react-cheminfo/bin/check-seo.mjs dist",
     "check-tokens": "node node_modules/react-cheminfo/bin/check-tokens.mjs src",
     "check-types": "tsc --noEmit",
     "dev": "vite",
